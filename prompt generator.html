@@ -113,7 +113,7 @@
             </div>
 
             <!-- Form Fields -->
-            <form id="promptForm" oninput="updatePrompt()" class="space-y-6">
+            <form id="promptForm" oninput="updatePrompt()" onchange="updatePrompt()" class="space-y-6">
                 
                 <!-- Section 1: Meta-Information -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
@@ -237,12 +237,33 @@
                         </div>
 
                         <!-- Activity 4 -->
-                        <div class="border border-slate-100 rounded-lg p-3 hover:border-slate-200 bg-slate-50/20">
-                            <div class="flex items-center gap-2 mb-2">
+                        <div class="border border-slate-100 rounded-lg p-3 hover:border-slate-200 bg-slate-50/20 space-y-2">
+                            <div class="flex items-center gap-2">
                                 <input type="checkbox" id="actLab" checked class="h-4 w-4 text-indigo-600 border-slate-300 rounded">
                                 <label for="actLab" class="text-xs font-bold text-slate-700">Step-by-Step Practical Labs</label>
                             </div>
                             <input type="text" id="descLab" value="An AWS console simulation lab where students create users, roles, and attach restrictive JSON policies" class="w-full px-2.5 py-1.5 border border-slate-200 rounded-md text-xs focus:ring-1 focus:ring-indigo-500 outline-none" placeholder="Details (e.g., Terminal scripts, platform configurations, safe sandbox setups)">
+                            
+                            <!-- Lab Target Platform Options -->
+                            <div class="bg-white/80 border border-slate-150 rounded-lg p-2.5 space-y-1.5 shadow-inner">
+                                <span class="block text-[10px] font-bold text-indigo-900 uppercase tracking-wider">AWS Academy Lab Environment Type:</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <label class="flex items-start gap-2 cursor-pointer p-1.5 rounded hover:bg-indigo-50/50 transition">
+                                        <input type="radio" name="labEnvType" value="academy_sandbox" checked class="mt-0.5 h-3.5 w-3.5 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <div class="text-[11px] leading-tight">
+                                            <span class="font-bold text-slate-700 block">AWS Academy Sandbox</span>
+                                            <span class="text-slate-400 text-[9px]">Unguided account, general admin bounds, create from scratch.</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-start gap-2 cursor-pointer p-1.5 rounded hover:bg-indigo-50/50 transition">
+                                        <input type="radio" name="labEnvType" value="curriculum_guided" class="mt-0.5 h-3.5 w-3.5 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <div class="text-[11px] leading-tight">
+                                            <span class="font-bold text-slate-700 block">Curriculum Guided Lab</span>
+                                            <span class="text-slate-400 text-[9px]">Pre-configured roles, course outlined constraints, Vocareum scripts.</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Activity 5 -->
@@ -300,12 +321,6 @@
                 </div>
             </div>
 
-            <!-- Toast Alert Notification Box -->
-            <div id="toast" class="hidden fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900 border border-emerald-500/30 text-emerald-300 text-xs font-medium px-4 py-3.5 rounded-lg shadow-xl backdrop-blur transition-opacity duration-300">
-                <span class="p-1 rounded bg-emerald-500/20 text-emerald-400">✓</span>
-                <span id="toast-text">Success message goes here.</span>
-            </div>
-
             <!-- Pedagogy Corner Info Block -->
             <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 text-xs text-indigo-950 flex gap-3">
                 <div class="text-xl">🎓</div>
@@ -328,6 +343,94 @@
 
     <!-- Vanilla Javascript Logic -->
     <script>
+        // Data presets matching specific academic curriculum scenarios
+        const presets = {
+            sharedResponsibility: {
+                title: "AWS Shared Responsibility Model Deep-Dive",
+                audience: "Associate degree students in Network Security (diverse backgrounds, practical job readiness seekers)",
+                topics: "AWS Responsibility: Security OF the Cloud (Hardware, Infrastructure)\nCustomer Responsibility: Security IN the Cloud (Data encryption, IAM policies)\nShared controls (Patch management, configuration tasks)\nShared responsibility in Serverless models (Lambda vs. EC2)",
+                objectives: "Categorize real-world tasks as either AWS or customer responsibilities.\nExplain why updating the EC2 guest OS is the customer's duty.\nCompare how administrative duties shift when moving from EC2 to a serverless platform (AWS Lambda).",
+                keyTerms: "Shared Responsibility, Security of the Cloud, Security in the Cloud, Shared Controls, Hypervisor Isolation, Guest OS, Patching",
+                activities: {
+                    interactive: true,
+                    interactiveText: "A collaborative 4-quadrant classification debate matrix for students",
+                    case: true,
+                    caseText: "A security disaster scenario highlighting catastrophic data leakage on unencrypted AWS S3 storage",
+                    project: false,
+                    projectText: "",
+                    lab: true,
+                    labText: "An audit checklist lab where students test simulated access violations inside AWS IAM",
+                    assessment: true,
+                    assessmentText: "5 multiple choice questions with detailed explanation matrices for correct/incorrect distractors"
+                },
+                labEnv: "academy_sandbox",
+                tone: "Vocational, encouraging, highly supportive, and focused on practical career skills first"
+            },
+            vpcNetworking: {
+                title: "Demystifying Amazon Virtual Private Clouds (VPC)",
+                audience: "Junior network engineers and IT support technicians in ITNW 1009",
+                topics: "VPC basics and logical isolation\nPublic and Private Subnets\nInternet Gateways (IGW) and Route Tables\nStateful Security Groups vs. Stateless NACLs",
+                objectives: "Design a basic architecture topology with a public web tier and a private DB tier.\nDifferentiate the security behavior of stateful security groups and stateless Network Access Control Lists (NACL).\nConfigure route table directives to allow external internet connectivity safely.",
+                keyTerms: "CIDR blocks, Subnet, Internet Gateway (IGW), Route Table, Security Group, NACL, Ephemeral Ports",
+                activities: {
+                    interactive: true,
+                    interactiveText: "A label-the-diagram peer review exercise",
+                    case: false,
+                    caseText: "",
+                    project: true,
+                    projectText: "Draft a dynamic architecture layout for an e-commerce platform with isolated billing services",
+                    lab: true,
+                    labText: "A console setup guide setting up a multi-subnet VPC hosting an Apache site with limited access",
+                    assessment: true,
+                    assessmentText: "3 scenario questions on how to troubleshoot missing internet connections on web servers"
+                },
+                labEnv: "curriculum_guided",
+                tone: "Vocational, encouraging, highly supportive, and focused on practical career skills first"
+            },
+            cloudEconomics: {
+                title: "Cloud Economics: CapEx, OpEx, and Elasticity Cost Structures",
+                audience: "IT business managers and tech consultants seeking cloud practitioner certifications",
+                topics: "Traditional physical IT Capital Expenditure (CapEx) hurdles\nCloud variable pricing model (Operational Expenditure)\nQuantifying Total Cost of Ownership (TCO) variables\nElasticity as a pricing advantage: Peak vs. idle demand",
+                objectives: "Compare traditional physical data-center capacity estimation mistakes to the cloud’s pay-as-you-go elastic structures.\nCalculate a Total Cost of Ownership simulation showing real-world migration savings.\nDetermine proper AWS Pricing Calculator strategies based on standard client requests.",
+                keyTerms: "CapEx, OpEx, TCO, Elasticity, Right-sizing, Under-utilization, Pay-as-you-go, Value Proposition",
+                activities: {
+                    interactive: true,
+                    interactiveText: "A dynamic math scenario matching server load changes to monthly bills",
+                    case: true,
+                    caseText: "A scenario where a company spent 800% over budget due to unmanaged resources and over-provisioning",
+                    project: false,
+                    projectText: "",
+                    lab: true,
+                    labText: "A guided step-by-step walkthrough using the AWS Pricing Calculator website",
+                    assessment: true,
+                    assessmentText: "4 review questions covering AWS Support tiers, Cost Explorer, and budget alerts"
+                },
+                labEnv: "academy_sandbox",
+                tone: "Practical, fast-paced, highly corporate, objective-oriented, and centered on business value"
+            },
+            genAi: {
+                title: "Introduction to Generative AI & Foundation Models (FM)",
+                audience: "Community college computer science or business administration students",
+                topics: "Core NLP terms: Tokens, Context windows, Embeddings\nFoundation Models (FMs) and model life cycles\nRetrieval-Augmented Generation (RAG) vs. Model Fine-Tuning\nPrompt engineering basics and contextual constraints",
+                objectives: "Describe how generative models use token calculations to parse text and predict answers.\nDifferentiate between RAG and fine-tuning using a practical customer support context.\nConstruct a prompt that limits LLM hallucination in a mock legal/medical advisory dashboard.",
+                keyTerms: "Tokens, Embeddings, LLM, Foundation Model, RAG, Fine-Tuning, Context Window, Hallucination",
+                activities: {
+                    interactive: true,
+                    interactiveText: "A group prompt-tuning playground tournament (analyzing best vs. worst system prompts)",
+                    case: true,
+                    caseText: "An ethical AI case study illustrating hallucination issues and data privacy leaks in business tools",
+                    project: true,
+                    projectText: "Designing a corporate safety framework restricting confidential internal documents from public training sets",
+                    lab: true,
+                    labText: "Building an isolated playground application using AWS Bedrock or an API to test different models",
+                    assessment: true,
+                    assessmentText: "3 quiz questions comparing model parameters (ROUGE scores, BLEU metrics)"
+                },
+                labEnv: "academy_sandbox",
+                tone: "Conversational, lighthearted, utilizing analogies and stories to keep total beginners engaged"
+            }
+        };
+
         // Full database mapping the 19 days in the ITNW 1009 Course Schedule (Schedule.docx)
         const scheduleData = {
             day1: {
@@ -346,7 +449,8 @@
                     labText: "AWS Console orientation: Set up a new AWS Academy Learner Lab environment, explore standard menus, and inspect resource constraints.",
                     assessment: true,
                     assessmentText: "3 practice questions testing the NIST definition of cloud computing and cloud advantages."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day2: {
                 title: "Day 2: AWS Global Infrastructure & Cloud Economics",
@@ -364,7 +468,8 @@
                     labText: "Configure the AWS Pricing Calculator: Create a cost estimation comparison matching an on-premises 10-server hardware setup.",
                     assessment: true,
                     assessmentText: "3 exam practitioner questions regarding latency-routing and operational cost optimization."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day3: {
                 title: "Day 3: AWS Shared Responsibility Model & Identity Access Management (IAM)",
@@ -379,10 +484,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "IAM Configuration Lab: Create localized IAM roles, assign custom read-only policies, set up password security bounds, and test MFA configurations.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 1 - Introduction to AWS IAM. Students explore users, groups, and use standard pre-made structures.",
                     assessment: true,
                     assessmentText: "4 exam questions on authorization vs authentication and Shared Responsibility boundaries."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day4: {
                 title: "Day 4: AWS Security Services & Compliance Frameworks",
@@ -400,11 +506,12 @@
                     labText: "Enable Amazon GuardDuty; explore Security Hub dashboard alerts; extract standard security recommendations from AWS Trusted Advisor.",
                     assessment: true,
                     assessmentText: "3 questions testing security tool selection rules for the CLF-C02 exam."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day5: {
                 title: "Day 5: AWS Compute Overview: EC2, Auto Scaling, & Elastic Load Balancing (ELB)",
-                topics: "Amazon EC2 instances: Instance types, pricing (On-Demand, Spot, Reserved, Savings Plans)\nAmazon Elastic Block Store (EBS) volumes & AMI images\nHorizontal scalability: Auto Scaling Groups (ASG)\nHigh Availability traffic distribution with Elastic Load Balancing (ELB)",
+                topics: "Amazon EC2 instances: Instance types, pricing models (On-Demand, Spot, Reserved, Savings Plans)\nAmazon Elastic Block Store (EBS) volumes & AMI images\nHorizontal scalability: Auto Scaling Groups (ASG)\nHigh Availability traffic distribution with Elastic Load Balancing (ELB)",
                 objectives: "Select the most cost-efficient EC2 pricing plan based on runtime requirements.\nCreate an Auto Scaling policy that adjusts server capacity dynamically with workload demand.\nConfigure an Application Load Balancer (ALB) to distribute web traffic across multiple EC2 targets.",
                 keyTerms: "EC2, EBS, Spot Instance, Savings Plans, AMI, Elastic Load Balancer (ELB), Auto Scaling Group, Launch Template",
                 activities: {
@@ -415,10 +522,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Deploy EC2 instances; configure dynamic Auto Scaling groups; attach an Application Load Balancer and test automatic failover.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 3 - Introduction to Amazon EC2. Create instances, security groups, and run basic web services.",
                     assessment: true,
                     assessmentText: "4 questions on Spot vs. On-Demand pricing and load balancing principles."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day6: {
                 title: "Day 6: Serverless Compute & Containers: Lambda, ECS, EKS & Fargate",
@@ -433,10 +541,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Serverless Deployments: Code a basic Node.js trigger in AWS Lambda; connect an API Gateway entrypoint; test responses.",
+                    labText: "Serverless Deployments inside Sandbox: Code a basic Node.js trigger in AWS Lambda; connect an API Gateway entrypoint; test responses.",
                     assessment: true,
                     assessmentText: "3 quiz questions regarding serverless event sources and Fargate compute advantages."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day7: {
                 title: "Day 7: Cloud Storage Solutions: S3, EBS, EFS & Glacier",
@@ -451,10 +560,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "S3 and EFS Hands-on: Deploy an S3 Bucket, configure lifecycle management, attach a shared EFS cluster to multiple test servers.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 4 - Working with EBS. Connect block storage attachments, build partition layouts, and complete snapshots.",
                     assessment: true,
                     assessmentText: "4 practice questions testing 99.999999999% durability and S3 pricing tiers."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day8: {
                 title: "Day 8: AWS Database Services: RDS, DynamoDB, Redshift & Aurora",
@@ -469,10 +579,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Launch a MySQL relational instance inside Amazon RDS; connect a PHP client application; run write/read database queries.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 5 - Build a Database Server. Initialize relational instances inside RDS and query via clients.",
                     assessment: true,
                     assessmentText: "4 exam questions covering managed database responsibilities and Redshift use cases."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day9: {
                 title: "Day 9: Virtual Private Cloud (VPC) Networking Essentials",
@@ -487,10 +598,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "VPC Construction Lab: Deploy a custom VPC, configure route tables, subnets, NAT Gateways, and launch a secure private server.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 2 - Build Your VPC and Launch a Web Server. Create isolated public subnets, gateways, and apply filtering constraints.",
                     assessment: true,
                     assessmentText: "4 questions testing stateless vs. stateful filtering mechanics."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day10: {
                 title: "Day 10: DNS & Global Delivery Networks: Route 53 & CloudFront CDN",
@@ -505,10 +617,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Route 53 & CloudFront: Configure a simple web bucket resource, wrap it inside a CloudFront distribution, and observe speed improvement.",
+                    labText: "Sandbox CDN Lab: Configure a simple web bucket source, wrap it inside a CloudFront distribution, and observe speed improvement.",
                     assessment: true,
                     assessmentText: "3 exam questions targeting CDN latency and Route 53 routing styles."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day11: {
                 title: "Day 11: Cloud Architecture & The AWS Well-Architected Framework",
@@ -526,7 +639,8 @@
                     labText: "Architectural Auditing: Walk through simulated system metrics and resolve core security and reliability gaps based on Trusted Advisor reports.",
                     assessment: true,
                     assessmentText: "4 practice questions testing the Well-Architected Pillars."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day12: {
                 title: "Day 12: Continuous Monitoring & Auditing: CloudWatch, CloudTrail, & Config",
@@ -541,10 +655,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Create CloudWatch Alarms; trigger an notification message via Amazon SNS; track API changes using CloudTrail event logs.",
+                    labText: "Guided Lab: AWS Academy Cloud Foundations Lab 6 - Scale and Load Balance Your Architecture. Configure CloudWatch monitoring, scale EC2 nodes dynamically, and balance web requests.",
                     assessment: true,
                     assessmentText: "3 questions testing CloudWatch vs. CloudTrail functions."
-                }
+                },
+                labEnv: "curriculum_guided"
             },
             day13: {
                 title: "Day 13: Machine Learning & Amazon SageMaker AI Studio Orientation",
@@ -562,7 +677,8 @@
                     labText: "SageMaker Setup & Rekognition: Initialize SageMaker AI Studio; experiment with pre-built image models; analyze images via Rekognition.",
                     assessment: true,
                     assessmentText: "3 quiz questions comparing custom training on SageMaker with turnkey services like Rekognition."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day14: {
                 title: "Day 14: The ML Pipeline: Data Preparation, Training, Inference, Bias & Fairness",
@@ -577,10 +693,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "NLP Pipeline: Execute Comprehend sentiment analysis tasks, convert foreign customer calls using Translate, and generate transcripts via Transcribe.",
+                    labText: "NLP Pipeline inside Sandbox: Execute Comprehend sentiment analysis tasks, convert foreign customer calls using Translate, and generate transcripts via Transcribe.",
                     assessment: true,
                     assessmentText: "3 questions covering AI practitioner concepts like inference latency and data classification."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day15: {
                 title: "Day 15: Generative AI & Amazon Bedrock Foundations",
@@ -595,10 +712,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Deploy models inside Bedrock: Open the AWS Bedrock console; compare Titan and Claude response behaviors; construct a no-code sandbox in PartyRock.",
+                    labText: "Deploy models inside Bedrock: Open the AWS Bedrock sandbox workspace; compare Titan and Claude response behaviors; construct a no-code app in PartyRock.",
                     assessment: true,
                     assessmentText: "3 practice questions focusing on parameters, context length, and foundation model select matrices."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day16: {
                 title: "Day 16: Prompt Engineering, RAG & Model Customization",
@@ -613,10 +731,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "RAG Construction: Create an S3 source containing corporate FAQs; connect Bedrock Knowledge Base; test query outputs with Claude.",
+                    labText: "RAG Construction: Create an S3 source containing corporate FAQs; connect Bedrock Knowledge Base; test query outputs with Claude inside Sandbox.",
                     assessment: true,
                     assessmentText: "4 exam questions on prompt optimization styles and fine-tuning parameters."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day17: {
                 title: "Day 17: Bedrock Agents, Guardrails & Model Evaluation",
@@ -631,10 +750,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Bedrock Agents & Guardrails: Configure a Bedrock Agent, link it to mock API action groups, apply PII-masking Guardrails, and run model evaluation audits.",
+                    labText: "Bedrock Agents & Guardrails in Learner Lab: Configure a Bedrock Agent, link it to mock API action groups, and apply PII-masking Guardrails.",
                     assessment: true,
                     assessmentText: "3 questions covering agent action planning and BLEU/ROUGE comparison math."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day18: {
                 title: "Day 18: Responsible AI: Ethics, Bias, Explainability & Service Cards",
@@ -649,10 +769,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Run SageMaker Clarify on standard datasets to detect bias variables; document safety classifications following AI Service Card protocols.",
+                    labText: "Run SageMaker Clarify on standard datasets inside the Sandbox to detect bias variables; document safety classifications following AI Service Card protocols.",
                     assessment: true,
                     assessmentText: "3 questions testing ethical deployment policies on AIF-C01 domain 5."
-                }
+                },
+                labEnv: "academy_sandbox"
             },
             day19: {
                 title: "Day 19: Comprehensive Certification Review (CLF-C02 & AIF-C01)",
@@ -667,10 +788,11 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Comprehensive practice exam run: Complete an 50-question mock assessment covering all cloud foundations and machine learning domains.",
+                    labText: "Comprehensive practice exam run: Complete a 50-question mock assessment covering all cloud foundations and machine learning domains in the AWS Academy learning environment.",
                     assessment: true,
                     assessmentText: "10 practice questions with deep dive architectural reviews."
-                }
+                },
+                labEnv: "academy_sandbox"
             }
         };
 
@@ -691,6 +813,13 @@
             updateActivityState('actLab', 'descLab', data.activities.lab, data.activities.labText);
             updateActivityState('actAssessment', 'descAssessment', data.activities.assessment, data.activities.assessmentText);
 
+            // Select radio button for labEnvType matching day type
+            const labEnvVal = data.labEnv || 'academy_sandbox';
+            const radio = document.querySelector(`input[name="labEnvType"][value="${labEnvVal}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+
             updatePrompt();
             
             // Format Day Name for notifications
@@ -704,6 +833,45 @@
             const textInput = document.getElementById(textInputId);
             checkbox.checked = isActive;
             textInput.value = textContent || "";
+        }
+
+        // Populate form using a specific preset
+        function loadPreset(presetKey) {
+            const data = presets[presetKey];
+            if (!data) return;
+
+            document.getElementById('lessonTitle').value = data.title;
+            document.getElementById('targetAudience').value = data.audience;
+            document.getElementById('topicsCovered').value = data.topics;
+            document.getElementById('learningObjectives').value = data.objectives;
+            document.getElementById('keyTerms').value = data.keyTerms;
+            document.getElementById('instructorTone').value = data.tone;
+
+            // Checkboxes & Activities
+            document.getElementById('actInteractive').checked = data.activities.interactive;
+            document.getElementById('descInteractive').value = data.activities.interactiveText;
+
+            document.getElementById('actCaseStudy').checked = data.activities.case;
+            document.getElementById('descCaseStudy').value = data.activities.caseText;
+
+            document.getElementById('actTeamProject').checked = data.activities.project;
+            document.getElementById('descTeamProject').value = data.activities.projectText;
+
+            document.getElementById('actLab').checked = data.activities.lab;
+            document.getElementById('descLab').value = data.activities.labText;
+
+            document.getElementById('actAssessment').checked = data.activities.assessment;
+            document.getElementById('descAssessment').value = data.activities.assessmentText;
+
+            // Select radio button for labEnvType
+            const labEnvVal = data.labEnv || 'academy_sandbox';
+            const radio = document.querySelector(`input[name="labEnvType"][value="${labEnvVal}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+
+            updatePrompt();
+            showToast(`Preset "${data.title}" loaded successfully!`);
         }
 
         // Dynamically construct prompt text
@@ -730,6 +898,10 @@
                 lab: { active: document.getElementById('actLab').checked, text: document.getElementById('descLab').value.trim() },
                 assessment: { active: document.getElementById('actAssessment').checked, text: document.getElementById('descAssessment').value.trim() }
             };
+
+            // Selected target lab platform environmental configurations
+            const labEnvTypeElement = document.querySelector('input[name="labEnvType"]:checked');
+            const labEnvType = labEnvTypeElement ? labEnvTypeElement.value : 'academy_sandbox';
 
             // Structure prompt
             let p = `You are an elite Instructional Designer and Community College Professor. Your mission is to generate a comprehensive, ready-to-use pedagogical lesson plan package based on the exact profile detailed below. Your output must be optimized for diverse adult learners, emphasizing practical vocational skills, interactive learning, and structured guidance.
@@ -817,7 +989,23 @@ Please design the following highly-structured learning activities:`;
             if (acts.lab.active) {
                 p += `\n\n[ACTIVITY REQUESTED] - STEP-BY-STEP LAB HANDS-ON GUIDE:
 - Focus: ${acts.lab.text || "A step-by-step console/terminal configuration lab."}
-- Format: Draft a comprehensive, step-by-step laboratory tutorial designed to run during the 75-minute lab hour. Include precise prerequisites, setup instructions, sequential terminal commands or navigation actions, validation tasks, and common troubleshooting tips for when student builds fail.`;
+- Format: Draft a comprehensive, step-by-step laboratory tutorial designed to run during the 75-minute lab hour. Include precise prerequisites, setup instructions, sequential console navigation actions, validation tasks, and common troubleshooting tips for when student builds fail.`;
+                
+                if (labEnvType === 'academy_sandbox') {
+                    p += `\n- PLATFORM TARGET ENVIRONMENT: AWS Academy Sandbox (Learner Lab Environment).
+- ENVIRONMENT CONSTRAINTS & REQUIREMENTS:
+  * Instruct students how to access their AWS Academy Sandbox, click "Start Lab", wait for the green status circle, and navigate through the landing page.
+  * Assume an unguided AWS account footprint with standard Service Control Policies (SCPs) restricting global administrative capabilities (such as locked billing tier accesses or forbidden non-tier service triggers).
+  * Direct students to only deploy cost-efficient, approved tier configurations (e.g., utilizing 't2.micro' or 't3.micro' instances) within their $100 allocated lab limits.
+  * Show students how to build necessary supporting components (such as VPCs, subnets, route tables, and custom Security Groups) from absolute scratch, rather than assuming they are pre-provisioned.`;
+                } else if (labEnvType === 'curriculum_guided') {
+                    p += `\n- PLATFORM TARGET ENVIRONMENT: AWS Academy Curriculum Provided Guided Lab (Course Pre-Packaged Labs).
+- ENVIRONMENT CONSTRAINTS & REQUIREMENTS:
+  * Align instructions with pre-built lab templates packaged by the official AWS Academy course curriculum (e.g., Lab 2: Build Your VPC, Lab 5: Databases, Lab 6: Scale and Load Balance).
+  * Do NOT instruct students to create custom IAM Users, custom IAM Groups, or custom root billing structures, as doing so will instantly throw "Access Denied" errors due to curriculum restrictions.
+  * Direct students to select and utilize the pre-provisioned 'LabRole' security profile when launching instances, databases, or authorizing server credentials.
+  * Incorporate steps detailing how to run pre-built automatic environment checkpoint scripts or verify targets using the integrated curriculum instruction panel checks.`;
+                }
             }
 
             if (acts.assessment.active) {
@@ -910,6 +1098,9 @@ The code must be completely self-contained, fully functional, responsive, elegan
             document.getElementById('actTeamProject').checked = false;
             document.getElementById('actLab').checked = false;
             document.getElementById('actAssessment').checked = false;
+
+            // Reset lab environment radio button
+            document.querySelector('input[name="labEnvType"][value="academy_sandbox"]').checked = true;
 
             updatePrompt();
             showToast('All fields cleared successfully.');
