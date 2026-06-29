@@ -148,9 +148,30 @@
 
                 <!-- Section 2: Pedagogical Inclusions & Accessibility -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
-                    <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wider border-b border-slate-100 pb-2">2. Pedagogical Additions & Instruction style</h3>
+                    <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wider border-b border-slate-100 pb-2">2. Pedagogical Additions & Output Format</h3>
                     
-                    <div class="space-y-3">
+                    <!-- TARGET RESPOND FORMAT MODE SELECTOR -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4.5 space-y-3">
+                        <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider">AI Platform Response Output Format:</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="flex items-start gap-2.5 cursor-pointer p-3 rounded-lg border border-slate-200 bg-white hover:border-indigo-500 hover:bg-indigo-50/20 transition shadow-sm">
+                                <input type="radio" id="formatMarkdown" name="responseFormatMode" value="markdown_doc" checked class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                <div class="text-xs leading-tight">
+                                    <span class="font-bold text-slate-800 block">Markdown Document</span>
+                                    <span class="text-slate-500 text-[10px] mt-0.5 block font-light">Generates highly descriptive markdown text sheets with embedded standalone sandbox code.</span>
+                                </div>
+                            </label>
+                            <label class="flex items-start gap-2.5 cursor-pointer p-3 rounded-lg border border-slate-200 bg-white hover:border-indigo-500 hover:bg-indigo-50/20 transition shadow-sm">
+                                <input type="radio" id="formatHtmlCourseware" name="responseFormatMode" value="html_courseware" class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                <div class="text-xs leading-tight">
+                                    <span class="font-bold text-slate-800 block">Complete HTML5 Web App</span>
+                                    <span class="text-slate-500 text-[10px] mt-0.5 block font-light">Forces the AI to generate ONLY a single-file interactive portal containing slide decks, flashcards, labs, and sandboxes.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mt-4">
                         <!-- Lecture Outline -->
                         <div class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
                             <input type="checkbox" id="includeLecture" checked class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
@@ -326,7 +347,7 @@
                 </div>
                 <!-- Code text container -->
                 <div class="flex-grow relative p-4 bg-slate-950">
-                    <textarea id="generated-prompt" readonly class="absolute inset-0 w-full h-full p-4 bg-slate-950 text-slate-300 font-mono text-xs leading-relaxed focus:outline-none resize-none select-all" placeholder="Generating prompt content..."></textarea>
+                    <textarea id="generated-prompt" readonly class="absolute inset-0 w-full h-full p-4 bg-slate-950 text-slate-300 font-mono text-xs leading-relaxed focus:outline-none select-all" placeholder="Generating prompt content..."></textarea>
                 </div>
             </div>
 
@@ -626,7 +647,7 @@
                     project: false,
                     projectText: "",
                     lab: true,
-                    labText: "Sandbox CDN Lab: Configure a simple web bucket source, wrap it inside a CloudFront distribution, and observe speed improvement.",
+                    labText: "Sandbox CDN Lab: Configure a simple web bucket resource, wrap it inside a CloudFront distribution, and observe speed improvement.",
                     assessment: true,
                     assessmentText: "3 exam questions targeting CDN latency and Route 53 routing styles."
                 },
@@ -900,6 +921,10 @@
             const includeFlashcards = document.getElementById('includeFlashcards').checked;
             const includeCodeWidget = document.getElementById('includeCodeWidget').checked;
 
+            // Output format selection
+            const formatModeElement = document.querySelector('input[name="responseFormatMode"]:checked');
+            const formatMode = formatModeElement ? formatModeElement.value : 'markdown_doc';
+
             // Activity states
             const acts = {
                 interactive: { active: document.getElementById('actInteractive').checked, text: document.getElementById('descInteractive').value.trim() },
@@ -914,15 +939,31 @@
             const labEnvType = labEnvTypeElement ? labEnvTypeElement.value : 'academy_sandbox';
 
             // Structure prompt
-            let p = `You are an elite Instructional Designer and Community College Professor. Your mission is to generate a comprehensive, ready-to-use pedagogical lesson plan package based on the exact profile detailed below. Your output must be optimized for diverse adult learners, emphasizing practical vocational skills, interactive learning, and structured guidance.
+            let p = `You are an elite Instructional Designer and Community College Professor. Your mission is to generate a comprehensive, ready-to-use pedagogical lesson package based on the exact profile detailed below. Your output must be optimized for diverse adult learners, emphasizing practical vocational skills, interactive learning, and structured guidance.
 
-==============================================
-1. LESSON METADATA & PROFILE
+`;
+
+            if (formatMode === 'html_courseware') {
+                p += `================================================================================
+CRITICAL FORMATTING INSTRUCTION: COMPLETE HTML5 SINGLE-FILE WEB APP
+================================================================================
+- Your ENTIRE response MUST be a SINGLE, fully functional, self-contained HTML5 code block (with all HTML, CSS, and JS embedded in one page).
+- Do NOT write markdown introductions, summaries, explanations, or chat dialogue outside of the code block. Start immediately with \`<!DOCTYPE html>\` and end with \`</html>\`.
+- Design this file as an immersive, highly interactive, premium "Student Courseware Player & Interactive Textbook Portal". It should have a left or top sidebar navigation menu allowing the student to toggle dynamically between tabbed sections (Lecture Slides, Flashcards, Sandbox Simulator, Guided Labs, and assessments).
+- Use modern UI design (rich dark/light gradients, rounded corners, drop shadows, comfortable line-heights, and responsive flex/grid spacing) based on standard Tailwind CSS classes.
+- Ensure the application is completely usable offline, contains no broken placeholders, and utilizes inline SVG vectors or emojis in place of missing external images.
+`;
+            } else {
+                p += `==============================================
+1. LESSON METADATA & PROFILE (MARKDOWN DOCUMENT)
 ==============================================
 - LESSON TITLE: ${title || "[No title specified]"}
 - TARGET AUDIENCE: ${audience || "[No audience specified]"}
 - SYSTEM LEVEL TONE: ${tone}
-- CLASS FORMAT TIMELINE (3.5 Hours):
+`;
+            }
+
+            p += `- CLASS FORMAT TIMELINE (3.5 Hours):
   * 12:00 PM – 1:15 PM: Lecture & Conceptual Deep-Dive (75 mins)
   * 1:15 PM – 1:30 PM: Mid-session Break (15 mins)
   * 1:30 PM – 2:45 PM: Hands-on Lab / Practical Application (75 mins)
@@ -952,6 +993,9 @@ Provide a comprehensive slide-by-slide structure. For each slide, output:
 - Bullets / Key Points
 - Professor's Script: Write a word-for-word, highly engaging script. This script must use simple language, contain check-for-understanding verbal prompts, and use formatting to show pauses and emphasis (e.g., "[Pause: Ask class...]"). Include a clear transition to the next slide. Ensure the delivery fits precisely in the 75-minute limit.
 `;
+                if (formatMode === 'html_courseware') {
+                    p += `- WEB INTERFACE: Embed this slide deck as a gorgeous, tabbed or paginated slide-viewer system with clean "Next" and "Previous" button toggles. Include the scripts inside expander accordion tabs or popover nodes for easy teacher review.\n`;
+                }
             }
 
             if (includeAnalogies) {
@@ -960,6 +1004,9 @@ Provide exactly two distinct, comprehensive analogies explaining the technical t
 - Break down the metaphor systematically.
 - Explicitly map each abstract concept (from the key terms list) to a concrete, relatable counterpart in the metaphor (e.g., mapping security headers to credentials at airport checkpoints).
 `;
+                if (formatMode === 'html_courseware') {
+                    p += `- WEB INTERFACE: Package these analogies inside an elegant, searchable 'Analogies Library' tab component inside the web player.\n`;
+                }
             }
 
             if (includeFlashcards) {
@@ -972,6 +1019,9 @@ Please generate a structured, comprehensive set of study flashcards for all spec
   * Classroom/Workplace Context: A scenario showing how a technician would use this concept on the job.
   * Micro-Checkpoint Quiz: A quick single-sentence question (with answer) to allow the student to self-evaluate.
 `;
+                if (formatMode === 'html_courseware') {
+                    p += `- WEB INTERACTIVE FLASHCARDS: Implement this as a dynamic, interactive flashcard deck component in the HTML code. Users must be able to click cards to flip them with visual animation transitions (3D rotation), and advance back and forth through the card queue.\n`;
+                }
             }
 
             if (includeAda) {
@@ -997,12 +1047,18 @@ Please design the following highly-structured learning activities:`;
                 p += `\n\n[ACTIVITY REQUESTED] - INTERACTIVE IN-CLASS ACTIVITIES:
 - Focus: ${acts.interactive.text || "An interactive learning scenario matching these concepts."}
 - Format: Design a comprehensive class interactive scenario. Provide a detailed prompt or situational dilemma that students must discuss in small pairs (Think-Pair-Share), along with a clear grading rubric, debrief questions, and expected answers for the professor.`;
+                if (formatMode === 'html_courseware') {
+                    p += `\n- WEB INTERFACE: Build a tab or pane with a scenario analyzer tool where students can select answers to the dilemma, yielding dynamic feedback summaries.`;
+                }
             }
 
             if (acts.case.active) {
                 p += `\n\n[ACTIVITY REQUESTED] - VOCATIONAL CASE STUDY:
 - Focus: ${acts.case.text || "A critical real-world failure, outage, or corporate situation."}
 - Format: Write a 3-paragraph, engaging story detailing a real-world infrastructure scenario, configuration oversight, or financial incident related to the lesson. Include 3 thought-provoking debate questions designed to evaluate student problem-solving skills, accompanied by a model solution checklist for grading.`;
+                if (formatMode === 'html_courseware') {
+                    p += `\n- WEB INTERFACE: Render this as an interactive reading layout with dropdown response options or revealable check-boxes for grading criteria.`;
+                }
             }
 
             if (acts.project.active) {
@@ -1031,17 +1087,24 @@ Please design the following highly-structured learning activities:`;
   * Direct students to select and utilize the pre-provisioned 'LabRole' security profile when launching instances, databases, or authorizing server credentials.
   * Incorporate steps detailing how to run pre-built automatic environment checkpoint scripts or verify targets using the integrated curriculum instruction panel checks.`;
                 }
+
+                if (formatMode === 'html_courseware') {
+                    p += `\n- WEB INTERFACE: Display this lab manual inside a dedicated tab in the web player with interactive checkboxes next to each sub-task so students can trace their real-time progression manually.`;
+                }
             }
 
             if (acts.assessment.active) {
                 p += `\n\n[ACTIVITY REQUESTED] - EXAM PREPARATION & ASSESSMENTS:
 - Focus: ${acts.assessment.text || "Diagnostic knowledge evaluations."}
 - Format: Write a comprehensive, industry-aligned multiple-choice test. For every single question, provide the correct answer AND detailed pedagogical explanations for the distractors (explaining why incorrect options are false or sub-optimal in that scenario).`;
+                if (formatMode === 'html_courseware') {
+                    p += `\n- WEB INTERFACE: Build a fully functional, self-grading interactive multiple-choice quiz component in the HTML code. Let students submit choices, receive visual red/green feedback immediately, and view detailed rationales for each option, displaying an overall tally score at the end.`;
+                }
             }
 
             if (includeCodeWidget) {
                 p += `\n\n==============================================
-4. INTERACTIVE HTML5/CSS/JS LEARNING SANDBOX
+4. INTERACTIVE STUDY SANDBOX WIDGET
 ==============================================
 [ACTION REQUIRED] - COMPLETE WEB WIDGET CODE GENERATION:
 You must write and supply a single-file, highly interactive HTML5 code block with embedded CSS (using modern styling, soft gradients, and rounded corners) and robust JavaScript logic.
@@ -1054,6 +1117,10 @@ The code must be completely self-contained, fully functional, responsive, elegan
 
                 if (includeAda) {
                     p += `\n- WEB ACCESSIBILITY COMPLIANCE (FOR WIDGET): The generated code must include semantic tags (e.g., <button> or <input> instead of <div> click listeners), feature clear visual focus outlines for keyboard navigation, pass proper contrast validations (contrast ratio >= 4.5:1), assign ARIA labels (such as aria-live="polite" for dynamic score or status changes), and be fully navigable via keyboard controls (using Tab, Enter, and arrow keys).`;
+                }
+
+                if (formatMode === 'html_courseware') {
+                    p += `\n- INTEGRATIVE ROUTING: This sandbox simulator widget must be natively integrated directly inside the main application structure as a major navigation tab option. Make sure it is fully interlinked with the lesson vocabulary.`;
                 }
             }
 
@@ -1118,6 +1185,9 @@ The code must be completely self-contained, fully functional, responsive, elegan
             document.getElementById('includeAda').checked = true; // Kept checked by default for safety
             document.getElementById('includeFlashcards').checked = false;
             document.getElementById('includeCodeWidget').checked = false;
+
+            // Reset Output Format back to Markdown
+            document.getElementById('formatMarkdown').checked = true;
 
             document.getElementById('actInteractive').checked = false;
             document.getElementById('actCaseStudy').checked = false;
