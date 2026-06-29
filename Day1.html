@@ -70,17 +70,7 @@
         </div>
       </div>
       
-      <!-- Timeline Progress Overview Badge -->
-      <div class="flex flex-wrap items-center gap-2">
-        <div class="bg-indigo-900/60 border border-indigo-800 rounded-lg px-3 py-1 text-center" role="status">
-          <span class="text-[10px] text-indigo-300 uppercase block font-semibold">Active Session Time</span>
-          <span class="text-xs font-mono font-bold">12:00 PM – 3:30 PM (3.5 Hours)</span>
-        </div>
-        <div class="bg-emerald-950/80 border border-emerald-800 rounded-lg px-3 py-1 text-center">
-          <span class="text-[10px] text-emerald-400 uppercase block font-semibold">Accessibility Mode</span>
-          <span class="text-xs font-bold text-white">WCAG 2.1 AA Compliant</span>
-        </div>
-      </div>
+
     </div>
   </header>
 
@@ -157,6 +147,7 @@
     <!-- RIGHT WORKSPACE PANEL (DYNAMIC TABS CONTAINER) -->
     <main id="workspace-panel" class="flex-grow bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 min-h-[600px] flex flex-col justify-between">
       
+      <div id="panels-container" class="flex-grow">
       <!-- TAB 1: OVERVIEW & PROFILE -->
       <section id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" class="tab-content space-y-6">
         <div class="border-b border-slate-200 pb-4">
@@ -326,12 +317,26 @@
         </div>
 
         <!-- Active Flashcard 3D Render Arena -->
-        <div class="flex flex-col items-center justify-center py-6">
+        <div class="flex flex-col items-center justify-center py-2">
+          <!-- Cards Nav buttons - visible at top -->
+          <div class="flex gap-4 mb-4 items-center">
+            <button onclick="prevCard()" class="p-3 border border-slate-300 rounded-full hover:bg-slate-50 text-slate-700 transition" aria-label="Previous flashcard">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="flipCard()" class="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-sm">
+              Flip Card
+            </button>
+            <button onclick="nextCard()" class="p-3 border border-slate-300 rounded-full hover:bg-slate-50 text-slate-700 transition" aria-label="Next flashcard">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
           <div class="w-full max-w-xl h-80 perspective-1000">
             <!-- Dynamic flipping container -->
-            <button 
+            <div 
               id="active-card-flipper" 
               onclick="flipCard()"
+              tabindex="0"
+              role="button"
               class="w-full h-full text-left rounded-3xl preserve-3d transition-transform duration-500 ease-out focus:ring-4 focus:ring-indigo-600 relative cursor-pointer block"
               aria-label="Vocabulary Flashcard. Front side. Term: On-demand self-service. Click or press spacebar to flip."
             >
@@ -393,21 +398,8 @@
                 </div>
               </div>
 
-            </button>
-          </div>
-
-          <!-- Cards Nav buttons -->
-          <div class="flex gap-4 mt-6">
-            <button onclick="prevCard()" class="p-3 border border-slate-300 rounded-full hover:bg-slate-50 text-slate-700 transition" aria-label="Previous flashcard">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-            </button>
-            <button onclick="flipCard()" class="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-sm">
-              Flip Card
-            </button>
-            <button onclick="nextCard()" class="p-3 border border-slate-300 rounded-full hover:bg-slate-50 text-slate-700 transition" aria-label="Next flashcard">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+            </div><!-- end active-card-flipper -->
+          </div><!-- end perspective-1000 -->
         </div>
       </section>
 
@@ -547,6 +539,8 @@
           </a>
         </div>
       </section>
+
+      </div><!-- end panels-container -->
 
       <!-- PORTAL SHARED WORKSPACE FOOTER -->
       <footer class="mt-8 pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
