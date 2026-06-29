@@ -169,6 +169,15 @@
                             </div>
                         </div>
 
+                        <!-- Terminology Study Flashcards -->
+                        <div class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
+                            <input type="checkbox" id="includeFlashcards" checked class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
+                            <div class="text-xs">
+                                <label for="includeFlashcards" class="font-bold text-slate-700 block">Include Terminology Study Flashcards</label>
+                                <span class="text-slate-500">Instructs AI to generate printable, structured study flashcards for all key terms with definition, analogy, career context, and a diagnostic review question on the back.</span>
+                            </div>
+                        </div>
+
                         <!-- ADA Accessibility / Universal Design Checkbox -->
                         <div class="flex items-start gap-3 p-3 rounded-lg border border-emerald-100 bg-emerald-50/20">
                             <input type="checkbox" id="includeAda" checked class="mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-emerald-300 rounded">
@@ -888,6 +897,7 @@
             const includeLecture = document.getElementById('includeLecture').checked;
             const includeAnalogies = document.getElementById('includeAnalogies').checked;
             const includeAda = document.getElementById('includeAda').checked;
+            const includeFlashcards = document.getElementById('includeFlashcards').checked;
             const includeCodeWidget = document.getElementById('includeCodeWidget').checked;
 
             // Activity states
@@ -952,6 +962,18 @@ Provide exactly two distinct, comprehensive analogies explaining the technical t
 `;
             }
 
+            if (includeFlashcards) {
+                p += `\n[ACTION REQUIRED] - TERMINOLOGY STUDY FLASHCARDS:
+Please generate a structured, comprehensive set of study flashcards for all specified key vocabulary terms. For each term, design a clean double-sided card layout:
+- Front of Card: The term/acronym in clear bold typography.
+- Back of Card:
+  * Definition: A vocational, easy-to-grasp definition suitable for adult learners.
+  * Quick Analogy: A brief one-sentence real-world comparison.
+  * Classroom/Workplace Context: A scenario showing how a technician would use this concept on the job.
+  * Micro-Checkpoint Quiz: A quick single-sentence question (with answer) to allow the student to self-evaluate.
+`;
+            }
+
             if (includeAda) {
                 p += `\n[ACTION REQUIRED] - STRICT ADA COMPLIANCE & ACCESSIBILITY REQUIREMENT (WCAG 2.1 AA):
 Every output block generated for this curriculum must conform to federal ADA, Section 508, and WCAG 2.1 AA accessibility guidelines:
@@ -960,6 +982,9 @@ Every output block generated for this curriculum must conform to federal ADA, Se
 - Sensory Speech Outlining: Ensure that the scripted speech or class narratives do not rely solely on color or visual pointers (e.g., avoid saying "look at the red box on the right" without also verbally identifying the content, such as "look at the red box labeled Customer Security").
 - Screen-Reader Support for Assessments: Ensure all quiz questions and options are explicitly labeled, and any tables created include formal semantic column headers for compatibility with assistive technologies.
 `;
+                if (includeFlashcards) {
+                    p += `- Assistive Screen Readers (Flashcards): Format each vocabulary card semantically using standard table structures or list markers to ensure easy screen reader navigation between the front and back of each card without layout disruption.\n`;
+                }
             }
 
             // Append selected activities
@@ -1091,6 +1116,7 @@ The code must be completely self-contained, fully functional, responsive, elegan
             document.getElementById('includeLecture').checked = false;
             document.getElementById('includeAnalogies').checked = false;
             document.getElementById('includeAda').checked = true; // Kept checked by default for safety
+            document.getElementById('includeFlashcards').checked = false;
             document.getElementById('includeCodeWidget').checked = false;
 
             document.getElementById('actInteractive').checked = false;
