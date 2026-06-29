@@ -107,7 +107,7 @@
           <li>
             <button onclick="activateTab('lecture')" id="tab-lecture" role="tab" aria-selected="false" aria-controls="panel-lecture" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
               <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              2. Interactive Lecture Deck
+              2. Lecture Deck Link
             </button>
           </li>
           <li>
@@ -123,27 +123,21 @@
             </button>
           </li>
           <li>
-            <button onclick="activateTab('sandbox')" id="tab-sandbox" role="tab" aria-selected="false" aria-controls="panel-sandbox" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
-              <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              5. Capacity Sandbox
-            </button>
-          </li>
-          <li>
             <button onclick="activateTab('lab')" id="tab-lab" role="tab" aria-selected="false" aria-controls="panel-lab" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
               <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              6. Hands-On Lab
+              5. Hands-On Lab Link
             </button>
           </li>
           <li>
             <button onclick="activateTab('casestudy')" id="tab-casestudy" role="tab" aria-selected="false" aria-controls="panel-casestudy" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
               <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              7. Vocational Case Study
+              6. Vocational Case Study
             </button>
           </li>
           <li>
             <button onclick="activateTab('exam')" id="tab-exam" role="tab" aria-selected="false" aria-controls="panel-exam" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
               <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              8. Mock Exam Prep
+              7. Mock Exam Link
             </button>
           </li>
         </ul>
@@ -197,50 +191,24 @@
           </div>
         </div>
 
-        <!-- Timetable Accordion Section -->
-        <div>
-          <h3 class="text-base font-bold text-slate-800 mb-3">Structured Lesson Class Schedule (3.5 Hours)</h3>
-          <div class="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100 shadow-sm" role="region" aria-label="Class Timetable">
-            <!-- Row 1 -->
-            <div class="flex flex-col sm:flex-row p-4 gap-2 sm:gap-4 items-start sm:items-center bg-slate-50/50">
-              <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-100 px-2 py-1 rounded min-w-[150px] text-center">12:00 PM – 1:15 PM</span>
-              <div>
-                <h4 class="font-bold text-sm text-slate-900">Lecture &amp; Conceptual Deep-Dive (75 Mins)</h4>
-                <p class="text-xs text-slate-600 mt-0.5">NIST definitions, Capital/Operational budget frameworks, and deployment model boundaries.</p>
-              </div>
-            </div>
-            <!-- Row 2 -->
-            <div class="flex flex-col sm:flex-row p-4 gap-2 sm:gap-4 items-start sm:items-center">
-              <span class="font-mono text-xs font-bold text-amber-700 bg-amber-100 px-2 py-1 rounded min-w-[150px] text-center">1:15 PM – 1:30 PM</span>
-              <div>
-                <h4 class="font-bold text-sm text-slate-900">Mid-Session Networking &amp; Break (15 Mins)</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Hydration break, informal career-ready QA discussions, and student networking.</p>
-              </div>
-            </div>
-            <!-- Row 3 -->
-            <div class="flex flex-col sm:flex-row p-4 gap-2 sm:gap-4 items-start sm:items-center bg-slate-50/50">
-              <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-100 px-2 py-1 rounded min-w-[150px] text-center">1:30 PM – 2:45 PM</span>
-              <div>
-                <h4 class="font-bold text-sm text-slate-900">Hands-on Lab: Navigation &amp; Budget Setup (75 Mins)</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Access console dashboards, locate security groups, and build zero-spend cost-metric email alerts.</p>
-              </div>
-            </div>
-            <!-- Row 4 -->
-            <div class="flex flex-col sm:flex-row p-4 gap-2 sm:gap-4 items-start sm:items-center">
-              <span class="font-mono text-xs font-bold text-amber-700 bg-amber-100 px-2 py-1 rounded min-w-[150px] text-center">2:45 PM – 3:00 PM</span>
-              <div>
-                <h4 class="font-bold text-sm text-slate-900">Afternoon Coffee &amp; Lab Recovery Break (15 Mins)</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Take steps to stretch, clear logs, verify server runtime metrics are normal.</p>
-              </div>
-            </div>
-            <!-- Row 5 -->
-            <div class="flex flex-col sm:flex-row p-4 gap-2 sm:gap-4 items-start sm:items-center bg-slate-50/50">
-              <span class="font-mono text-xs font-bold text-indigo-700 bg-indigo-100 px-2 py-1 rounded min-w-[150px] text-center">3:00 PM – 3:30 PM</span>
-              <div>
-                <h4 class="font-bold text-sm text-slate-900">Interactive Debrief &amp; Mock Exam Review (30 Mins)</h4>
-                <p class="text-xs text-slate-600 mt-0.5">Debrief the console setup, review CLF-C02 questions, and check concepts on core terminology cards.</p>
-              </div>
-            </div>
+        <!-- Zoom Recordings Placeholder Block -->
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl" aria-hidden="true">🎥</span>
+            <h3 class="font-extrabold text-indigo-950 text-base">Class Zoom Recordings Gateway</h3>
+          </div>
+          <p class="text-xs text-indigo-900">
+            Recorded video sessions will be posted here dynamically within 24 hours of class completion. Review these recordings to verify console operations and check complex technical concepts.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+            <a href="#" onclick="alert('This Zoom link is currently being processed. It will be configured with your custom lecture video recording URL soon.'); return false;" class="flex items-center justify-between p-3.5 bg-white border border-indigo-100 rounded-lg hover:bg-indigo-50/50 transition font-bold text-xs text-indigo-700">
+              <span>Day 1: Part 1 - Cloud Deployment Models &amp; Business Economics</span>
+              <span class="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-mono">Link Processing</span>
+            </a>
+            <a href="#" onclick="alert('This Zoom link is currently being processed. It will be configured with your custom lab briefing video recording URL soon.'); return false;" class="flex items-center justify-between p-3.5 bg-white border border-indigo-100 rounded-lg hover:bg-indigo-50/50 transition font-bold text-xs text-indigo-700">
+              <span>Day 1: Part 2 - AWS Console Navigation &amp; Budget Management</span>
+              <span class="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-mono">Link Processing</span>
+            </a>
           </div>
         </div>
 
@@ -256,59 +224,29 @@
         </div>
       </section>
 
-      <!-- TAB 2: INTERACTIVE LECTURE DECK -->
+      <!-- TAB 2: INTERACTIVE LECTURE DECK (LINK PLACEHOLDER) -->
       <section id="panel-lecture" role="tabpanel" aria-labelledby="tab-lecture" class="tab-content hidden space-y-6">
-        <div class="border-b border-slate-200 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <div>
-            <h2 class="text-2xl font-black text-slate-900">Interactive Slide Classroom Deck</h2>
-            <p class="text-slate-500 text-sm mt-1">Navigate using slides. Access structured instructor scripts beneath each slide.</p>
-          </div>
-          <!-- Slide Indicator status -->
-          <div class="bg-slate-100 px-3 py-1 rounded-full text-xs font-bold text-indigo-700" id="slide-num-indicator" role="status">
-            Slide 1 of 5
-          </div>
+        <div class="border-b border-slate-200 pb-4">
+          <h2 class="text-2xl font-black text-slate-900">Lecture Slide Deck Repository</h2>
+          <p class="text-slate-500 text-sm mt-1">Access presentation slides and materials for class review.</p>
         </div>
 
-        <!-- Slide Render Sandbox Frame -->
-        <div class="bg-slate-900 rounded-2xl shadow-lg border border-slate-950 overflow-hidden relative min-h-[320px] flex flex-col justify-between p-6 md:p-8 text-white">
-          <!-- Slide Inner Content Rendered Dynamically -->
-          <div id="slide-viewer-content" class="space-y-4">
-            <!-- Slide Title dynamically populated -->
-            <h3 class="text-xl md:text-2xl font-black text-indigo-300" id="slide-title">1. What is Logical Virtualization?</h3>
-            <div id="slide-body" class="text-sm md:text-base text-slate-200 space-y-3 leading-relaxed">
-              <!-- Dynamically populated -->
-            </div>
+        <div class="text-center py-12 max-w-xl mx-auto space-y-6">
+          <div class="bg-indigo-50 text-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl" aria-hidden="true">📊</div>
+          <div class="space-y-2">
+            <h3 class="text-xl font-extrabold text-slate-900">Day 1 Presentation Lecture Deck</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Unlock the official cloud theory, virtualization modules, economics mappings, and Cloud Adoption Framework slide presentations.
+            </p>
           </div>
-
-          <!-- Technical Alt text visual display for absolute accessibility transparency -->
-          <div class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex flex-col md:flex-row justify-between gap-2">
-            <span class="font-bold uppercase tracking-wider text-slate-500 block">System Screen Reader Alt-Text:</span>
-            <span id="slide-alt-text-viewer" class="italic"></span>
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left">
+            <span class="font-bold text-slate-700 block mb-1">Configuration Note</span>
+            <span class="text-slate-500">The presentation slides link is reserved and will be integrated using the target page once provided.</span>
           </div>
-        </div>
-
-        <!-- Slide Deck Controls -->
-        <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <button onclick="prevSlide()" id="btn-prev-slide" class="px-4 py-2 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-100 disabled:opacity-50 disabled:pointer-events-none transition">
-            &larr; Previous Slide
-          </button>
-          <div class="flex gap-1" id="slide-dots-indicator" role="tablist">
-            <!-- Dynamically populated dot controls -->
-          </div>
-          <button onclick="nextSlide()" id="btn-next-slide" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">
-            Next Slide &rarr;
-          </button>
-        </div>
-
-        <!-- Lecture Script & Sensory Speech notes -->
-        <div class="bg-indigo-50 border border-indigo-150 p-5 rounded-2xl">
-          <h4 class="text-sm font-extrabold text-indigo-900 flex items-center gap-2">
-            <span>🎙️</span>
-            Instructor Verbal Script &amp; Sensory Guidance
-          </h4>
-          <p class="text-xs text-indigo-950 mt-2 leading-relaxed italic" id="slide-speech-script">
-            <!-- Script dynamically populated -->
-          </p>
+          <a href="#" target="_blank" onclick="alert('This link is currently placeholder-only. The slide deck URL will be configured here later.'); return false;" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
+            <span>Launch Presentation Slides (Link Pending)</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
         </div>
       </section>
 
@@ -473,179 +411,33 @@
         </div>
       </section>
 
-      <!-- TAB 5: ELASTICITY & CAPACITY SANDBOX -->
-      <section id="panel-sandbox" role="tabpanel" aria-labelledby="tab-sandbox" class="tab-content hidden space-y-6">
-        <div class="border-b border-slate-200 pb-4">
-          <h2 class="text-2xl font-black text-slate-900">NIST Elasticity &amp; Cost Simulator</h2>
-          <p class="text-slate-500 text-sm mt-1">Simulate real-time application traffic demands. Experience provisioning cost gaps first-hand.</p>
-        </div>
-
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
-          <!-- Controller Column -->
-          <div class="lg:col-span-5 space-y-4">
-            <h3 class="font-bold text-slate-800 text-sm uppercase tracking-wider">Configure System Infrastructure</h3>
-            
-            <!-- Infrastructure Type -->
-            <div class="space-y-2">
-              <label for="sandbox-infra-type" class="block text-xs font-bold text-slate-700 uppercase">Infrastructure Hosting Choice</label>
-              <select id="sandbox-infra-type" onchange="runSimulation()" class="w-full p-2.5 rounded-lg border border-slate-300 focus:border-indigo-500 text-xs">
-                <option value="onprem-fixed">On-Premises Data Center (Fixed: 10 Servers)</option>
-                <option value="cloud-elastic">AWS Elastic Cloud (Auto Scaling Groups Active)</option>
-              </select>
-            </div>
-
-            <!-- Trait Controller -->
-            <div class="space-y-2">
-              <label for="sandbox-traffic-state" class="block text-xs font-bold text-slate-700 uppercase">Simulated Traffic Pattern</label>
-              <select id="sandbox-traffic-state" onchange="runSimulation()" class="w-full p-2.5 rounded-lg border border-slate-300 focus:border-indigo-500 text-xs">
-                <option value="idle">Idle Midnight (Requires 1 Server)</option>
-                <option value="normal">Normal Daytime Baseline (Requires 4 Servers)</option>
-                <option value="holiday-peak">Holiday Sales Rush Peak (Requires 10 Servers)</option>
-                <option value="viral-spike">Viral Social Media Spike (Requires 16 Servers)</option>
-              </select>
-            </div>
-
-            <!-- Financial Statistics Display -->
-            <div class="border border-slate-200 rounded-xl p-4 bg-white space-y-2 text-xs">
-              <h4 class="font-bold text-slate-800 border-b pb-1">Real-time Financial Ledger</h4>
-              <div class="flex justify-between">
-                <span class="text-slate-500">Capital Investment (CapEx):</span>
-                <span id="stat-capex" class="font-mono font-bold text-slate-900">$65,000</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500">Hourly Operating Fee (OpEx):</span>
-                <span id="stat-opex" class="font-mono font-bold text-slate-900">$0.00 / hr</span>
-              </div>
-              <div class="flex justify-between border-t pt-1.5 font-bold">
-                <span class="text-slate-700">Budget Waste Status:</span>
-                <span id="stat-waste" class="text-emerald-600">Perfectly Sized</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Sandbox Visualizer Monitor Display -->
-          <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-4 md:p-6 text-white flex flex-col justify-between min-h-[300px]">
-            <div>
-              <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-                <span class="text-xs uppercase font-mono text-slate-400 font-bold flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Active Server Telemetry
-                </span>
-                <span id="monitor-health-label" class="text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded">
-                  System Health: Online
-                </span>
-              </div>
-
-              <!-- Servers Grid Area -->
-              <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2.5" id="servers-grid" role="group" aria-label="Visual representation of active server nodes">
-                <!-- Dynamically populated servers -->
-              </div>
-            </div>
-
-            <!-- Dynamic Diagnostic Insight Text -->
-            <div class="mt-6 p-3 rounded-lg bg-slate-950 border border-slate-850 text-xs leading-relaxed space-y-1">
-              <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest block">System Diagnostics</span>
-              <p id="sim-diagnostic-text" class="text-slate-300 font-mono">
-                System optimized. Total active server processes are running normal metrics.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- TAB 6: HANDS-ON LAB MANUAL -->
+      <!-- TAB 5: HANDS-ON LAB GATEWAY (LINK PLACEHOLDER) -->
       <section id="panel-lab" role="tabpanel" aria-labelledby="tab-lab" class="tab-content hidden space-y-6">
         <div class="border-b border-slate-200 pb-4">
-          <h2 class="text-2xl font-black text-slate-900">Hands-on Lab Walkthrough Guide</h2>
-          <p class="text-slate-500 text-sm mt-1">Day 1 Lab: Navigate AWS Global Infrastructure, billing modules, and budgets.</p>
+          <h2 class="text-2xl font-black text-slate-900">AWS Labs Ecosystem</h2>
+          <p class="text-slate-500 text-sm mt-1">Deploy, test, and validate configurations in a real-world sandbox environment.</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <!-- Step Instructions -->
-          <div class="lg:col-span-8 space-y-6">
-            <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-              <!-- Step Header -->
-              <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
-                <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Section 1</span>
-                <span class="text-xs font-bold">AWS Console Navigation Manual</span>
-              </div>
-              <div class="p-6 space-y-4">
-                <h3 class="font-extrabold text-slate-900 text-base">Step 1: Regional Scope &amp; Account Validation</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                  Log into your AWS Academy learner sandbox portal. Once inside, focus your attention on the top navigation bar. Select the Region dropdown selector on the far right and find your assigned server zones.
-                </p>
-
-                <div class="p-3 bg-amber-50 rounded-lg text-amber-900 border border-amber-200 text-xs leading-relaxed">
-                  <strong>💡 Student Tip:</strong> Compare the difference in available services between <code>us-east-1</code> (N. Virginia) and <code>us-west-2</code> (Oregon). Write down latency differences if you perform manual connections.
-                </div>
-
-                <div class="border-t border-slate-100 pt-4">
-                  <h3 class="font-extrabold text-slate-900 text-base mb-2">Step 2: Accessing the Billing dashboard &amp; AWS Budgets</h3>
-                  <p class="text-xs text-slate-600 leading-relaxed mb-3">
-                    Locate the search bar at the very top. Type <strong>"Billing"</strong>. Click the matching service to open the AWS Billing &amp; Cost Management panel. Complete the steps to draft a zero-spend alert.
-                  </p>
-                  
-                  <ul class="space-y-2 text-xs text-slate-700 pl-4 list-disc">
-                    <li>Select <strong>Budgets</strong> from the left-hand console toolbar.</li>
-                    <li>Click <strong>Create Budget</strong>. Select the <strong>Zero Spend Budget</strong> template.</li>
-                    <li>Configure the threshold to alert your school email once actual costs hit $0.01.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+        <div class="text-center py-12 max-w-xl mx-auto space-y-6">
+          <div class="bg-indigo-50 text-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl" aria-hidden="true">🛠️</div>
+          <div class="space-y-2">
+            <h3 class="text-xl font-extrabold text-slate-900">AWS Academy Sandbox Lab Gateway</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Log into your isolated container workspace, traverse the AWS Management Console structure, set up billing alerts, and track resource metrics in real-time.
+            </p>
           </div>
-
-          <!-- Interactive Completion Checklist -->
-          <div class="lg:col-span-4 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-4">
-            <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Lab Execution Progress</h3>
-            
-            <div class="space-y-3" role="group" aria-label="Step Checklists">
-              <label class="flex items-start gap-3 p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" onchange="updateLabStatus()" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 mt-0.5">
-                <span class="text-xs text-slate-700 leading-normal">
-                  <strong>Task 1:</strong> Logged into AWS Management Console.
-                </span>
-              </label>
-
-              <label class="flex items-start gap-3 p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" onchange="updateLabStatus()" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 mt-0.5">
-                <span class="text-xs text-slate-700 leading-normal">
-                  <strong>Task 2:</strong> Found the Region menu and validated location latency details.
-                </span>
-              </label>
-
-              <label class="flex items-start gap-3 p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" onchange="updateLabStatus()" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 mt-0.5">
-                <span class="text-xs text-slate-700 leading-normal">
-                  <strong>Task 3:</strong> Navigated to the Billing dashboard.
-                </span>
-              </label>
-
-              <label class="flex items-start gap-3 p-2.5 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" onchange="updateLabStatus()" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 mt-0.5">
-                <span class="text-xs text-slate-700 leading-normal">
-                  <strong>Task 4:</strong> Saved an email budget threshold at $0.01.
-                </span>
-              </label>
-            </div>
-
-            <div class="pt-4 border-t border-slate-200">
-              <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Lab Progress Metrics</span>
-              <div class="flex justify-between items-center text-xs font-bold mt-1">
-                <span>Completed Tasks</span>
-                <span id="lab-completion-stat" class="text-indigo-600 font-mono">0 / 4</span>
-              </div>
-              <div class="w-full bg-slate-200 rounded-full h-1.5 mt-2">
-                <div class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" id="lab-completion-progress" style="width: 0%"></div>
-              </div>
-            </div>
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left">
+            <span class="font-bold text-slate-700 block mb-1">Configuration Note</span>
+            <span class="text-slate-500">The external laboratory launcher link will be mapped to your LMS portal configuration soon.</span>
           </div>
+          <a href="#" target="_blank" onclick="alert('This link is currently placeholder-only. The target laboratory portal URL will be configured here later.'); return false;" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
+            <span>Launch AWS Hands-On Lab (Link Pending)</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
         </div>
       </section>
 
-      <!-- TAB 7: VOCATIONAL CASE STUDY -->
+      <!-- TAB 6: VOCATIONAL CASE STUDY -->
       <section id="panel-casestudy" role="tabpanel" aria-labelledby="tab-casestudy" class="tab-content hidden space-y-6">
         <div class="border-b border-slate-200 pb-4">
           <h2 class="text-2xl font-black text-slate-900">Vocational Case Study</h2>
@@ -730,83 +522,30 @@
         </div>
       </section>
 
-      <!-- TAB 8: EXAM PRACTICE ASSESSMENTS -->
+      <!-- TAB 7: MOCK EXAM PORTAL GATEWAY (LINK PLACEHOLDER) -->
       <section id="panel-exam" role="tabpanel" aria-labelledby="tab-exam" class="tab-content hidden space-y-6">
         <div class="border-b border-slate-200 pb-4">
-          <h2 class="text-2xl font-black text-slate-900">AWS Certified Cloud Practitioner Practice Arena</h2>
-          <p class="text-slate-500 text-sm mt-1">Simulate real domain questions with immediate rationales.</p>
+          <h2 class="text-2xl font-black text-slate-900">AWS Practice Certification Hub</h2>
+          <p class="text-slate-500 text-sm mt-1">Review core exam patterns and practice testing domains online.</p>
         </div>
 
-        <form id="practice-exam-form" class="space-y-6" onsubmit="gradeMockExam(event)">
-          <!-- Question 1 -->
-          <div class="border border-slate-200 rounded-2xl p-5 space-y-3 bg-white">
-            <span class="text-[10px] bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded font-mono font-bold">Exam Domain 1: Cloud Concepts</span>
-            <fieldset class="space-y-3">
-              <legend class="font-extrabold text-slate-900 text-sm">
-                1. Why is AWS more economical than traditional on-premises data centers for applications with varying, unpredictable compute workloads?
-              </legend>
-              
-              <div class="space-y-2.5 text-xs text-slate-700 pl-2">
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q1" value="A" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>A) Amazon EC2 instances are always billed on a flat, annual subscription basis.</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q1" value="B" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>B) Customers retain full administrative root access to physical host hypervisors.</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q1" value="C" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>C) Amazon EC2 instances can be launched and scaled dynamically on-demand when needed, avoiding idle capacity.</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q1" value="D" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>D) Customers can permanently run enough server instances to handle peak workload demands.</span>
-                </label>
-              </div>
-            </fieldset>
-            <p id="q1-diagnostic-feedback" class="hidden text-xs p-3 rounded-lg border"></p>
+        <div class="text-center py-12 max-w-xl mx-auto space-y-6">
+          <div class="bg-indigo-50 text-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl" aria-hidden="true">📝</div>
+          <div class="space-y-2">
+            <h3 class="text-xl font-extrabold text-slate-900">AWS Certified Cloud Practitioner Mock Assessment</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Test your proficiency in pricing philosophies, shared security responsibilities, compute architectures, and logical scaling limits.
+            </p>
           </div>
-
-          <!-- Question 2 -->
-          <div class="border border-slate-200 rounded-2xl p-5 space-y-3 bg-white">
-            <span class="text-[10px] bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded font-mono font-bold">Exam Domain 1: Deployment Models</span>
-            <fieldset class="space-y-3">
-              <legend class="font-extrabold text-slate-900 text-sm">
-                2. Which cloud deployment model should a company choose if they want to retain full physical control of their database hardware for regulatory compliance, while deploying their customer-facing website on shared public web servers?
-              </legend>
-              
-              <div class="space-y-2.5 text-xs text-slate-700 pl-2">
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q2" value="A" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>A) Private Cloud only</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q2" value="B" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>B) Hybrid Cloud</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q2" value="C" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>C) Public Cloud only</span>
-                </label>
-                <label class="flex items-center gap-3 p-2 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
-                  <input type="radio" name="q2" value="D" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                  <span>D) On-Demand Cloud only</span>
-                </label>
-              </div>
-            </fieldset>
-            <p id="q2-diagnostic-feedback" class="hidden text-xs p-3 rounded-lg border"></p>
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left">
+            <span class="font-bold text-slate-700 block mb-1">Configuration Note</span>
+            <span class="text-slate-500">The target exam or evaluation interface link will be mapped once provided by your academic supervisor.</span>
           </div>
-
-          <div class="flex gap-4">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-sm text-sm">
-              Grade Assessment
-            </button>
-            <button type="button" onclick="resetExamAnswers()" class="border border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-sm">
-              Reset Assessment
-            </button>
-          </div>
-        </form>
+          <a href="#" target="_blank" onclick="alert('This link is currently placeholder-only. The mock exam URL will be configured here later.'); return false;" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
+            <span>Launch Certification Exam Simulator (Link Pending)</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+        </div>
       </section>
 
       <!-- PORTAL SHARED WORKSPACE FOOTER -->
@@ -821,7 +560,7 @@
     </main>
   </div>
 
-  <!-- JAVASCRIPT CONTROL MECHANISMS & SIMULATION LOGIC -->
+  <!-- JAVASCRIPT CONTROL MECHANISMS -->
   <script>
     // Tab Controller state
     function activateTab(tabId) {
@@ -842,127 +581,6 @@
       const sectionName = activeBtn.textContent.trim();
       document.getElementById('sr-alert-announcer').textContent = "Switched course text viewer to: " + sectionName;
     }
-
-    // SLIDE DECK DATABASE
-    const slideData = [
-      {
-        title: "1. What is Logical Virtualization?",
-        body: `
-          <p>Traditional server designs suffer from physical isolation. <strong>Virtualization</strong> decouples operating systems from core hardware layers.</p>
-          <p>By inserting a software component called a <strong>Hypervisor</strong> directly on physical servers, administrators can host multiple virtual machines (VMs) simultaneously. Each VM acts independently, sharing CPU, network capacity, and physical memory assets.</p>
-          <div class="bg-indigo-950 p-3 rounded-lg border border-indigo-800 text-xs font-mono">
-            [Physical Motherboard] &rarr; [Hypervisor Software] &rarr; [VM 1, VM 2, VM 3]
-          </div>
-        `,
-        altText: "Diagram outlining standard physical server components passing processing to a Hypervisor software layer, which splits resources to three isolated Virtual Machines.",
-        script: "Class, think of a massive building. Before virtualization, if you wanted three stores, you had to build three separate small structures on three plots of land. That is physical server isolation. Hypervisors act like an apartment developer, slicing one big physical block of hardware space into multiple secure, independent homes."
-      },
-      {
-        title: "2. Traditional Infrastructure vs. Cloud Computing",
-        body: `
-          <p>Under old physical data setups, organizations faced two dangerous bottlenecks:</p>
-          <ul class="list-disc pl-4 space-y-1.5 text-xs text-slate-200">
-            <li><strong>Over-provisioning:</strong> Buying 20 servers that sit unused 95% of the year, burning capital funds (CapEx).</li>
-            <li><strong>Under-provisioning:</strong> Buying only 2 servers to save money, leading to web crashes during unexpected user rushes.</li>
-          </ul>
-          <p>The Cloud represents <strong>Infrastructure as Software</strong>—elastic, metered runtime variables paid for as ongoing operating expenses (OpEx).</p>
-        `,
-        altText: "Visual flow mapping physical data limits. On one side a low capacity server crashes during peak traffic loads; on the other side high capacity idle servers sit unused.",
-        script: "Look at the visual. On-premises server rooms force you to guess what your peak customer traffic will be. If you guess too high, you waste thousands of dollars. If you guess too low, your application crashes, ruining your business. The cloud lets you trade hardware planning for dynamic software automation."
-      },
-      {
-        title: "3. Deployment Models: Public, Private, & Hybrid",
-        body: `
-          <p>Every firm aligns resources within one of three deployment methodologies:</p>
-          <ul class="space-y-2 text-xs">
-            <li><strong>Public Cloud (e.g., AWS):</strong> Resources are owned and operated by a third-party cloud provider. Multi-tenant networks share underlying hardware space logically.</li>
-            <li><strong>Private Cloud:</strong> Dedicated hardware resources used exclusively by one enterprise. Usually self-managed on-premises.</li>
-            <li><strong>Hybrid Cloud:</strong> Integrates public clouds securely with dedicated private infrastructures or databases.</li>
-          </ul>
-        `,
-        altText: "Deployment Venn diagram: Public Cloud representing shared third-party spaces, Private representing local dedicated hardware, and Hybrid linking them with secure tunnels.",
-        script: "I often see students get confused here. If you rent an apartment in a public building with shared utility pipes, that is the Public Cloud. If you build a private mansion with high security walls, that is Private. If you live in your private home, but lease a public storage unit down the road, that is Hybrid."
-      },
-      {
-        title: "4. Six Advantages of Cloud Computing",
-        body: `
-          <p>AWS structures its cloud value proposition around six distinct, measurable benefits:</p>
-          <ol class="list-decimal pl-4 space-y-1 text-xs">
-            <li><strong>Trade capital expense (CapEx) for operational expense (OpEx).</strong></li>
-            <li><strong>Benefit from massive economies of scale.</strong></li>
-            <li><strong>Stop guessing infrastructure capacity.</strong></li>
-            <li><strong>Increase speed and agility.</strong></li>
-            <li><strong>Stop spending money running and maintaining data centers.</strong></li>
-            <li><strong>Go global in minutes.</strong></li>
-          </ol>
-        `,
-        altText: "AWS Six core cloud values represented as modular blocks with clean text describing cost swaps, global deployment, elasticity, and operational simplicity.",
-        script: "Be ready for these on the Certified Cloud Practitioner exam. Memorize them. In the field, you will use these six tenets to justify cloud migration decisions to your company's board of directors."
-      },
-      {
-        title: "5. AWS Cloud Adoption Framework (CAF)",
-        body: `
-          <p>A cloud transition requires more than just code updates. It requires restructuring how a company operates.</p>
-          <p>The <strong>AWS CAF</strong> organizes this journey into six key perspectives:</p>
-          <div class="grid grid-cols-2 gap-2 text-[11px]">
-            <div class="bg-indigo-950 p-2 rounded">💼 Business</div>
-            <div class="bg-indigo-950 p-2 rounded">👥 People</div>
-            <div class="bg-indigo-950 p-2 rounded">⚖️ Governance</div>
-            <div class="bg-indigo-950 p-2 rounded">💻 Platform</div>
-            <div class="bg-indigo-950 p-2 rounded">🔒 Security</div>
-            <div class="bg-indigo-950 p-2 rounded">⚙️ Operations</div>
-          </div>
-        `,
-        altText: "Organized grid outlining AWS Cloud Adoption Framework divided into Business, People, Governance, Platform, Security, and Operations perspectives.",
-        script: "As IT administrators, we often get hyper-focused on technology. But the AWS CAF reminds us that business alignment, re-skilling our workers, and financial governance are just as important as the database configurations."
-      }
-    ];
-
-    let currentSlideIndex = 0;
-
-    function renderSlide() {
-      const slide = slideData[currentSlideIndex];
-      document.getElementById('slide-title').textContent = slide.title;
-      document.getElementById('slide-body').innerHTML = slide.body;
-      document.getElementById('slide-alt-text-viewer').textContent = '"' + slide.altText + '"';
-      document.getElementById('slide-speech-script').textContent = slide.script;
-      document.getElementById('slide-num-indicator').textContent = `Slide ${currentSlideIndex + 1} of ${slideData.length}`;
-
-      // Enable/Disable buttons appropriately
-      document.getElementById('btn-prev-slide').disabled = currentSlideIndex === 0;
-      document.getElementById('btn-next-slide').textContent = currentSlideIndex === slideData.length - 1 ? "End Slide Deck" : "Next Slide &rarr;";
-
-      // Update interactive dots navigation
-      const dotsContainer = document.getElementById('slide-dots-indicator');
-      dotsContainer.innerHTML = '';
-      slideData.forEach((_, idx) => {
-        const active = idx === currentSlideIndex;
-        const btn = document.createElement('button');
-        btn.onclick = () => { currentSlideIndex = idx; renderSlide(); };
-        btn.className = `w-2.5 h-2.5 rounded-full ${active ? 'bg-indigo-600' : 'bg-slate-300 hover:bg-slate-400'}`;
-        btn.setAttribute('aria-label', `Go to slide ${idx + 1}`);
-        dotsContainer.appendChild(btn);
-      });
-    }
-
-    function prevSlide() {
-      if (currentSlideIndex > 0) {
-        currentSlideIndex--;
-        renderSlide();
-      }
-    }
-
-    function nextSlide() {
-      if (currentSlideIndex < slideData.length - 1) {
-        currentSlideIndex++;
-        renderSlide();
-      } else {
-        activateTab('analogies');
-      }
-    }
-
-    // Initialize slide on page load
-    renderSlide();
 
     // ANALOGIES SEARCH FILTER
     function filterAnalogies() {
@@ -1070,7 +688,7 @@
       document.getElementById('flash-card-definition').textContent = card.definition;
       document.getElementById('flash-card-analogy').textContent = card.analogy;
       document.getElementById('flash-card-scenario').textContent = card.scenario;
-      document.getElementById('flash-card-quiz').textContent = card.quiz;
+      document.getElementById('flash-card-quiz').innerHTML = `<span class="font-extrabold text-slate-700">Quiz Checkpoint:</span> <span class="block text-slate-600 italic">${card.quiz}</span>`;
 
       // Handle card flip class states
       if (cardIsFlipped) {
@@ -1113,7 +731,6 @@
       const card = cardData[currentCardIndex];
       document.getElementById('sr-alert-announcer').textContent = "Quiz answer revealed: " + card.answer;
       
-      // Temporary visual append or alerts are not allowed. Custom overlay on back text:
       const blockText = document.getElementById('flash-card-quiz');
       blockText.innerHTML = `<span class="text-indigo-800 font-bold block">Correct Answer:</span> ${card.answer}`;
     }
@@ -1128,141 +745,6 @@
 
     // Initialize the flashcard on launch
     renderFlashcardUI();
-
-
-    /* ==========================================================
-       SANDBOX CAPACITY SIMULATOR CODE & ENGINE LOGIC
-       ========================================================== */
-    function runSimulation() {
-      const infra = document.getElementById('sandbox-infra-type').value;
-      const traffic = document.getElementById('sandbox-traffic-state').value;
-      
-      let capex = "$0";
-      let opex = "$0.00 / hr";
-      let status = "Optimal Capacity";
-      let statusColor = "text-emerald-600";
-      let systemHealth = "Online & Steady";
-      let systemHealthColor = "bg-emerald-950 text-emerald-300 border-emerald-800";
-      let diagnosticMsg = "Configuration is optimal. Hardware resources align perfectly with incoming transactions.";
-      
-      let activeServers = 0;
-      let requestedDemand = 0; // scale of servers needed
-
-      // Map traffic workloads
-      switch(traffic) {
-        case 'idle':
-          requestedDemand = 1;
-          break;
-        case 'normal':
-          requestedDemand = 4;
-          break;
-        case 'holiday-peak':
-          requestedDemand = 10;
-          break;
-        case 'viral-spike':
-          requestedDemand = 16;
-          break;
-      }
-
-      if (infra === 'onprem-fixed') {
-        capex = "$65,000";
-        opex = "$4.50 / hr"; // physical server room overhead
-        activeServers = 10; // fixed physical servers
-
-        if (requestedDemand < 10) {
-          // over-provisioning
-          const wasted = 10 - requestedDemand;
-          status = `Over-Provisioning Error (${wasted} servers idle)`;
-          statusColor = "text-amber-600";
-          diagnosticMsg = `WARNING: Capital and operating budgets are being wasted on ${wasted} idle servers sitting active in your rack.`;
-        } else if (requestedDemand === 10) {
-          status = "Perfectly Sized";
-          statusColor = "text-emerald-600";
-          diagnosticMsg = "SYSTEM PERFORMANCE NORMAL: Hardware load is at 100%, but safely meeting demand.";
-        } else {
-          // under-provisioning
-          const shortage = requestedDemand - 10;
-          status = `Under-Provisioning Error! (${shortage} server shortfall)`;
-          statusColor = "text-rose-600 font-bold animate-pulse";
-          systemHealth = "OUTAGE REPORTED (Crashed)";
-          systemHealthColor = "bg-rose-950 text-rose-300 border-rose-800";
-          diagnosticMsg = "FATAL: System overload. The incoming traffic is running 1,500% higher than your physical capacity. Database has crashed.";
-        }
-      } else {
-        // cloud-elastic
-        capex = "$0";
-        // pay-as-you-go based on active usage
-        activeServers = requestedDemand; 
-        const calcOpex = (activeServers * 0.12).toFixed(2);
-        opex = `$${calcOpex} / hr`;
-        status = "Elastic Adaptation active";
-        statusColor = "text-emerald-600 font-bold";
-        diagnosticMsg = `SYSTEM DYNAMICS FUNCTIONING: AWS Auto Scaling dynamically scaled servers to ${activeServers} nodes in under 5 minutes to meet traffic. Waste is $0.`;
-      }
-
-      // Render Statistics to the visual board
-      document.getElementById('stat-capex').textContent = capex;
-      document.getElementById('stat-opex').textContent = opex;
-      
-      const wasteEl = document.getElementById('stat-waste');
-      wasteEl.textContent = status;
-      wasteEl.className = "font-mono font-bold " + statusColor;
-
-      const healthEl = document.getElementById('monitor-health-label');
-      healthEl.textContent = "System Health: " + systemHealth;
-      healthEl.className = "text-xs font-bold px-2 py-0.5 rounded border " + systemHealthColor;
-
-      document.getElementById('sim-diagnostic-text').innerHTML = `<code>${diagnosticMsg}</code>`;
-
-      // Render Servers Grid Area
-      const grid = document.getElementById('servers-grid');
-      grid.innerHTML = '';
-
-      for(let i = 1; i <= 20; i++) {
-        let stateColor = "bg-slate-800 border-slate-700 text-slate-500";
-        let stateLabel = "Server Off";
-
-        if (infra === 'onprem-fixed') {
-          if (i <= 10) {
-            if (requestedDemand > 10) {
-              stateColor = "bg-rose-900 border-rose-700 text-rose-300 animate-pulse";
-              stateLabel = "Overloaded (Crash)";
-            } else if (i <= requestedDemand) {
-              stateColor = "bg-indigo-600 border-indigo-500 text-indigo-100";
-              stateLabel = "Handling Traffic";
-            } else {
-              stateColor = "bg-amber-600 border-amber-500 text-amber-100";
-              stateLabel = "Idle (Wasted Cost)";
-            }
-          } else {
-            stateLabel = "Unpurchased hardware";
-          }
-        } else {
-          // cloud elastic
-          if (i <= activeServers) {
-            stateColor = "bg-emerald-600 border-emerald-500 text-emerald-100";
-            stateLabel = "Active Compute Hub";
-          } else {
-            stateLabel = "Released (Zero Cost)";
-          }
-        }
-
-        const block = document.createElement('div');
-        block.className = `p-2 rounded-lg border text-[9px] text-center font-mono flex flex-col justify-between min-h-[60px] ${stateColor}`;
-        block.innerHTML = `
-          <span class="font-bold">NODE ${i}</span>
-          <span class="text-[7px] opacity-80">${stateLabel}</span>
-        `;
-        block.setAttribute('aria-label', `Compute Hub server node ${i} is currently: ${stateLabel}`);
-        grid.appendChild(block);
-      }
-
-      // Accessibility Announcement update
-      document.getElementById('sr-alert-announcer').textContent = `Simulation running. System Health: ${systemHealth}. Status: ${status}.`;
-    }
-
-    // Run dynamic baseline simulation
-    runSimulation();
 
 
     /* ==========================================================
@@ -1310,76 +792,6 @@
         rubric.classList.add('hidden');
         arrow.innerHTML = "&darr;";
       }
-    }
-
-
-    /* ==========================================================
-       HANDS-ON LAB CHECKLIST STATE
-       ========================================================== */
-    function updateLabStatus() {
-      const checkboxes = document.querySelectorAll('#panel-lab input[type="checkbox"]');
-      let checkedCount = 0;
-      checkboxes.forEach(box => {
-        if (box.checked) checkedCount++;
-      });
-
-      const percentage = (checkedCount / checkboxes.length) * 100;
-      document.getElementById('lab-completion-stat').textContent = `${checkedCount} / ${checkboxes.length}`;
-      document.getElementById('lab-completion-progress').style.width = percentage + "%";
-      
-      document.getElementById('sr-alert-announcer').textContent = `Lab Progress updated. ${checkedCount} of 4 steps completed.`;
-    }
-
-
-    /* ==========================================================
-       EXAM PREPARATION ARENA CODE
-       ========================================================== */
-    function gradeMockExam(event) {
-      // Prevent standard browser form submission patterns
-      event.preventDefault();
-
-      let score = 0;
-      const fbk1 = document.getElementById('q1-diagnostic-feedback');
-      const fbk2 = document.getElementById('q2-diagnostic-feedback');
-
-      // Question 1 Grader
-      const q1Answers = document.getElementsByName('q1');
-      let selectedQ1 = '';
-      q1Answers.forEach(ans => { if (ans.checked) selectedQ1 = ans.value; });
-
-      fbk1.classList.remove('hidden');
-      if (selectedQ1 === 'C') {
-        score++;
-        fbk1.className = "text-xs p-3 rounded-lg border bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold mt-2";
-        fbk1.innerHTML = "<strong>Correct Answer!</strong> Amazon EC2 instances are launched on-demand as traffic fluctuates, protecting businesses from wasting funds on idle hosts or experiencing crashes.";
-      } else {
-        fbk1.className = "text-xs p-3 rounded-lg border bg-rose-50 border-rose-300 text-rose-900 font-semibold mt-2";
-        fbk1.innerHTML = "<strong>Incorrect Choice.</strong> Review the core definition of cloud elasticity. Elastic systems match infrastructure capacity to dynamic demand, whereas option C remains the most cost-effective.";
-      }
-
-      // Question 2 Grader
-      const q2Answers = document.getElementsByName('q2');
-      let selectedQ2 = '';
-      q2Answers.forEach(ans => { if (ans.checked) selectedQ2 = ans.value; });
-
-      fbk2.classList.remove('hidden');
-      if (selectedQ2 === 'B') {
-        score++;
-        fbk2.className = "text-xs p-3 rounded-lg border bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold mt-2";
-        fbk2.innerHTML = "<strong>Correct Answer!</strong> A Hybrid Cloud integrates local private databases with public cloud systems. This lets companies retain physical hardware for compliance while scaling public systems easily.";
-      } else {
-        fbk2.className = "text-xs p-3 rounded-lg border bg-rose-50 border-rose-300 text-rose-900 font-semibold mt-2";
-        fbk2.innerHTML = "<strong>Incorrect Choice.</strong> Remember, hosting shared customer databases on public infrastructure violates local banking compliance laws. A Hybrid cloud keeps databases private and secures external sites on AWS public racks.";
-      }
-
-      document.getElementById('sr-alert-announcer').textContent = `Exam graded. You scored ${score} out of 2. Detailed feedback is displayed below the questions.`;
-    }
-
-    function resetExamAnswers() {
-      document.getElementById('practice-exam-form').reset();
-      document.getElementById('q1-diagnostic-feedback').classList.add('hidden');
-      document.getElementById('q2-diagnostic-feedback').classList.add('hidden');
-      document.getElementById('sr-alert-announcer').textContent = "Practice exam form reset completed.";
     }
   </script>
 </body>
