@@ -125,9 +125,15 @@
             </button>
           </li>
           <li>
+            <button onclick="activateTab('studycompanion')" id="tab-studycompanion" role="tab" aria-selected="false" aria-controls="panel-studycompanion" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
+              <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
+              7. Study Companion
+            </button>
+          </li>
+          <li>
             <button onclick="activateTab('exam')" id="tab-exam" role="tab" aria-selected="false" aria-controls="panel-exam" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-slate-600 text-sm hover:bg-slate-50 transition-all duration-200">
               <span class="w-2 h-2 rounded-full bg-transparent border border-slate-400" aria-hidden="true"></span>
-              7. Mock Exam Link
+              8. Mock Exam Link
             </button>
           </li>
         </ul>
@@ -514,7 +520,33 @@
         </div>
       </section>
 
-      <!-- TAB 7: MOCK EXAM PORTAL GATEWAY (LINK PLACEHOLDER) -->
+      <!-- TAB 7: LESSON 1 STUDY COMPANION -->
+      <section id="panel-studycompanion" role="tabpanel" aria-labelledby="tab-studycompanion" class="tab-content hidden space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <h2 class="text-2xl font-black text-slate-900">Lesson 1 Study Companion</h2>
+          <p class="text-slate-500 text-sm mt-1">Interactive review companion covering Day 1 cloud computing foundations.</p>
+        </div>
+
+        <div class="text-center py-12 max-w-xl mx-auto space-y-6">
+          <div class="bg-indigo-50 text-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl" aria-hidden="true">📚</div>
+          <div class="space-y-2">
+            <h3 class="text-xl font-extrabold text-slate-900">Lesson 1: Foundations of Cloud Computing</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Review key terms, concepts, and self-check exercises tailored to reinforce Day 1 material.
+            </p>
+          </div>
+          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-left">
+            <span class="font-bold text-emerald-700 block mb-1">Ready to View</span>
+            <span class="text-emerald-600">Study companion is live and ready for review.</span>
+          </div>
+          <a href="https://cwiggins-blinn-edu.github.io/ITNW-1009/Lesson_1_study_companion.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
+            <span>Launch Study Companion</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- TAB 8: MOCK EXAM PORTAL GATEWAY (LINK PLACEHOLDER) -->
       <section id="panel-exam" role="tabpanel" aria-labelledby="tab-exam" class="tab-content hidden space-y-6">
         <div class="border-b border-slate-200 pb-4">
           <h2 class="text-2xl font-black text-slate-900">AWS Practice Certification Hub</h2>
