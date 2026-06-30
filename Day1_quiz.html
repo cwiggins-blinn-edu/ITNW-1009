@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courseware Player | Cloud Concepts & AWS Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar to match dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+        /* Style focus rings nicely for accessibility */
+        *:focus-visible {
+            outline: 3px solid #6366f1;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans overflow-hidden select-none">
+
+    <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between shrink-0 shadow-lg">
+        <div class="flex items-center space-x-4">
+            <div class="p-2.5 bg-brand-600 rounded-xl text-white shadow-md shadow-brand-500/20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5 5 0 00-4.591-2.941A1.39 1.39 0 0011 7.53V11H7.53c-.3 0-.57.17-.7.44a.97.97 0 00.17 1.06l3.5 3.5c.39.39 1.02.39 1.41 0l3.5-3.5a.97.97 0 00.17-1.06.73.73 0 00-.7-.44H13V7.53C13 6.13 11.87 5 10.47 5c-1.22 0-2.25.86-2.47 2.05A6.002 6.002 0 003 15z" />
+                </svg>
+            </div>
+            <div>
+                <span class="text-xs uppercase font-semibold tracking-wider text-brand-500">ITNW 1009 — Day 1 Package</span>
+                <h1 class="text-xl font-bold text-white tracking-tight">Cloud Concepts, Deployment Models & AWS Value Proposition</h1>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="hidden md:flex flex-col text-right">
+                <span class="text-xs text-slate-400 font-medium">Session Timeline Flow</span>
+                <span class="text-sm font-semibold text-slate-200">12:00 PM – 3:30 PM (3.5 Hours)</span>
+            </div>
+            <div class="px-3 py-1.5 bg-slate-900 rounded-lg border border-slate-700 text-xs font-mono text-emerald-400 flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Self-Contained Offline Engine</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden h-full">
+
+        <nav class="w-80 bg-slate-800 border-r border-slate-700 flex flex-col justify-between shrink-0" aria-label="Course Sections">
+            <div class="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-160px)]">
+                <span class="px-2 text-xs uppercase font-bold text-slate-500 tracking-widest block mb-2">Learning Path Tabs</span>
+                
+                <button onclick="switchTab('overview-tab', this)" class="nav-btn active flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left transition-all duration-150 bg-brand-600 text-white shadow-lg shadow-brand-600/10">
+                    <span class="text-lg">📋</span>
+                    <span>Course Overview & Goals</span>
+                </button>
+
+                <button onclick="switchTab('lecture-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
+                    <span class="text-lg">👨‍🏫</span>
+                    <span>Interactive Lecture Slides</span>
+                </button>
+
+                <button onclick="switchTab('sandbox-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
+                    <span class="text-lg">🛡️</span>
+                    <span>NIST CapEx Scenario Sandbox</span>
+                </button>
+
+                <button onclick="switchTab('labs-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
+                    <span class="text-lg">🧪</span>
+                    <span>Guided Laboratory Protocol</span>
+                </button>
+
+                <button onclick="switchTab('quiz-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
+                    <span class="text-lg">🎯</span>
+                    <span>Interactive Exam Practice</span>
+                </button>
+            </div>
+
+            <div class="p-4 border-t border-slate-700 bg-slate-900/60 text-xs text-slate-400 space-y-2">
+                <span class="font-bold uppercase tracking-wider text-slate-500 block">Today's Class Agenda</span>
+                <div class="space-y-1 font-mono">
+                    <div class="flex justify-between text-slate-300"><span>12:00-1:15</span> <span>Lecture (75m)</span></div>
+                    <div class="flex justify-between text-slate-500"><span>1:15-1:30</span> <span>Break (15m)</span></div>
+                    <div class="flex justify-between text-slate-300"><span>1:30-2:45</span> <span>Hands-on Lab (75m)</span></div>
+                    <div class="flex justify-between text-slate-500"><span>2:45-3:00</span> <span>Break (15m)</span></div>
+                    <div class="flex justify-between text-slate-300"><span>3:00-3:30</span> <span>Debrief & Quiz (30m)</span></div>
+                </div>
+            </div>
+        </nav>
+
+        <main id="workspace-panel" class="flex-1 overflow-y-auto bg-slate-900 p-8 relative">
+
+            <section id="overview-tab" class="tab-content space-y-8 animate-fadeIn">
+                <div class="bg-gradient-to-r from-brand-900 to-slate-800 p-8 rounded-3xl border border-slate-700 shadow-xl">
+                    <h2 class="text-3xl font-extrabold text-white mb-2">Welcome to ITNW 1009 Day 1 Curriculum</h2>
+                    <p class="text-slate-300 text-lg max-w-3xl leading-relaxed">
+                        This digital package houses a full vocational course lesson designed for career-transitioning adult learners. Use the menu on the left to toggle through the interactive instructional modules.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <span>🎯</span> <span>Core Learning Objectives</span>
+                        </h3>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Define:</strong> Define cloud computing and distinguish clearly between public, private, and hybrid deployment models based on compliance and scalability demands.</span></li>
+                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Explain:</strong> Contrast the operational expenditure (OpEx) model against traditional capital expenditures (CapEx), highlighting the six major cloud values.</span></li>
+                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Navigate:</strong> Access and correctly orient within the AWS Management Console to trace fundamental account usage and billing indicators.</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+                            <span>📚</span> <span>Core Vocabulary Terms Covered</span>
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">On-demand self-service</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Broad network access</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Resource pooling</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Rapid elasticity</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Measured service</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">CapEx vs OpEx</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Under-provisioning</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Over-provisioning</span>
+                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Cloud Adoption Framework</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lecture-tab" class="tab-content hidden space-y-6 animate-fadeIn">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-white">Day 1 Core Lecture Interactive Slide Framework</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="prevSlide()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:bg-slate-700">Previous</button>
+                        <span id="slide-indicator" class="px-4 py-2 bg-slate-900 font-mono text-brand-400 border border-slate-700 rounded-lg">Slide 1 / 4</span>
+                        <button onclick="nextSlide()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:bg-slate-700">Next</button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-2xl min-h-[480px] flex flex-col justify-between">
+                    
+                    <div id="slide-1" class="slide-pane space-y-6">
+                        <div class="border-b border-slate-700 pb-3">
+                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 1: Foundations of Cloud Tech</span>
+                            <h3 class="text-2xl font-extrabold text-white">What is Cloud Computing & Physical Abstraction?</h3>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-base">
+                            Cloud computing shifts our engineering from treating physical machines as single inflexible hardware nodes to treating resources completely as fluid software components. Instead of running a long procurement track to purchase physical racks, servers, switches, and HVAC solutions, cloud platforms give us on-demand compute capability delivered programmatically over the web.
+                        </p>
+                        
+                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
+                            [Alt Text Description for screen readers: Diagram showing physical hardware layer at bottom (CPU, Memory, Storage) with a hypervisor software boundary on top of it. This hypervisor splits the underlying hardware assets seamlessly into virtual machines, which are controlled programmatically by users over the web interface.]
+                        </div>
+                    </div>
+
+                    <div id="slide-2" class="slide-pane hidden space-y-6">
+                        <div class="border-b border-slate-700 pb-3">
+                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 2: Deployment Paradigms</span>
+                            <h3 class="text-2xl font-extrabold text-white">Deployment Frameworks: Public, Private, and Hybrid Clouds</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <h4 class="font-bold text-emerald-400 mb-2">1. Public Cloud</h4>
+                                <p class="text-slate-400">Resources owned and fully maintained by third-party hyper-scalers (like AWS). Multi-tenant multi-region systems serving developers dynamically over open paths.</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <h4 class="font-bold text-amber-400 mb-2">2. Private Cloud</h4>
+                                <p class="text-slate-400">Infrastructure built exclusively for a single entity. Offers extreme hardware governance and localized single-tenant ownership but incurs heavy upfront structural maintenance burdens.</p>
+                            </div>
+                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                <h4 class="font-bold text-indigo-400 mb-2">3. Hybrid Cloud</h4>
+                                <p class="text-slate-400">Bridging on-premises or private infrastructure with public cloud structures. Allows organizations to lock regulated core databases locally while spinning elastic customer apps publicly.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
+                            [Alt Text Description for screen readers: Strategic flowchart showing a commercial banking application running its secure client ledger in an isolated local corporate on-premises center while using a secure cloud gateway tunnel to host its public banking web interface on elastic AWS web instances.]
+                        </div>
+                    </div>
+
+                    <div id="slide-3" class="slide-pane hidden space-y-6">
+                        <div class="border-b border-slate-700 pb-3">
+                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 3: Financial Transformations</span>
+                            <h3 class="text-2xl font-extrabold text-white">Financial Shifts: Capital Expenditure vs. Operational Expenditure</h3>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-base">
+                            Traditional computing relies strictly on <strong>Capital Expenditure (CapEx)</strong>, requiring companies to spend massive upfront funds on hardware infrastructure before ever running a single live code system. Cloud structures transform this into <strong>Operational Expenditure (OpEx)</strong>, letting teams pay for services continuously based strictly on what they scale and consume.
+                        </p>
+                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
+                            [Alt Text Description for screen readers: Financial comparison grid table comparing CapEx and OpEx. Column A shows CapEx requiring millions in upfront capital for servers, physical facilities, and space, resulting in over-provisioned idle systems. Column B highlights OpEx showing zero initial cost with monthly utility charges aligned to active software utilization.]
+                        </div>
+                    </div>
+
+                    <div id="slide-4" class="slide-pane hidden space-y-6">
+                        <div class="border-b border-slate-700 pb-3">
+                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 4: The Six Pillars of AWS Advantage</span>
+                            <h3 class="text-2xl font-extrabold text-white">The Six Essential Advantages of Cloud Architectures</h3>
+                        </div>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-300">
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>1. Trade Capital Expense for Variable Expense:</strong> Pay for services only when consumed.</li>
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>2. Benefit from Massive Economies of Scale:</strong> Lower pay-as-you-go pricing achieved through multi-tenant volume.</li>
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>3. Stop Guessing Capacity:</strong> Eliminate risk of system crashes or expensive infrastructure overheads.</li>
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>4. Increase Speed and Agility:</strong> Instantly provision critical server assets within minutes with API calls.</li>
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>5. Stop Spending Money Maintaining Data Centers:</strong> Focus on core software applications instead of physical management.</li>
+                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>6. Go Global in Minutes:</strong> Deploy resources seamlessly to multiple worldwide regions instantly.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-700 bg-slate-900/50 p-4 rounded-xl">
+                        <h4 class="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2 flex items-center space-x-2">
+                            <span>📣</span> <span>Professor's Script & Instructional Guide Narrative</span>
+                        </h4>
+                        <p id="professor-script-text" class="text-sm text-slate-300 italic leading-relaxed">
+                            "Let's ground our foundational understanding here, team. When we contrast traditional physical configurations against cloud structures, think about renting a residential property versus building an entire apartment complex from scratch. The hypervisor acts as our orchestration boundary layer, taking raw processors, memory infrastructure, and disk volumes, and partitioning them out to different apps seamlessly."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sandbox-tab" class="tab-content hidden space-y-6 animate-fadeIn">
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-2xl font-bold text-white mb-2">NIST Core Cloud Architecture Sandbox</h2>
+                    <p class="text-slate-400 text-sm">
+                        Simulate how on-premises infrastructure handles modern application workloads compared to an elastic public cloud model. Use the interactives below to test system spikes and visualize capacity provisioning trade-offs.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
+                        <h3 class="text-lg font-bold text-white">1. Choose a Scenario Event</h3>
+                        <div class="space-y-2">
+                            <button onclick="runSimulation('normal')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
+                                <div class="font-bold text-slate-200">Steady State Baseline Workload</div>
+                                <div class="text-xs text-slate-400">Regular user traffic requires 2 computing instances.</div>
+                            </button>
+                            <button onclick="runSimulation('spike')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
+                                <div class="font-bold text-amber-400">Flash Sale Traffic Spike (+500%)</div>
+                                <div class="text-xs text-slate-400">Traffic spikes up instantly. Demands 10 computing instances.</div>
+                            </button>
+                            <button onclick="runSimulation('crash')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
+                                <div class="font-bold text-rose-400">Severe Resource Crash Event</div>
+                                <div class="text-xs text-slate-400">Under-provisioned physical hardware failures lock infrastructure paths.</div>
+                            </button>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-700 space-y-2">
+                            <span class="text-xs font-bold text-slate-400 block uppercase">Real-Time Provisioning Status</span>
+                            <div class="p-3 bg-slate-900 rounded-lg font-mono text-xs space-y-1">
+                                <div class="flex justify-between"><span>Active Servers:</span> <span id="stat-servers" class="text-brand-400">2 Nodes</span></div>
+                                <div class="flex justify-between"><span>Financial Expense Model:</span> <span id="stat-financial" class="text-slate-300">Baseline OpEx Only</span></div>
+                                <div class="flex justify-between"><span>System Performance:</span> <span id="stat-perf" class="text-emerald-400">Stable 100% Availability</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold text-white flex items-center justify-between">
+                                <span>2. Provisioning Architecture Visualizer Matrix</span>
+                                <span class="text-xs font-mono px-2 py-1 bg-slate-900 rounded border border-slate-700 text-slate-400">Active State Grid View</span>
+                            </h3>
+                            
+                            <div id="simulation-matrix-grid" class="grid grid-cols-5 gap-3 p-4 bg-slate-900 rounded-xl min-h-[220px] items-center justify-center border border-slate-700" aria-live="polite">
+                                </div>
+                        </div>
+
+                        <div id="sim-feedback-panel" class="mt-4 p-4 bg-brand-900/40 border border-brand-700/50 rounded-xl text-sm text-slate-300">
+                            Select a scenario workload event on the left side to analyze live cloud scaling and view distractor mechanics.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="labs-tab" class="tab-content hidden space-y-6 animate-fadeIn">
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-2xl font-bold text-white mb-2">Day 1 Lab Guide: AWS Core Console Orientation & Billing Check</h2>
+                    <p class="text-slate-400 text-sm">
+                        Follow this step-by-step vocational training workflow to configure account monitoring alerts and trace system resource limits.
+                    </p>
+                </div>
+
+                <div class="space-y-4 max-w-4xl">
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
+                        <h3 class="text-base font-bold text-white mb-2">Task 1: Accessing the AWS Management Console Interface</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Navigate directly to your designated AWS Academy lab workspace URL provided by your professor. Launch your environment to generate active temporary IAM developer credentials, then click <strong>AWS Console</strong> to initialize your dashboard workspace panel interface securely.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
+                        <h3 class="text-base font-bold text-white mb-2">Task 2: Navigating to the Billing and Cost Management Dashboard</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Locate the unified Global Search input box at the top header area of the management console screen. Input <code>Billing</code> into the search prompt field and select the matching option. Locate the <strong>Billing Dashboard</strong> view screen to verify your running system variable expenses and ongoing cost drivers.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
+                        <h3 class="text-base font-bold text-white mb-2">Task 3: Setting Up a Zero-Spend Budget Alert with AWS Budgets</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Inside the Billing navigation sidebar, locate and click on <strong>Budgets</strong>. Select <strong>Create budget</strong>, choose the <strong>Cost budget (Recommended)</strong> template option, set the threshold amount metric directly to <code>$0.00</code>, and bind your institutional academic email routing address. This creates an immediate system notification baseline when your instances consume billable assets.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-emerald-950/40 border border-emerald-800/60 rounded-xl flex items-start space-x-3">
+                        <span class="text-lg">💡</span>
+                        <div class="text-xs text-slate-300 leading-relaxed">
+                            <strong>Vocational Alignment Note:</strong> In industry enterprise work environments, initializing infrastructure without binding monitoring alerts and budgets can cause rapid, unmonitored budget depletion. Setting up basic cost safeguards on day one is standard corporate operational protocol.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quiz-tab" class="tab-content hidden space-y-6 animate-fadeIn">
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-2xl font-bold text-white mb-1">Interactive Certification Knowledge Check</h2>
+                    <p class="text-slate-400 text-sm">
+                        Analyze and answer the industry-aligned questions below. Receive instantaneous validation feedback, total grading analytics scores, and extended distractor explanations.
+                    </p>
+                </div>
+
+                <form id="quiz-form" onsubmit="gradeQuiz(event)" class="space-y-6 max-w-4xl">
+                    
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+                        <fieldset>
+                            <legend class="text-base font-bold text-white leading-relaxed">
+                                1. An organization needs to build out an environment while maintaining strict localized hardware isolation and total capital governance over its files. Which deployment framework matches this?
+                            </legend>
+                            <div class="mt-3 space-y-2 text-sm text-slate-300">
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q1" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>A) Public Cloud Deployment</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q1" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>B) Private Cloud Deployment</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q1" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>C) Hybrid Cloud Architecture</span>
+                                </label>
+                            </div>
+                            <div id="feedback-q1" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
+                        </fieldset>
+                    </div>
+
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+                        <fieldset>
+                            <legend class="text-base font-bold text-white leading-relaxed">
+                                2. Which NIST cloud characteristic describes the ability of a customer to automatically provision computing resources, such as server time and network storage, as needed without requiring human interaction with the service provider?
+                            </legend>
+                            <div class="mt-3 space-y-2 text-sm text-slate-300">
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q2" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>A) Rapid Elasticity</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q2" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>B) On-demand self-service</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q2" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>C) Resource pooling</span>
+                                </label>
+                            </div>
+                            <div id="feedback-q2" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
+                        </fieldset>
+                    </div>
+
+                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+                        <fieldset>
+                            <legend class="text-base font-bold text-white leading-relaxed">
+                                3. Why is cloud infrastructure fundamentally more economical than traditional physical data centers for running software systems with highly volatile workloads?
+                            </legend>
+                            <div class="mt-3 space-y-2 text-sm text-slate-300">
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q3" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>A) Cloud providers require heavy long-term upfront contract bindings to authorize compute allocations.</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q3" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>B) Systems can scale instances dynamically on-demand, matching resource spend to active live traffic.</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
+                                    <input type="radio" name="q3" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
+                                    <span>C) Cloud systems completely bypass the need to implement user network access security groups.</span>
+                                </label>
+                            </div>
+                            <div id="feedback-q3" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
+                        </fieldset>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <button type="submit" class="px-6 py-3 bg-brand-600 text-white font-bold rounded-xl shadow-lg hover:bg-brand-700 focus:outline-none focus:ring-4 focus:ring-brand-500 transition-all">
+                            Submit Exam Answers for Review
+                        </button>
+                        <div id="quiz-score-tally" class="hidden text-lg font-mono font-bold text-brand-400" aria-live="polite"></div>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Tab switching engine
+        function switchTab(tabId, buttonElement) {
+            // Hide all tab content panes
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            // Show target pane
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Reset navigation menu styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/10');
+                btn.classList.add('text-slate-400');
+            });
+            // Apply active styles to clicked node
+            buttonElement.classList.remove('text-slate-400');
+            buttonElement.classList.add('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/10');
+        }
+
+        // Slides Deck Navigation Framework
+        let currentSlideIndex = 1;
+        const totalSlides = 4;
+        const scripts = [
+            "Let's ground our foundational understanding here, team. When we contrast traditional physical configurations against cloud structures, think about renting a residential property versus building an entire apartment complex from scratch. The hypervisor acts as our orchestration boundary layer, taking raw processors, memory infrastructure, and disk volumes, and partitioning them out to different apps seamlessly.",
+            "Analyze these three models carefully. When you interview for enterprise positions, banks will almost universally highlight a Hybrid setup. They maintain customer checking accounts on private internal databases behind legacy hardware structures, but run their public marketing landing pages on AWS EC2 servers to capture traffic bursts comfortably.",
+            "Keep the financial distinction clear. CapEx means spending thousands upfront on concrete, racks, cooling, and network cables before running a single process. OpEx means paying a monthly bill tailored directly to your usage. If you turn off your systems over the weekend, your active cloud usage charge drops to zero.",
+            "Memorize these six core advantages for your certification tracking. The main value driver is stopping the guessing game of tracking physical data maximums. Instead of paying for hundreds of idle data nodes just to survive a Black Friday surge, you scale automatically using rapid elasticity models."
+        ];
+
+        function updateSlideView() {
+            document.querySelectorAll('.slide-pane').forEach((pane, idx) => {
+                if (idx + 1 === currentSlideIndex) {
+                    pane.classList.remove('hidden');
+                } else {
+                    pane.classList.add('hidden');
+                }
+            });
+            document.getElementById('slide-indicator').innerText = `Slide ${currentSlideIndex} / ${totalSlides}`;
+            document.getElementById('professor-script-text').innerText = scripts[currentSlideIndex - 1];
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides) {
+                currentSlideIndex++;
+                updateSlideView();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 1) {
+                currentSlideIndex--;
+                updateSlideView();
+            }
+        }
+
+        // Interactive Sandbox Widget Logic Engine
+        function runSimulation(type) {
+            const grid = document.getElementById('simulation-matrix-grid');
+            const serversStat = document.getElementById('stat-servers');
+            const financialStat = document.getElementById('stat-financial');
+            const perfStat = document.getElementById('stat-perf');
+            const fbPanel = document.getElementById('sim-feedback-panel');
+
+            grid.innerHTML = ''; // Clear viewport
+
+            if (type === 'normal') {
+                // Injected SVG server nodes representing normal scale
+                for (let i = 0; i < 2; i++) {
+                    grid.innerHTML += `<div class="p-3 bg-emerald-950/80 border border-emerald-500 rounded-lg text-center font-mono text-xs text-emerald-400 animate-pulse">⚡ Server Node</div>`;
+                }
+                for (let i = 0; i < 8; i++) {
+                    grid.innerHTML += `<div class="p-3 bg-slate-800/40 border border-slate-700/40 rounded-lg text-center font-mono text-xs text-slate-600">Off / Idle</div>`;
+                }
+                serversStat.innerText = "2 Active Nodes";
+                financialStat.innerText = "Baseline Variable OpEx";
+                perfStat.innerText = "Stable (100% Available)";
+                perfStat.className = "text-emerald-400 font-bold";
+                fbPanel.innerHTML = "<strong>Steady State Analysis:</strong> The public cloud allocates exactly 2 server instances to handle standard base customer transactions. Expenses remain minimal since you don't pay for empty physical headroom.";
+            } else if (type === 'spike') {
+                for (let i = 0; i < 10; i++) {
+                    grid.innerHTML += `<div class="p-3 bg-indigo-950 border border-brand-500 rounded-lg text-center font-mono text-xs text-indigo-300 animate-bounce">🚀 Scaled Node</div>`;
+                }
+                serversStat.innerText = "10 Active Nodes";
+                financialStat.innerText = "Spike Scale OpEx (Temporary)";
+                perfStat.innerText = "Stable (Elastic Growth)";
+                perfStat.className = "text-brand-400 font-bold";
+                fbPanel.innerHTML = "<strong>Flash Sale Analysis:</strong> NIST Rapid Elasticity allows the framework to scale out to 10 instances instantaneously. The workload survives the traffic surge safely, and the bill scales back down once traffic normalized.";
+            } else if (type === 'crash') {
+                for (let i = 0; i < 2; i++) {
+                    grid.innerHTML += `<div class="p-3 bg-rose-950 border border-rose-600 rounded-lg text-center font-mono text-xs text-rose-400">💥 Crashed Node</div>`;
+                }
+                for (let i = 0; i < 8; i++) {
+                    grid.innerHTML += `<div class="p-3 bg-slate-900 border border-slate-800 rounded-lg text-center font-mono text-xs text-slate-700">Unavailable</div>`;
+                }
+                serversStat.innerText = "2 Broken Nodes";
+                financialStat.innerText = "CapEx Lost Overheads";
+                perfStat.innerText = "System Failure (Outage)";
+                perfStat.className = "text-rose-500 font-bold";
+                fbPanel.innerHTML = "<strong>Crash Analysis:</strong> Under-provisioning on physical hardware means traffic spikes overwhelm resources, crashing the site. Conversely, buying 10 physical machines to prevent this would create massive CapEx waste during normal hours.";
+            }
+        }
+
+        // Initialize default sandbox view
+        runSimulation('normal');
+
+        // Interactive Quiz Self-Grading Engine
+        function gradeQuiz(event) {
+            event.preventDefault();
+            let score = 0;
+
+            const answers = { q1: 'B', q2: 'B', q3: 'B' };
+            const rationales = {
+                q1: {
+                    correct: 'B',
+                    text: "Correct! Private clouds are single-tenant environments completely owned and run by one specific company, ensuring absolute hardware governance. Public cloud is multi-tenant, while Hybrid mixes both worlds."
+                },
+                q2: {
+                    correct: 'B',
+                    text: "Correct! On-demand self-service defines the automated capability allowing developers to provision services without manual interaction from the cloud vendor. Rapid Elasticity focuses on scaling sizing up and down."
+                },
+                q3: {
+                    correct: 'B',
+                    text: "Correct! The cloud turns fixed capacity limits into a fluid utility cost. Instances can spin up automatically to handle traffic spikes and disappear when traffic decreases, preventing financial waste."
+                }
+            };
+
+            // Process Question 1
+            const q1Val = document.querySelector('input[name="q1"]:checked')?.value;
+            const f1 = document.getElementById('feedback-q1');
+            f1.classList.remove('hidden');
+            if (q1Val === answers.q1) {
+                score++;
+                f1.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
+                f1.innerText = rationales.q1.text;
+            } else {
+                f1.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
+                f1.innerText = "Incorrect. " + rationales.q1.text;
+            }
+
+            // Process Question 2
+            const q2Val = document.querySelector('input[name="q2"]:checked')?.value;
+            const f2 = document.getElementById('feedback-q2');
+            f2.classList.remove('hidden');
+            if (q2Val === answers.q2) {
+                score++;
+                f2.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
+                f2.innerText = rationales.q2.text;
+            } else {
+                f2.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
+                f2.innerText = "Incorrect. " + rationales.q2.text;
+            }
+
+            // Process Question 3
+            const q3Val = document.querySelector('input[name="q3"]:checked')?.value;
+            const f3 = document.getElementById('feedback-q3');
+            f3.classList.remove('hidden');
+            if (q3Val === answers.q3) {
+                score++;
+                f3.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
+                f3.innerText = rationales.q3.text;
+            } else {
+                f3.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
+                f3.innerText = "Incorrect. " + rationales.q3.text;
+            }
+
+            // Display Final Aggregated Tally Score
+            const tally = document.getElementById('quiz-score-tally');
+            tally.classList.remove('hidden');
+            tally.innerText = `Final Score Tally: ${score} / 3 Correct`;
+        }
+    </script>
+</body>
+</html>
