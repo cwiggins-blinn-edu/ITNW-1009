@@ -1,607 +1,1275 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courseware Player | Cloud Concepts & AWS Overview</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
-                        }
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITNW 1009: Day 1 Courseware Quiz Portal</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts (Inter / Noto Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
             }
+          }
         }
-    </script>
-    <style>
-        /* Custom scrollbar to match dark theme */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
-        }
-        /* Style focus rings nicely for accessibility */
-        *:focus-visible {
-            outline: 3px solid #6366f1;
-            outline-offset: 2px;
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    /* Premium custom scrollbar styles */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4f46e5;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4338ca;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.5; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(0.95); opacity: 0.5; }
+    }
+    .active-pulse {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+  </style>
 </head>
-<body class="h-full flex flex-col font-sans overflow-hidden select-none">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-    <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between shrink-0 shadow-lg">
-        <div class="flex items-center space-x-4">
-            <div class="p-2.5 bg-brand-600 rounded-xl text-white shadow-md shadow-brand-500/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5 5 0 00-4.591-2.941A1.39 1.39 0 0011 7.53V11H7.53c-.3 0-.57.17-.7.44a.97.97 0 00.17 1.06l3.5 3.5c.39.39 1.02.39 1.41 0l3.5-3.5a.97.97 0 00.17-1.06.73.73 0 00-.7-.44H13V7.53C13 6.13 11.87 5 10.47 5c-1.22 0-2.25.86-2.47 2.05A6.002 6.002 0 003 15z" />
-                </svg>
-            </div>
-            <div>
-                <span class="text-xs uppercase font-semibold tracking-wider text-brand-500">ITNW 1009 — Day 1 Package</span>
-                <h1 class="text-xl font-bold text-white tracking-tight">Cloud Concepts, Deployment Models & AWS Value Proposition</h1>
-            </div>
+  <!-- Courseware Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-md shadow-brand-500/20 flex items-center justify-center">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
         </div>
-        <div class="flex items-center space-x-4">
-            <div class="hidden md:flex flex-col text-right">
-                <span class="text-xs text-slate-400 font-medium">Session Timeline Flow</span>
-                <span class="text-sm font-semibold text-slate-200">12:00 PM – 3:30 PM (3.5 Hours)</span>
-            </div>
-            <div class="px-3 py-1.5 bg-slate-900 rounded-lg border border-slate-700 text-xs font-mono text-emerald-400 flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Self-Contained Offline Engine</span>
-            </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">AWS Academy Foundations</span>
+          <h1 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white leading-tight">ITNW 1009 • Courseware Interactive Quiz</h1>
         </div>
-    </header>
+      </div>
 
-    <div class="flex flex-1 overflow-hidden h-full">
+      <div class="flex items-center space-x-3">
+        <!-- Interactive Mode Toggle Info -->
+        <span id="nav-mode-badge" class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+          <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span>
+          Study Mode Enabled
+        </span>
 
-        <nav class="w-80 bg-slate-800 border-r border-slate-700 flex flex-col justify-between shrink-0" aria-label="Course Sections">
-            <div class="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-160px)]">
-                <span class="px-2 text-xs uppercase font-bold text-slate-500 tracking-widest block mb-2">Learning Path Tabs</span>
-                
-                <button onclick="switchTab('overview-tab', this)" class="nav-btn active flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left transition-all duration-150 bg-brand-600 text-white shadow-lg shadow-brand-600/10">
-                    <span class="text-lg">📋</span>
-                    <span>Course Overview & Goals</span>
-                </button>
+        <!-- Dark/Light Mode Toggle Button -->
+        <button id="theme-toggle" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 transition" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+          <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
+        </button>
 
-                <button onclick="switchTab('lecture-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
-                    <span class="text-lg">👨‍🏫</span>
-                    <span>Interactive Lecture Slides</span>
-                </button>
-
-                <button onclick="switchTab('sandbox-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
-                    <span class="text-lg">🛡️</span>
-                    <span>NIST CapEx Scenario Sandbox</span>
-                </button>
-
-                <button onclick="switchTab('labs-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
-                    <span class="text-lg">🧪</span>
-                    <span>Guided Laboratory Protocol</span>
-                </button>
-
-                <button onclick="switchTab('quiz-tab', this)" class="nav-btn flex items-center space-x-3 w-full px-4 py-3 rounded-xl font-medium text-left text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150">
-                    <span class="text-lg">🎯</span>
-                    <span>Interactive Exam Practice</span>
-                </button>
-            </div>
-
-            <div class="p-4 border-t border-slate-700 bg-slate-900/60 text-xs text-slate-400 space-y-2">
-                <span class="font-bold uppercase tracking-wider text-slate-500 block">Today's Class Agenda</span>
-                <div class="space-y-1 font-mono">
-                    <div class="flex justify-between text-slate-300"><span>12:00-1:15</span> <span>Lecture (75m)</span></div>
-                    <div class="flex justify-between text-slate-500"><span>1:15-1:30</span> <span>Break (15m)</span></div>
-                    <div class="flex justify-between text-slate-300"><span>1:30-2:45</span> <span>Hands-on Lab (75m)</span></div>
-                    <div class="flex justify-between text-slate-500"><span>2:45-3:00</span> <span>Break (15m)</span></div>
-                    <div class="flex justify-between text-slate-300"><span>3:00-3:30</span> <span>Debrief & Quiz (30m)</span></div>
-                </div>
-            </div>
-        </nav>
-
-        <main id="workspace-panel" class="flex-1 overflow-y-auto bg-slate-900 p-8 relative">
-
-            <section id="overview-tab" class="tab-content space-y-8 animate-fadeIn">
-                <div class="bg-gradient-to-r from-brand-900 to-slate-800 p-8 rounded-3xl border border-slate-700 shadow-xl">
-                    <h2 class="text-3xl font-extrabold text-white mb-2">Welcome to ITNW 1009 Day 1 Curriculum</h2>
-                    <p class="text-slate-300 text-lg max-w-3xl leading-relaxed">
-                        This digital package houses a full vocational course lesson designed for career-transitioning adult learners. Use the menu on the left to toggle through the interactive instructional modules.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
-                            <span>🎯</span> <span>Core Learning Objectives</span>
-                        </h3>
-                        <ul class="space-y-3 text-slate-300 text-sm">
-                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Define:</strong> Define cloud computing and distinguish clearly between public, private, and hybrid deployment models based on compliance and scalability demands.</span></li>
-                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Explain:</strong> Contrast the operational expenditure (OpEx) model against traditional capital expenditures (CapEx), highlighting the six major cloud values.</span></li>
-                            <li class="flex items-start"><span class="text-brand-500 mr-2">✔</span> <span><strong>Navigate:</strong> Access and correctly orient within the AWS Management Console to trace fundamental account usage and billing indicators.</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
-                            <span>📚</span> <span>Core Vocabulary Terms Covered</span>
-                        </h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">On-demand self-service</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Broad network access</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Resource pooling</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Rapid elasticity</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Measured service</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">CapEx vs OpEx</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Under-provisioning</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Over-provisioning</span>
-                            <span class="px-3 py-1 bg-slate-900 rounded-lg text-xs font-mono text-brand-400 border border-slate-700">Cloud Adoption Framework</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="lecture-tab" class="tab-content hidden space-y-6 animate-fadeIn">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-white">Day 1 Core Lecture Interactive Slide Framework</h2>
-                    <div class="flex space-x-2">
-                        <button onclick="prevSlide()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:bg-slate-700">Previous</button>
-                        <span id="slide-indicator" class="px-4 py-2 bg-slate-900 font-mono text-brand-400 border border-slate-700 rounded-lg">Slide 1 / 4</span>
-                        <button onclick="nextSlide()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg border border-slate-700 hover:bg-slate-700">Next</button>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-2xl min-h-[480px] flex flex-col justify-between">
-                    
-                    <div id="slide-1" class="slide-pane space-y-6">
-                        <div class="border-b border-slate-700 pb-3">
-                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 1: Foundations of Cloud Tech</span>
-                            <h3 class="text-2xl font-extrabold text-white">What is Cloud Computing & Physical Abstraction?</h3>
-                        </div>
-                        <p class="text-slate-300 leading-relaxed text-base">
-                            Cloud computing shifts our engineering from treating physical machines as single inflexible hardware nodes to treating resources completely as fluid software components. Instead of running a long procurement track to purchase physical racks, servers, switches, and HVAC solutions, cloud platforms give us on-demand compute capability delivered programmatically over the web.
-                        </p>
-                        
-                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
-                            [Alt Text Description for screen readers: Diagram showing physical hardware layer at bottom (CPU, Memory, Storage) with a hypervisor software boundary on top of it. This hypervisor splits the underlying hardware assets seamlessly into virtual machines, which are controlled programmatically by users over the web interface.]
-                        </div>
-                    </div>
-
-                    <div id="slide-2" class="slide-pane hidden space-y-6">
-                        <div class="border-b border-slate-700 pb-3">
-                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 2: Deployment Paradigms</span>
-                            <h3 class="text-2xl font-extrabold text-white">Deployment Frameworks: Public, Private, and Hybrid Clouds</h3>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                                <h4 class="font-bold text-emerald-400 mb-2">1. Public Cloud</h4>
-                                <p class="text-slate-400">Resources owned and fully maintained by third-party hyper-scalers (like AWS). Multi-tenant multi-region systems serving developers dynamically over open paths.</p>
-                            </div>
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                                <h4 class="font-bold text-amber-400 mb-2">2. Private Cloud</h4>
-                                <p class="text-slate-400">Infrastructure built exclusively for a single entity. Offers extreme hardware governance and localized single-tenant ownership but incurs heavy upfront structural maintenance burdens.</p>
-                            </div>
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                                <h4 class="font-bold text-indigo-400 mb-2">3. Hybrid Cloud</h4>
-                                <p class="text-slate-400">Bridging on-premises or private infrastructure with public cloud structures. Allows organizations to lock regulated core databases locally while spinning elastic customer apps publicly.</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
-                            [Alt Text Description for screen readers: Strategic flowchart showing a commercial banking application running its secure client ledger in an isolated local corporate on-premises center while using a secure cloud gateway tunnel to host its public banking web interface on elastic AWS web instances.]
-                        </div>
-                    </div>
-
-                    <div id="slide-3" class="slide-pane hidden space-y-6">
-                        <div class="border-b border-slate-700 pb-3">
-                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 3: Financial Transformations</span>
-                            <h3 class="text-2xl font-extrabold text-white">Financial Shifts: Capital Expenditure vs. Operational Expenditure</h3>
-                        </div>
-                        <p class="text-slate-300 leading-relaxed text-base">
-                            Traditional computing relies strictly on <strong>Capital Expenditure (CapEx)</strong>, requiring companies to spend massive upfront funds on hardware infrastructure before ever running a single live code system. Cloud structures transform this into <strong>Operational Expenditure (OpEx)</strong>, letting teams pay for services continuously based strictly on what they scale and consume.
-                        </p>
-                        <div class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-sm text-slate-400 italic">
-                            [Alt Text Description for screen readers: Financial comparison grid table comparing CapEx and OpEx. Column A shows CapEx requiring millions in upfront capital for servers, physical facilities, and space, resulting in over-provisioned idle systems. Column B highlights OpEx showing zero initial cost with monthly utility charges aligned to active software utilization.]
-                        </div>
-                    </div>
-
-                    <div id="slide-4" class="slide-pane hidden space-y-6">
-                        <div class="border-b border-slate-700 pb-3">
-                            <span class="text-xs uppercase font-mono tracking-widest text-brand-400 font-bold">Slide 4: The Six Pillars of AWS Advantage</span>
-                            <h3 class="text-2xl font-extrabold text-white">The Six Essential Advantages of Cloud Architectures</h3>
-                        </div>
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-300">
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>1. Trade Capital Expense for Variable Expense:</strong> Pay for services only when consumed.</li>
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>2. Benefit from Massive Economies of Scale:</strong> Lower pay-as-you-go pricing achieved through multi-tenant volume.</li>
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>3. Stop Guessing Capacity:</strong> Eliminate risk of system crashes or expensive infrastructure overheads.</li>
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>4. Increase Speed and Agility:</strong> Instantly provision critical server assets within minutes with API calls.</li>
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>5. Stop Spending Money Maintaining Data Centers:</strong> Focus on core software applications instead of physical management.</li>
-                            <li class="bg-slate-900 p-3 rounded-lg border border-slate-700"><strong>6. Go Global in Minutes:</strong> Deploy resources seamlessly to multiple worldwide regions instantly.</li>
-                        </ul>
-                    </div>
-
-                    <div class="mt-6 pt-4 border-t border-slate-700 bg-slate-900/50 p-4 rounded-xl">
-                        <h4 class="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2 flex items-center space-x-2">
-                            <span>📣</span> <span>Professor's Script & Instructional Guide Narrative</span>
-                        </h4>
-                        <p id="professor-script-text" class="text-sm text-slate-300 italic leading-relaxed">
-                            "Let's ground our foundational understanding here, team. When we contrast traditional physical configurations against cloud structures, think about renting a residential property versus building an entire apartment complex from scratch. The hypervisor acts as our orchestration boundary layer, taking raw processors, memory infrastructure, and disk volumes, and partitioning them out to different apps seamlessly."
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="sandbox-tab" class="tab-content hidden space-y-6 animate-fadeIn">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                    <h2 class="text-2xl font-bold text-white mb-2">NIST Core Cloud Architecture Sandbox</h2>
-                    <p class="text-slate-400 text-sm">
-                        Simulate how on-premises infrastructure handles modern application workloads compared to an elastic public cloud model. Use the interactives below to test system spikes and visualize capacity provisioning trade-offs.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
-                        <h3 class="text-lg font-bold text-white">1. Choose a Scenario Event</h3>
-                        <div class="space-y-2">
-                            <button onclick="runSimulation('normal')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
-                                <div class="font-bold text-slate-200">Steady State Baseline Workload</div>
-                                <div class="text-xs text-slate-400">Regular user traffic requires 2 computing instances.</div>
-                            </button>
-                            <button onclick="runSimulation('spike')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
-                                <div class="font-bold text-amber-400">Flash Sale Traffic Spike (+500%)</div>
-                                <div class="text-xs text-slate-400">Traffic spikes up instantly. Demands 10 computing instances.</div>
-                            </button>
-                            <button onclick="runSimulation('crash')" class="w-full text-left p-3 rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all text-sm">
-                                <div class="font-bold text-rose-400">Severe Resource Crash Event</div>
-                                <div class="text-xs text-slate-400">Under-provisioned physical hardware failures lock infrastructure paths.</div>
-                            </button>
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-700 space-y-2">
-                            <span class="text-xs font-bold text-slate-400 block uppercase">Real-Time Provisioning Status</span>
-                            <div class="p-3 bg-slate-900 rounded-lg font-mono text-xs space-y-1">
-                                <div class="flex justify-between"><span>Active Servers:</span> <span id="stat-servers" class="text-brand-400">2 Nodes</span></div>
-                                <div class="flex justify-between"><span>Financial Expense Model:</span> <span id="stat-financial" class="text-slate-300">Baseline OpEx Only</span></div>
-                                <div class="flex justify-between"><span>System Performance:</span> <span id="stat-perf" class="text-emerald-400">Stable 100% Availability</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-2 bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col justify-between">
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-white flex items-center justify-between">
-                                <span>2. Provisioning Architecture Visualizer Matrix</span>
-                                <span class="text-xs font-mono px-2 py-1 bg-slate-900 rounded border border-slate-700 text-slate-400">Active State Grid View</span>
-                            </h3>
-                            
-                            <div id="simulation-matrix-grid" class="grid grid-cols-5 gap-3 p-4 bg-slate-900 rounded-xl min-h-[220px] items-center justify-center border border-slate-700" aria-live="polite">
-                                </div>
-                        </div>
-
-                        <div id="sim-feedback-panel" class="mt-4 p-4 bg-brand-900/40 border border-brand-700/50 rounded-xl text-sm text-slate-300">
-                            Select a scenario workload event on the left side to analyze live cloud scaling and view distractor mechanics.
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="labs-tab" class="tab-content hidden space-y-6 animate-fadeIn">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                    <h2 class="text-2xl font-bold text-white mb-2">Day 1 Lab Guide: AWS Core Console Orientation & Billing Check</h2>
-                    <p class="text-slate-400 text-sm">
-                        Follow this step-by-step vocational training workflow to configure account monitoring alerts and trace system resource limits.
-                    </p>
-                </div>
-
-                <div class="space-y-4 max-w-4xl">
-                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                        <h3 class="text-base font-bold text-white mb-2">Task 1: Accessing the AWS Management Console Interface</h3>
-                        <p class="text-sm text-slate-300 leading-relaxed">
-                            Navigate directly to your designated AWS Academy lab workspace URL provided by your professor. Launch your environment to generate active temporary IAM developer credentials, then click <strong>AWS Console</strong> to initialize your dashboard workspace panel interface securely.
-                        </p>
-                    </div>
-
-                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                        <h3 class="text-base font-bold text-white mb-2">Task 2: Navigating to the Billing and Cost Management Dashboard</h3>
-                        <p class="text-sm text-slate-300 leading-relaxed">
-                            Locate the unified Global Search input box at the top header area of the management console screen. Input <code>Billing</code> into the search prompt field and select the matching option. Locate the <strong>Billing Dashboard</strong> view screen to verify your running system variable expenses and ongoing cost drivers.
-                        </p>
-                    </div>
-
-                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                        <h3 class="text-base font-bold text-white mb-2">Task 3: Setting Up a Zero-Spend Budget Alert with AWS Budgets</h3>
-                        <p class="text-sm text-slate-300 leading-relaxed">
-                            Inside the Billing navigation sidebar, locate and click on <strong>Budgets</strong>. Select <strong>Create budget</strong>, choose the <strong>Cost budget (Recommended)</strong> template option, set the threshold amount metric directly to <code>$0.00</code>, and bind your institutional academic email routing address. This creates an immediate system notification baseline when your instances consume billable assets.
-                        </p>
-                    </div>
-
-                    <div class="p-4 bg-emerald-950/40 border border-emerald-800/60 rounded-xl flex items-start space-x-3">
-                        <span class="text-lg">💡</span>
-                        <div class="text-xs text-slate-300 leading-relaxed">
-                            <strong>Vocational Alignment Note:</strong> In industry enterprise work environments, initializing infrastructure without binding monitoring alerts and budgets can cause rapid, unmonitored budget depletion. Setting up basic cost safeguards on day one is standard corporate operational protocol.
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="quiz-tab" class="tab-content hidden space-y-6 animate-fadeIn">
-                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                    <h2 class="text-2xl font-bold text-white mb-1">Interactive Certification Knowledge Check</h2>
-                    <p class="text-slate-400 text-sm">
-                        Analyze and answer the industry-aligned questions below. Receive instantaneous validation feedback, total grading analytics scores, and extended distractor explanations.
-                    </p>
-                </div>
-
-                <form id="quiz-form" onsubmit="gradeQuiz(event)" class="space-y-6 max-w-4xl">
-                    
-                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
-                        <fieldset>
-                            <legend class="text-base font-bold text-white leading-relaxed">
-                                1. An organization needs to build out an environment while maintaining strict localized hardware isolation and total capital governance over its files. Which deployment framework matches this?
-                            </legend>
-                            <div class="mt-3 space-y-2 text-sm text-slate-300">
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q1" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>A) Public Cloud Deployment</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q1" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>B) Private Cloud Deployment</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q1" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>C) Hybrid Cloud Architecture</span>
-                                </label>
-                            </div>
-                            <div id="feedback-q1" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
-                        </fieldset>
-                    </div>
-
-                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
-                        <fieldset>
-                            <legend class="text-base font-bold text-white leading-relaxed">
-                                2. Which NIST cloud characteristic describes the ability of a customer to automatically provision computing resources, such as server time and network storage, as needed without requiring human interaction with the service provider?
-                            </legend>
-                            <div class="mt-3 space-y-2 text-sm text-slate-300">
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q2" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>A) Rapid Elasticity</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q2" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>B) On-demand self-service</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q2" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>C) Resource pooling</span>
-                                </label>
-                            </div>
-                            <div id="feedback-q2" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
-                        </fieldset>
-                    </div>
-
-                    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
-                        <fieldset>
-                            <legend class="text-base font-bold text-white leading-relaxed">
-                                3. Why is cloud infrastructure fundamentally more economical than traditional physical data centers for running software systems with highly volatile workloads?
-                            </legend>
-                            <div class="mt-3 space-y-2 text-sm text-slate-300">
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q3" value="A" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>A) Cloud providers require heavy long-term upfront contract bindings to authorize compute allocations.</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q3" value="B" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>B) Systems can scale instances dynamically on-demand, matching resource spend to active live traffic.</span>
-                                </label>
-                                <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-500 transition-all">
-                                    <input type="radio" name="q3" value="C" class="h-4 w-4 text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-600">
-                                    <span>C) Cloud systems completely bypass the need to implement user network access security groups.</span>
-                                </label>
-                            </div>
-                            <div id="feedback-q3" class="hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
-                        </fieldset>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <button type="submit" class="px-6 py-3 bg-brand-600 text-white font-bold rounded-xl shadow-lg hover:bg-brand-700 focus:outline-none focus:ring-4 focus:ring-brand-500 transition-all">
-                            Submit Exam Answers for Review
-                        </button>
-                        <div id="quiz-score-tally" class="hidden text-lg font-mono font-bold text-brand-400" aria-live="polite"></div>
-                    </div>
-                </form>
-            </section>
-
-        </main>
+        <!-- Sound Toggle Button -->
+        <button id="sound-toggle" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 transition" aria-label="Toggle Sound Effects">
+          <i class="fa-solid fa-volume-high text-lg" id="sound-icon"></i>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <script>
-        // Tab switching engine
-        function switchTab(tabId, buttonElement) {
-            // Hide all tab content panes
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            // Show target pane
-            document.getElementById(tabId).classList.remove('hidden');
+  <!-- Main Grid Layout -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar / Lesson Outline Navigator -->
+    <aside class="w-full lg:w-80 shrink-0 flex flex-col gap-6">
+      
+      <!-- Instructor Welcome & Progress Card -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm transition-all duration-300">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-full bg-brand-100 dark:bg-brand-950 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+            PF
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Professor's Sandbox</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Day 1 Review Companion</p>
+          </div>
+        </div>
+        <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-400 mb-4 bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-100 dark:border-slate-900">
+          "Welcome to your first review! This diagnostic checks standard <strong>AWS CCP (CLF-C02)</strong> core concepts. Toggle between <strong>Study Mode</strong> (with immediate explanations) or <strong>Exam Mode</strong> to lock in your score."
+        </p>
 
-            // Reset navigation menu styling
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/10');
-                btn.classList.add('text-slate-400');
-            });
-            // Apply active styles to clicked node
-            buttonElement.classList.remove('text-slate-400');
-            buttonElement.classList.add('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/10');
+        <!-- Dynamic Score Progress Indicators -->
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Total Completion</span>
+              <span id="progress-percent" class="text-brand-600 dark:text-brand-400">0%</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div id="progress-bar" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+            <div class="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-100 dark:border-slate-900 text-center">
+              <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Correct</div>
+              <div id="score-correct" class="text-lg font-black text-emerald-600 dark:text-emerald-400">0</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-100 dark:border-slate-900 text-center">
+              <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Wrong</div>
+              <div id="score-wrong" class="text-lg font-black text-rose-500 dark:text-rose-400">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode Selection Widget -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
+          <i class="fa-solid fa-sliders mr-1.5 text-brand-500"></i> Settings & Modes
+        </h3>
+        <div class="space-y-3">
+          <!-- Toggle button between study and exam modes -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Choose Quiz Environment</label>
+            <div class="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl">
+              <button id="btn-mode-study" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white" onclick="changeMode('study')">
+                <i class="fa-solid fa-book-open mr-1"></i> Study Mode
+              </button>
+              <button id="btn-mode-exam" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300" onclick="changeMode('exam')">
+                <i class="fa-solid fa-stopwatch mr-1"></i> Exam Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question List Matrix -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex-grow">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+          <span>Question Navigation</span>
+          <span class="text-[10px] text-brand-500 font-mono" id="nav-counter">1/10</span>
+        </h3>
+        <div class="grid grid-cols-5 gap-2" id="navigation-matrix">
+          <!-- Dynamically populated numbers of question maps -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Quiz Content Portal Workspace Panel -->
+    <section class="flex-grow flex flex-col gap-6" id="workspace-panel">
+      
+      <!-- Active Question Canvas Card -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex-grow flex flex-col justify-between relative transition-all duration-300" id="quiz-card">
+        
+        <!-- Welcome Splash / Quiz Intro Screen (Hidden once quiz starts) -->
+        <div id="intro-screen" class="absolute inset-0 bg-white dark:bg-slate-900 z-10 flex flex-col justify-center items-center text-center p-8 rounded-2xl">
+          <div class="w-20 h-20 bg-brand-100 dark:bg-brand-950 text-brand-600 dark:text-brand-400 rounded-full flex items-center justify-center text-3xl mb-4 active-pulse">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 dark:text-white mb-2">ITNW 1009: Day 1 Exam Readiness</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mb-6 leading-relaxed">
+            Test your alignment with <strong>NIST cloud specifications</strong>, virtualization architecture logic, AWS pricing models, and standard business value frameworks.
+          </p>
+          
+          <div class="flex flex-wrap justify-center gap-3 mb-6 max-w-lg">
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-check-double text-teal-500 mr-1.5"></i> 10 Real Exam Patterns</span>
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-list-check text-indigo-500 mr-1.5"></i> MC / TF / Multiple Select</span>
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-chart-line text-emerald-500 mr-1.5"></i> Real-time Explanations</span>
+          </div>
+
+          <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-extrabold rounded-xl transition duration-200 shadow-lg shadow-brand-500/20 text-sm">
+            Begin Diagnostic Quiz <i class="fa-solid fa-arrow-right ml-1.5"></i>
+          </button>
+        </div>
+
+        <!-- Realtime Question Card Panel -->
+        <div class="space-y-6 flex-grow">
+          
+          <!-- Question Category Tag & Types Header -->
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+            <div class="flex items-center space-x-2">
+              <span id="question-index-badge" class="px-3 py-1 text-xs font-black rounded-lg bg-brand-100 text-brand-800 dark:bg-brand-950/80 dark:text-brand-300 font-mono">QUESTION 01</span>
+              <span id="question-type-badge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono uppercase">Multiple Choice</span>
+            </div>
+            
+            <div class="flex items-center space-x-1.5 text-xs text-slate-400 dark:text-slate-500">
+              <i class="fa-solid fa-circle-nodes"></i>
+              <span id="course-domain">AWS CLF-C02 Domain 1</span>
+            </div>
+          </div>
+
+          <!-- Question Prompt Title -->
+          <div class="space-y-2">
+            <h2 id="question-prompt" class="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white leading-snug">
+              Loading Question prompt...
+            </h2>
+          </div>
+
+          <!-- Interactive Choice Options Area -->
+          <div id="options-container" class="space-y-3.5 pt-2">
+            <!-- Dynamically Populated with Interactive Option Cards -->
+          </div>
+        </div>
+
+        <!-- Interactive Explanation/Feedback Drawer (Hidden initially, animated on check) -->
+        <div id="explanation-drawer" class="hidden mt-6 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300">
+          <div class="p-4 sm:p-5 flex gap-4">
+            <div id="explanation-icon-box" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+              <i id="explanation-icon" class="fa-solid"></i>
+            </div>
+            <div class="space-y-2">
+              <h4 id="explanation-title" class="text-sm font-black uppercase tracking-wider">CORRECT EXPLANATION</h4>
+              <p id="explanation-text" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Detail reasoning goes here...
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workspace Controls Footer (Next/Check buttons) -->
+        <div class="flex items-center justify-between gap-4 mt-8 border-t border-slate-100 dark:border-slate-800/80 pt-5">
+          <button id="btn-prev" onclick="navigateQuestion(-1)" class="px-4 py-2.5 text-xs font-extrabold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-all duration-150 rounded-lg flex items-center gap-2" disabled>
+            <i class="fa-solid fa-chevron-left"></i> Back
+          </button>
+
+          <div class="flex items-center gap-3">
+            <button id="btn-check" onclick="checkSelectedAnswers()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-lg transition-all duration-200 shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 flex items-center gap-1.5">
+              Submit Answer <i class="fa-solid fa-square-check"></i>
+            </button>
+            <button id="btn-next" onclick="navigateQuestion(1)" class="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-800 dark:text-white text-xs font-black rounded-lg transition-all duration-200 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 hidden">
+              Next Question <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Evaluation Report Summary Screen (Initially Hidden) -->
+      <div id="results-screen" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col gap-8 transition-all duration-300">
+        
+        <!-- Results Hub Dashboard Hero -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-900">
+          <div class="text-center md:text-left space-y-1">
+            <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest">Diagnostic Complete</span>
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">Your Score Report</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">ITNW 1009 Fundamentals of Cloud & AI</p>
+          </div>
+
+          <!-- Speedometer Gauge Circular Indicator -->
+          <div class="flex justify-center my-2">
+            <div class="relative w-36 h-36 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-inner">
+              <div class="text-center">
+                <div id="radial-score" class="text-3xl font-black text-slate-950 dark:text-white">0%</div>
+                <div id="radial-fraction" class="text-xs text-slate-400 dark:text-slate-500 font-mono">0 / 10</div>
+              </div>
+              <svg class="absolute top-0 left-0 w-full h-full -rotate-90">
+                <circle cx="72" cy="72" r="66" stroke="currentColor" class="text-slate-200 dark:text-slate-800" stroke-width="6" fill="transparent"/>
+                <circle cx="72" cy="72" r="66" stroke="currentColor" id="radial-progress-circle" class="text-brand-600 dark:text-brand-400 transition-all duration-1000" stroke-width="6" stroke-dasharray="414.69" stroke-dashoffset="414.69" stroke-linecap="round" fill="transparent"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Certification Readiness Rating -->
+          <div class="text-center md:text-left space-y-3">
+            <div class="inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase" id="badge-certificate-status">
+              Review Needed
+            </div>
+            <p id="feedback-message" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              We highly recommend reviewing the Day 1 slide deck and core AWS values list. Try again to push above the 80% passing threshold!
+            </p>
+          </div>
+        </div>
+
+        <!-- Competency Area Strengths Breakdown -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <i class="fa-solid fa-chart-column text-brand-500"></i> Competency Map Insights
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+              <div class="flex justify-between text-xs font-bold">
+                <span class="text-slate-600 dark:text-slate-400">NIST Essential Characteristics</span>
+                <span id="domain-nist-score" class="text-brand-500">0%</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="domain-nist-bar" class="bg-brand-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+              <div class="flex justify-between text-xs font-bold">
+                <span class="text-slate-600 dark:text-slate-400">AWS Advantages & Value Prop</span>
+                <span id="domain-value-score" class="text-indigo-500">0%</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="domain-value-bar" class="bg-indigo-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+              <div class="flex justify-between text-xs font-bold">
+                <span class="text-slate-600 dark:text-slate-400">Deployment Models (Public, Hybrid, Private)</span>
+                <span id="domain-deploy-score" class="text-teal-500">0%</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="domain-deploy-bar" class="bg-teal-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+              <div class="flex justify-between text-xs font-bold">
+                <span class="text-slate-600 dark:text-slate-400">Virtualization & Compute Physics</span>
+                <span id="domain-virt-score" class="text-amber-500">0%</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="domain-virt-bar" class="bg-amber-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Detailed Questions Answers Grid list -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-slate-900 dark:text-white flex items-center justify-between">
+            <span><i class="fa-solid fa-magnifying-glass-chart text-brand-500 mr-1"></i> Question-by-Question Evaluation Audit</span>
+            <button onclick="toggleDetailsSummary()" id="btn-toggle-summary" class="text-xs text-brand-500 hover:underline">Expand All</button>
+          </h3>
+          <div class="space-y-3" id="results-detail-list">
+            <!-- Dynamic compilation evaluation items populate here -->
+          </div>
+        </div>
+
+        <!-- Navigation Action controls -->
+        <div class="border-t border-slate-100 dark:border-slate-800/80 pt-6 flex justify-end gap-3">
+          <button onclick="resetAndRestartQuiz()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-lg transition shadow-md shadow-brand-500/20">
+            <i class="fa-solid fa-arrows-rotate mr-1.5"></i> Try Quiz Again
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800/80 py-6 mt-12 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ITNW 1009 • Fundamentals of Cloud and AI • Community College Curriculum</p>
+      <div class="flex justify-center space-x-4 text-xs font-medium text-slate-400 dark:text-slate-500">
+        <span>WCAG 2.1 AA Compliant</span>
+        <span>•</span>
+        <span>CLF-C02 Alignment</span>
+        <span>•</span>
+        <span>Day 1 Review Suite</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Audio Synthesis Manager (Uses Web Audio API to construct custom game sounds, zero external assets)
+    const AudioEngine = {
+      enabled: true,
+      context: null,
+      init() {
+        try {
+          this.context = new (window.AudioContext || window.webkitAudioContext)();
+        } catch(e) {
+          console.warn('Audio Synthesis not supported in this environment');
         }
+      },
+      playTone(freq, type, duration, vol) {
+        if (!this.enabled || !this.context) return;
+        try {
+          if (this.context.state === 'suspended') {
+            this.context.resume();
+          }
+          let osc = this.context.createOscillator();
+          let gain = this.context.createGain();
+          osc.connect(gain);
+          gain.connect(this.context.destination);
+          
+          osc.type = type || 'sine';
+          osc.frequency.setValueAtTime(freq, this.context.currentTime);
+          
+          gain.gain.setValueAtTime(vol || 0.1, this.context.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.context.currentTime + duration);
+          
+          osc.start();
+          osc.stop(this.context.currentTime + duration);
+        } catch (e) {}
+      },
+      correct() {
+        this.playTone(523.25, 'triangle', 0.15, 0.12); // C5
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.25, 0.12), 100); // E5
+      },
+      incorrect() {
+        this.playTone(220, 'sawtooth', 0.25, 0.08); // A3
+        setTimeout(() => this.playTone(185, 'sawtooth', 0.35, 0.08), 80); // F#3
+      },
+      tap() {
+        this.playTone(330, 'sine', 0.08, 0.05); // E4
+      },
+      complete() {
+        const tones = [523.25, 659.25, 783.99, 1046.5]; // C chord arpeggio
+        tones.forEach((tone, idx) => {
+          setTimeout(() => this.playTone(tone, 'triangle', 0.4, 0.1), idx * 100);
+        });
+      }
+    };
 
-        // Slides Deck Navigation Framework
-        let currentSlideIndex = 1;
-        const totalSlides = 4;
-        const scripts = [
-            "Let's ground our foundational understanding here, team. When we contrast traditional physical configurations against cloud structures, think about renting a residential property versus building an entire apartment complex from scratch. The hypervisor acts as our orchestration boundary layer, taking raw processors, memory infrastructure, and disk volumes, and partitioning them out to different apps seamlessly.",
-            "Analyze these three models carefully. When you interview for enterprise positions, banks will almost universally highlight a Hybrid setup. They maintain customer checking accounts on private internal databases behind legacy hardware structures, but run their public marketing landing pages on AWS EC2 servers to capture traffic bursts comfortably.",
-            "Keep the financial distinction clear. CapEx means spending thousands upfront on concrete, racks, cooling, and network cables before running a single process. OpEx means paying a monthly bill tailored directly to your usage. If you turn off your systems over the weekend, your active cloud usage charge drops to zero.",
-            "Memorize these six core advantages for your certification tracking. The main value driver is stopping the guessing game of tracking physical data maximums. Instead of paying for hundreds of idle data nodes just to survive a Black Friday surge, you scale automatically using rapid elasticity models."
-        ];
-
-        function updateSlideView() {
-            document.querySelectorAll('.slide-pane').forEach((pane, idx) => {
-                if (idx + 1 === currentSlideIndex) {
-                    pane.classList.remove('hidden');
-                } else {
-                    pane.classList.add('hidden');
-                }
-            });
-            document.getElementById('slide-indicator').innerText = `Slide ${currentSlideIndex} / ${totalSlides}`;
-            document.getElementById('professor-script-text').innerText = scripts[currentSlideIndex - 1];
+    // Day 1 Master Quiz Questions Database
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        type: "mc", // Multiple Choice
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "deploy",
+        prompt: "A traditional bank wishes to migrate its user portals to public architecture to handle variable peak traffic, but must legalistically isolate its critical customer financial transaction database on its custom on-premises physical hypervisors. Which deployment model must the architect team execute?",
+        options: [
+          { text: "Public Cloud Only", key: "A" },
+          { text: "Hybrid Cloud", key: "B" },
+          { text: "Private Cloud Only", key: "C" },
+          { text: "On-Premises Bare-Metal Platform", key: "D" }
+        ],
+        correct: ["B"],
+        explanation: {
+          title: "Hybrid Cloud Integration",
+          correct: "Correct! A Hybrid Cloud deployment model seamlessly links a company's public cloud resources with their private on-premises assets. This allows the firm to leverage the elastic public footprint for frontend web scaling, while securely keeping highly sensitive datasets within dedicated physical hardware.",
+          incorrect: "Incorrect. Under-provisioning high-demand portals or putting isolated databases in a fully shared environment would violate parameters. Option A fails compliance, Option C stops the bank from offloading spikes to AWS, and Option D ignores the web-scale migration goals entirely."
         }
+      },
+      {
+        id: 2,
+        type: "tf", // True / False
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "virt",
+        prompt: "True or False: Virtualization is the essential underlying technology that enables cloud computing by abstracting physical CPU, memory, and storage structures into separate, logical virtual machine resources.",
+        options: [
+          { text: "True", key: "T" },
+          { text: "False", key: "F" }
+        ],
+        correct: ["T"],
+        explanation: {
+          title: "Understanding Virtualization",
+          correct: "Correct! Virtualization utilizes software (a hypervisor) to split physical hardware resources into multiple isolated virtual systems. This virtualization is the absolute technical foundation that allows cloud providers to provision servers in seconds.",
+          incorrect: "Incorrect. Virtualization is indeed the core mechanism. Without hypervisors slicing single physical nodes into multi-tenant configurations, standard cloud models could not exist."
+        }
+      },
+      {
+        id: 3,
+        type: "ms", // Multiple Select
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "nist",
+        prompt: "According to the official NIST definition of cloud computing, which of the following are recognized as 'Essential Characteristics' of a cloud environment? (Select THREE)",
+        options: [
+          { text: "Broad Network Access", key: "A" },
+          { text: "Upfront Capital Expenditure (CapEx) Dominance", key: "B" },
+          { text: "Resource Pooling", key: "C" },
+          { text: "Dedicated On-Premises Hardware Sourcing", key: "D" },
+          { text: "Rapid Elasticity", key: "E" },
+          { text: "Symmetrical Hardware Procurement cycles", key: "F" }
+        ],
+        correct: ["A", "C", "E"],
+        explanation: {
+          title: "NIST Essential Characteristics",
+          correct: "Correct! The five essential characteristics under NIST SP 800-145 are: (1) On-demand self-service, (2) Broad network access, (3) Resource pooling, (4) Rapid elasticity, and (5) Measured service.",
+          incorrect: "Incorrect. Standard items like CapEx physical sourcing or physical server buying represent traditional datacenter practices (Infrastructure-as-hardware) and directly conflict with NIST definitions."
+        }
+      },
+      {
+        id: 4,
+        type: "mc",
+        domain: "AWS CLF-C02 Domain 2: Security & Business Value",
+        category: "value",
+        prompt: "Which of the six core advantages of cloud computing is directly realized when an enterprise stops investing millions of dollars in predicting physical hardware demands, choosing instead to dynamically rent computing power on-demand?",
+        options: [
+          { text: "Go global in minutes", key: "A" },
+          { text: "Trade capital expense for variable expense", key: "B" },
+          { text: "Benefit from massive economies of scale", key: "C" },
+          { text: "Stop guessing capacity", key: "D" }
+        ],
+        correct: ["B"],
+        explanation: {
+          title: "CapEx to OpEx Transition",
+          correct: "Correct! Trading capital expense (buying massive servers upfront) for variable expense (paying only for running CPU hours on-demand) shifting IT spend to an Operating Expense model, boosting cash flow and agility.",
+          incorrect: "Incorrect. While 'Stop guessing capacity' is closely related to scaling limits, the precise shift of 'investing millions in hardware versus dynamic rental' focuses on financial structures — which is 'Trading capital expense for variable expense'."
+        }
+      },
+      {
+        id: 5,
+        type: "tf",
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "virt",
+        prompt: "True or False: In a traditional datacenter model, companies must provision hardware capacity by guessing their theoretical maximum workload peaks, commonly leading to either expensive wasted idle assets or resource shortages during unexpected spikes.",
+        options: [
+          { text: "True", key: "T" },
+          { text: "False", key: "F" }
+        ],
+        correct: ["T"],
+        explanation: {
+          title: "Traditional Capacity Guesses",
+          correct: "Correct! Traditional capacity planning requires long procurement cycles and guessing peaks. Under-provisioning leads to user crashes, whereas over-provisioning leads to expensive wasted hardware racks sitting cold and idle in servers room.",
+          incorrect: "Incorrect. This is a primary driver of the move to cloud computing where scaling automatically mitigates resource risk entirely."
+        }
+      },
+      {
+        id: 6,
+        type: "mc",
+        domain: "AWS CLF-C02 Domain 2: Security & Business Value",
+        category: "value",
+        prompt: "An international e-commerce startup wants to deploy its application globally to deliver single-digit millisecond latency to buyers in London, Tokyo, and Sydney. Under traditional hosting, this would require months of planning and regional datacenter leases. Which AWS Cloud benefit solves this?",
+        options: [
+          { text: "Go global in minutes", key: "A" },
+          { text: "Benefit from massive economies of scale", key: "B" },
+          { text: "Stop spending money running and maintaining data centers", key: "C" },
+          { text: "Increase speed and agility", key: "D" }
+        ],
+        correct: ["A"],
+        explanation: {
+          title: "Global Reach in Minutes",
+          correct: "Correct! 'Go global in minutes' means you can replicate and launch your applications across multiple AWS Regions around the globe in a matter of clicks, dramatically reducing regional latency for end users.",
+          incorrect: "Incorrect. While speed and agility (Option D) and cost reductions (Option C) are general outcomes, AWS specifically defines geographic rapid duplication as 'Go global in minutes'."
+        }
+      },
+      {
+        id: 7,
+        type: "ms",
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "deploy",
+        prompt: "Which of the following characteristics typically apply to a Public Cloud Deployment Model? (Select TWO)",
+        options: [
+          { text: "Underlying physical hardware is shared among multiple enterprise customers (multi-tenancy)", key: "A" },
+          { text: "High upfront capital investments (CapEx) to establish base networking fibers", key: "B" },
+          { text: "Customers own full administrative hardware access to physical hypervisor nodes", key: "C" },
+          { text: "Resources are highly scalable and provisioned on-demand via web APIs", key: "D" },
+          { text: "Complete, physical isolation of absolute server rooms for every single customer subscription", key: "E" }
+        ],
+        correct: ["A", "D"],
+        explanation: {
+          title: "Public Cloud Characteristics",
+          correct: "Correct! Public clouds are characterized by multi-tenant systems where underlying hardware is shared across users (isolated logically), and everything is scaled dynamically via software APIs on a pay-as-you-go model.",
+          incorrect: "Incorrect. Upfront CapEx, hypervisor ownership, and physical server space isolation are signatures of private cloud structures or traditional on-premises setups."
+        }
+      },
+      {
+        id: 8,
+        type: "mc",
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "virt",
+        prompt: "What is the primary operational role of a hypervisor within cloud infrastructure?",
+        options: [
+          { text: "To secure physical server rooms from unauthorized employee access", key: "A" },
+          { text: "To calculate complex billing dashboards and auto-apply budget locks", key: "B" },
+          { text: "To act as the virtualization management layer that runs and isolates multiple virtual machines on a single host computer", key: "C" },
+          { text: "To routing internet traffic directly to regional AWS edge locations to reduce network latency", key: "D" }
+        ],
+        correct: ["C"],
+        explanation: {
+          title: "The Hypervisor's Mission",
+          correct: "Correct! The hypervisor (like Xen or KVM utilized in AWS) is software that runs directly on physical host hardware, segmenting physical computing resources into logically isolated, fully functional Virtual Machines (VMs).",
+          incorrect: "Incorrect. Option A refers to physical security; Option B describes AWS Budgets / Cost Explorer; Option D describes Route 53 or CloudFront."
+        }
+      },
+      {
+        id: 9,
+        type: "tf",
+        domain: "AWS CLF-C02 Domain 1: Cloud Concepts",
+        category: "nist",
+        prompt: "True or False: Under NIST's 'On-demand self-service' characteristic, cloud consumers must open helpdesk support tickets and wait for manual approval each time they require additional CPU, memory, or storage.",
+        options: [
+          { text: "True", key: "T" },
+          { text: "False", key: "F" }
+        ],
+        correct: ["F"],
+        explanation: {
+          title: "On-Demand Self-Service Definition",
+          correct: "Correct! The statement is false. 'On-demand self-service' explicitly means users can automatically provision compute capacity, like server time and network storage, unilaterally as needed, without human interaction with the cloud service provider.",
+          incorrect: "Incorrect. Requiring manual approvals or support ticket interventions is a traditional IT bottleneck and the opposite of cloud agility."
+        }
+      },
+      {
+        id: 10,
+        type: "ms",
+        domain: "AWS CLF-C02 Domain 2: Security & Business Value",
+        category: "value",
+        prompt: "Which of the following are included in the standard 'Six Advantages of Cloud Computing' as defined by AWS? (Select THREE)",
+        options: [
+          { text: "Trade variable expense for capital expense", key: "A" },
+          { text: "Stop guessing capacity", key: "B" },
+          { text: "Increase speed and agility", key: "C" },
+          { text: "Dramatically expand hardware procurement times", key: "D" },
+          { text: "Benefit from massive economies of scale", key: "E" },
+          { text: "Establish dedicated bare-metal hypervisors for all user functions", key: "F" }
+        ],
+        correct: ["B", "C", "E"],
+        explanation: {
+          title: "Six Advantages of Cloud Computing",
+          correct: "Correct! The six official AWS advantages are: (1) Trade capital expense for variable expense, (2) Benefit from massive economies of scale, (3) Stop guessing capacity, (4) Increase speed and agility, (5) Stop spending money running and maintaining data centers, and (6) Go global in minutes.",
+          incorrect: "Incorrect. Option A inverses the formula (it should be CapEx to Variable). Options D and F are contrary to agility and represent legacy datacenters."
+        }
+      }
+    ];
 
-        function nextSlide() {
-            if (currentSlideIndex < totalSlides) {
-                currentSlideIndex++;
-                updateSlideView();
+    // Quiz App State Variables
+    let currentQuizMode = 'study'; // 'study' or 'exam'
+    let currentQuestionIndex = 0;
+    let selectedAnswers = []; // holds selected keys (e.g., ["A", "B"])
+    let userAnswersLog = Array(QUIZ_QUESTIONS.length).fill(null); // stores user submissions
+    let quizCompleted = false;
+
+    // Initialize Quiz Portal
+    window.onload = function() {
+      // Setup system color preference
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      AudioEngine.init();
+      setupThemeToggle();
+      setupSoundToggle();
+      renderNavigationMatrix();
+    };
+
+    // Dark/Light Theme Switching Setup
+    function setupThemeToggle() {
+      const toggle = document.getElementById('theme-toggle');
+      toggle.addEventListener('click', () => {
+        AudioEngine.tap();
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+      });
+    }
+
+    // Sound toggle settings
+    function setupSoundToggle() {
+      const btn = document.getElementById('sound-toggle');
+      const icon = document.getElementById('sound-icon');
+      btn.addEventListener('click', () => {
+        AudioEngine.enabled = !AudioEngine.enabled;
+        if (AudioEngine.enabled) {
+          icon.className = "fa-solid fa-volume-high text-lg";
+          AudioEngine.tap();
+        } else {
+          icon.className = "fa-solid fa-volume-xmark text-lg";
+        }
+      });
+    }
+
+    // Change quiz mode
+    function changeMode(mode) {
+      AudioEngine.tap();
+      if (userAnswersLog.some(ans => ans !== null)) {
+        const confirmChange = confirm("Changing modes mid-quiz will reset your current progress. Are you sure you want to proceed?");
+        if (!confirmChange) return;
+      }
+      currentQuizMode = mode;
+      
+      const studyBtn = document.getElementById('btn-mode-study');
+      const examBtn = document.getElementById('btn-mode-exam');
+      const navBadge = document.getElementById('nav-mode-badge');
+
+      if (mode === 'study') {
+        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white";
+        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300";
+        navBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Study Mode Enabled`;
+        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800";
+      } else {
+        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white";
+        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300";
+        navBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-1.5 animate-pulse"></span> Exam Simulation Mode`;
+        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800";
+      }
+
+      resetAndRestartQuiz();
+    }
+
+    // Start Quiz from Splash screen
+    function startQuiz() {
+      AudioEngine.tap();
+      const splash = document.getElementById('intro-screen');
+      splash.classList.add('hidden');
+      loadQuestion(0);
+    }
+
+    // Render Navigation Sidebar list
+    function renderNavigationMatrix() {
+      const container = document.getElementById('navigation-matrix');
+      container.innerHTML = '';
+      
+      QUIZ_QUESTIONS.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `nav-dot-${idx}`;
+        btn.className = getNavDotStyle(idx);
+        btn.innerText = idx + 1;
+        btn.onclick = () => {
+          if (document.getElementById('intro-screen').classList.contains('hidden')) {
+            AudioEngine.tap();
+            loadQuestion(idx);
+          }
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // Determine sidebar navigator bullet themes
+    function getNavDotStyle(idx) {
+      const base = "h-10 text-xs font-bold rounded-lg border transition-all duration-200 flex items-center justify-center ";
+      const log = userAnswersLog[idx];
+
+      if (idx === currentQuestionIndex && document.getElementById('intro-screen').classList.contains('hidden')) {
+        return base + "bg-brand-600 border-brand-600 text-white shadow-md ring-2 ring-brand-400/50";
+      }
+      
+      if (log) {
+        if (currentQuizMode === 'study') {
+          return base + (log.isCorrect 
+            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900" 
+            : "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-200 dark:border-rose-900");
+        } else {
+          return base + "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700";
+        }
+      }
+
+      return base + "bg-slate-50 text-slate-500 hover:bg-slate-100 border-slate-200 dark:bg-slate-950 dark:text-slate-400 dark:border-slate-850 dark:hover:bg-slate-900";
+    }
+
+    // Load Specific Question into Viewport Card
+    function loadQuestion(idx) {
+      currentQuestionIndex = idx;
+      const question = QUIZ_QUESTIONS[idx];
+      selectedAnswers = [];
+
+      // Update question text & metadata
+      document.getElementById('question-index-badge').innerText = `QUESTION ${(idx + 1).toString().padStart(2, '0')}`;
+      
+      // Question Type Badge styling
+      const typeBadge = document.getElementById('question-type-badge');
+      if (question.type === 'mc') {
+        typeBadge.innerText = 'Multiple Choice';
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900 font-mono uppercase";
+      } else if (question.type === 'tf') {
+        typeBadge.innerText = 'True / False';
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900 font-mono uppercase";
+      } else {
+        typeBadge.innerText = 'Multiple Select';
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-900 font-mono uppercase";
+      }
+
+      document.getElementById('course-domain').innerText = question.domain;
+      document.getElementById('question-prompt').innerText = question.prompt;
+      document.getElementById('nav-counter').innerText = `${idx + 1}/10`;
+
+      // Build Interactive Answer Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const loggedAnswer = userAnswersLog[idx];
+
+      question.options.forEach(opt => {
+        const optionCard = document.createElement('div');
+        optionCard.id = `option-card-${opt.key}`;
+        
+        let checkedIconStyle = "far fa-circle text-slate-400 dark:text-slate-600";
+        let cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
+
+        if (loggedAnswer) {
+          // Locked State (Answer submitted)
+          const isSelected = loggedAnswer.answers.includes(opt.key);
+          const isCorrectKey = question.correct.includes(opt.key);
+
+          if (currentQuizMode === 'study') {
+            if (isCorrectKey) {
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-emerald-500 dark:border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-100";
+              checkedIconStyle = "fa-solid fa-circle-check text-emerald-500 text-lg";
+            } else if (isSelected) {
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-rose-500 dark:border-rose-500 bg-rose-50/50 dark:bg-rose-950/20 text-rose-900 dark:text-rose-100";
+              checkedIconStyle = "fa-solid fa-circle-xmark text-rose-500 text-lg";
+            } else {
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-50 bg-slate-50/20 dark:bg-slate-950/10";
+              checkedIconStyle = "far fa-circle text-slate-300 dark:text-slate-700";
             }
-        }
-
-        function prevSlide() {
-            if (currentSlideIndex > 1) {
-                currentSlideIndex--;
-                updateSlideView();
+          } else {
+            // Exam mode locked review
+            if (isSelected) {
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-500 bg-brand-50/30 dark:bg-brand-950/10";
+              checkedIconStyle = question.type === 'ms' ? "fa-solid fa-square-check text-brand-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
+            } else {
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-70 bg-slate-50/20 dark:bg-slate-950/10";
+              checkedIconStyle = question.type === 'ms' ? "far fa-square text-slate-300 dark:text-slate-700" : "far fa-circle text-slate-300 dark:text-slate-700";
             }
+          }
+        } else {
+          // Unsubmitted Interactive State
+          if (question.type === 'ms') {
+            checkedIconStyle = "far fa-square text-slate-400 dark:text-slate-600";
+          }
         }
 
-        // Interactive Sandbox Widget Logic Engine
-        function runSimulation(type) {
-            const grid = document.getElementById('simulation-matrix-grid');
-            const serversStat = document.getElementById('stat-servers');
-            const financialStat = document.getElementById('stat-financial');
-            const perfStat = document.getElementById('stat-perf');
-            const fbPanel = document.getElementById('sim-feedback-panel');
+        optionCard.className = cardStyle;
+        optionCard.onclick = () => selectOption(opt.key);
 
-            grid.innerHTML = ''; // Clear viewport
+        optionCard.innerHTML = `
+          <div class="pt-0.5" id="icon-container-${opt.key}">
+            <i class="${checkedIconStyle}" id="icon-${opt.key}"></i>
+          </div>
+          <div class="flex-grow">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-brand-600 dark:text-brand-400 font-mono">${opt.key}.</span>
+              <p class="text-sm font-medium leading-relaxed">${opt.text}</p>
+            </div>
+          </div>
+        `;
 
-            if (type === 'normal') {
-                // Injected SVG server nodes representing normal scale
-                for (let i = 0; i < 2; i++) {
-                    grid.innerHTML += `<div class="p-3 bg-emerald-950/80 border border-emerald-500 rounded-lg text-center font-mono text-xs text-emerald-400 animate-pulse">⚡ Server Node</div>`;
-                }
-                for (let i = 0; i < 8; i++) {
-                    grid.innerHTML += `<div class="p-3 bg-slate-800/40 border border-slate-700/40 rounded-lg text-center font-mono text-xs text-slate-600">Off / Idle</div>`;
-                }
-                serversStat.innerText = "2 Active Nodes";
-                financialStat.innerText = "Baseline Variable OpEx";
-                perfStat.innerText = "Stable (100% Available)";
-                perfStat.className = "text-emerald-400 font-bold";
-                fbPanel.innerHTML = "<strong>Steady State Analysis:</strong> The public cloud allocates exactly 2 server instances to handle standard base customer transactions. Expenses remain minimal since you don't pay for empty physical headroom.";
-            } else if (type === 'spike') {
-                for (let i = 0; i < 10; i++) {
-                    grid.innerHTML += `<div class="p-3 bg-indigo-950 border border-brand-500 rounded-lg text-center font-mono text-xs text-indigo-300 animate-bounce">🚀 Scaled Node</div>`;
-                }
-                serversStat.innerText = "10 Active Nodes";
-                financialStat.innerText = "Spike Scale OpEx (Temporary)";
-                perfStat.innerText = "Stable (Elastic Growth)";
-                perfStat.className = "text-brand-400 font-bold";
-                fbPanel.innerHTML = "<strong>Flash Sale Analysis:</strong> NIST Rapid Elasticity allows the framework to scale out to 10 instances instantaneously. The workload survives the traffic surge safely, and the bill scales back down once traffic normalized.";
-            } else if (type === 'crash') {
-                for (let i = 0; i < 2; i++) {
-                    grid.innerHTML += `<div class="p-3 bg-rose-950 border border-rose-600 rounded-lg text-center font-mono text-xs text-rose-400">💥 Crashed Node</div>`;
-                }
-                for (let i = 0; i < 8; i++) {
-                    grid.innerHTML += `<div class="p-3 bg-slate-900 border border-slate-800 rounded-lg text-center font-mono text-xs text-slate-700">Unavailable</div>`;
-                }
-                serversStat.innerText = "2 Broken Nodes";
-                financialStat.innerText = "CapEx Lost Overheads";
-                perfStat.innerText = "System Failure (Outage)";
-                perfStat.className = "text-rose-500 font-bold";
-                fbPanel.innerHTML = "<strong>Crash Analysis:</strong> Under-provisioning on physical hardware means traffic spikes overwhelm resources, crashing the site. Conversely, buying 10 physical machines to prevent this would create massive CapEx waste during normal hours.";
-            }
+        optionsContainer.appendChild(optionCard);
+      });
+
+      // Show/Hide check button and next buttons
+      const checkBtn = document.getElementById('btn-check');
+      const nextBtn = document.getElementById('btn-next');
+      const prevBtn = document.getElementById('btn-prev');
+      const explanationDrawer = document.getElementById('explanation-drawer');
+
+      prevBtn.disabled = idx === 0;
+
+      if (loggedAnswer) {
+        checkBtn.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+        if (idx === QUIZ_QUESTIONS.length - 1) {
+          nextBtn.innerHTML = `Finish Diagnostic <i class="fa-solid fa-flag-checkered"></i>`;
+        } else {
+          nextBtn.innerHTML = `Next Question <i class="fa-solid fa-chevron-right"></i>`;
         }
 
-        // Initialize default sandbox view
-        runSimulation('normal');
+        // Render explanation if study mode
+        if (currentQuizMode === 'study') {
+          explanationDrawer.classList.remove('hidden');
+          const isCorrect = loggedAnswer.isCorrect;
+          const box = document.getElementById('explanation-icon-box');
+          const icon = document.getElementById('explanation-icon');
+          const title = document.getElementById('explanation-title');
+          const text = document.getElementById('explanation-text');
 
-        // Interactive Quiz Self-Grading Engine
-        function gradeQuiz(event) {
-            event.preventDefault();
-            let score = 0;
+          if (isCorrect) {
+            box.className = "w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200 dark:border-emerald-900";
+            icon.className = "fa-solid fa-circle-check text-lg";
+            title.className = "text-sm font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400";
+            title.innerText = question.explanation.title + " (Correct)";
+            text.innerText = question.explanation.correct;
+          } else {
+            box.className = "w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-200 dark:border-rose-900";
+            icon.className = "fa-solid fa-triangle-exclamation text-lg";
+            title.className = "text-sm font-black uppercase tracking-wider text-rose-700 dark:text-rose-400";
+            title.innerText = "Instructor Analysis (Incorrect Option)";
+            text.innerText = question.explanation.incorrect + " " + question.explanation.correct;
+          }
+        } else {
+          explanationDrawer.classList.add('hidden');
+        }
+      } else {
+        checkBtn.classList.remove('hidden');
+        nextBtn.classList.add('hidden');
+        explanationDrawer.classList.add('hidden');
+      }
 
-            const answers = { q1: 'B', q2: 'B', q3: 'B' };
-            const rationales = {
-                q1: {
-                    correct: 'B',
-                    text: "Correct! Private clouds are single-tenant environments completely owned and run by one specific company, ensuring absolute hardware governance. Public cloud is multi-tenant, while Hybrid mixes both worlds."
-                },
-                q2: {
-                    correct: 'B',
-                    text: "Correct! On-demand self-service defines the automated capability allowing developers to provision services without manual interaction from the cloud vendor. Rapid Elasticity focuses on scaling sizing up and down."
-                },
-                q3: {
-                    correct: 'B',
-                    text: "Correct! The cloud turns fixed capacity limits into a fluid utility cost. Instances can spin up automatically to handle traffic spikes and disappear when traffic decreases, preventing financial waste."
-                }
+      // Refresh Sidebar Matrix selection
+      renderNavigationMatrix();
+    }
+
+    // Select Answer Option Interactions
+    function selectOption(key) {
+      // Guard against selected answers after submitting
+      if (userAnswersLog[currentQuestionIndex]) return;
+
+      AudioEngine.tap();
+      const question = QUIZ_QUESTIONS[currentQuestionIndex];
+
+      if (question.type === 'mc' || question.type === 'tf') {
+        // Single selection models
+        selectedAnswers = [key];
+        
+        // Deselect all other boxes
+        question.options.forEach(opt => {
+          const card = document.getElementById(`option-card-${opt.key}`);
+          const icon = document.getElementById(`icon-${opt.key}`);
+          
+          if (opt.key === key) {
+            card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-400 bg-brand-50/50 dark:bg-brand-950/20";
+            icon.className = "fa-solid fa-circle-dot text-brand-600 dark:text-brand-400 text-lg";
+          } else {
+            card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
+            icon.className = "far fa-circle text-slate-400 dark:text-slate-600";
+          }
+        });
+      } else {
+        // Multiple Selection
+        const idx = selectedAnswers.indexOf(key);
+        const card = document.getElementById(`option-card-${key}`);
+        const icon = document.getElementById(`icon-${key}`);
+
+        if (idx > -1) {
+          selectedAnswers.splice(idx, 1);
+          card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
+          icon.className = "far fa-square text-slate-400 dark:text-slate-600";
+        } else {
+          selectedAnswers.push(key);
+          card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-400 bg-brand-50/50 dark:bg-brand-950/20";
+          icon.className = "fa-solid fa-square-check text-brand-600 dark:text-brand-400 text-lg";
+        }
+      }
+    }
+
+    // Submit Answer & Calculate Accuracy
+    function checkSelectedAnswers() {
+      if (selectedAnswers.length === 0) {
+        alert("Please select at least one answer to submit.");
+        return;
+      }
+
+      const question = QUIZ_QUESTIONS[currentQuestionIndex];
+      
+      // Compare arrays
+      const isCorrect = question.correct.length === selectedAnswers.length && 
+                        question.correct.every(val => selectedAnswers.includes(val));
+
+      // Play Sound Effects based on results
+      if (isCorrect) {
+        AudioEngine.correct();
+      } else {
+        AudioEngine.incorrect();
+      }
+
+      // Log the User Answer Data
+      userAnswersLog[currentQuestionIndex] = {
+        answers: selectedAnswers,
+        isCorrect: isCorrect
+      };
+
+      // Realtime score logs
+      updateScoreDashboard();
+
+      // Reload screen state
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // Progress Scores Panel Update
+    function updateScoreDashboard() {
+      let correct = 0;
+      let wrong = 0;
+      let answeredCount = 0;
+
+      userAnswersLog.forEach(ans => {
+        if (ans !== null) {
+          answeredCount++;
+          if (ans.isCorrect) correct++;
+          else wrong++;
+        }
+      });
+
+      document.getElementById('score-correct').innerText = correct;
+      document.getElementById('score-wrong').innerText = wrong;
+
+      const completionPercentage = Math.round((answeredCount / QUIZ_QUESTIONS.length) * 100);
+      document.getElementById('progress-percent').innerText = `${completionPercentage}%`;
+      document.getElementById('progress-bar').style.width = `${completionPercentage}%`;
+    }
+
+    // Question Navigation Trigger
+    function navigateQuestion(direction) {
+      AudioEngine.tap();
+      const targetIdx = currentQuestionIndex + direction;
+
+      if (targetIdx < 0) return;
+
+      if (targetIdx >= QUIZ_QUESTIONS.length) {
+        // Evaluate complete answers
+        evaluateAllQuiz();
+      } else {
+        loadQuestion(targetIdx);
+      }
+    }
+
+    // Evaluate Complete Quiz Results and transition UI
+    function evaluateAllQuiz() {
+      // Confirm all questions are answered
+      const unansweredIndices = [];
+      userAnswersLog.forEach((val, idx) => {
+        if (val === null) unansweredIndices.push(idx + 1);
+      });
+
+      if (unansweredIndices.length > 0) {
+        const confirmSkip = confirm(`You have unanswered questions: ${unansweredIndices.join(', ')}. Submit the evaluation anyway? (Unanswered questions count as wrong)`);
+        if (!confirmSkip) return;
+
+        // Auto-fill unanswered as wrong
+        QUIZ_QUESTIONS.forEach((q, idx) => {
+          if (userAnswersLog[idx] === null) {
+            userAnswersLog[idx] = {
+              answers: [],
+              isCorrect: false
             };
+          }
+        });
+        updateScoreDashboard();
+      }
 
-            // Process Question 1
-            const q1Val = document.querySelector('input[name="q1"]:checked')?.value;
-            const f1 = document.getElementById('feedback-q1');
-            f1.classList.remove('hidden');
-            if (q1Val === answers.q1) {
-                score++;
-                f1.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
-                f1.innerText = rationales.q1.text;
-            } else {
-                f1.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
-                f1.innerText = "Incorrect. " + rationales.q1.text;
-            }
+      AudioEngine.complete();
+      quizCompleted = true;
 
-            // Process Question 2
-            const q2Val = document.querySelector('input[name="q2"]:checked')?.value;
-            const f2 = document.getElementById('feedback-q2');
-            f2.classList.remove('hidden');
-            if (q2Val === answers.q2) {
-                score++;
-                f2.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
-                f2.innerText = rationales.q2.text;
-            } else {
-                f2.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
-                f2.innerText = "Incorrect. " + rationales.q2.text;
-            }
+      // Hide quiz view, show result analytics view
+      document.getElementById('quiz-card').classList.add('hidden');
+      document.getElementById('results-screen').classList.remove('hidden');
 
-            // Process Question 3
-            const q3Val = document.querySelector('input[name="q3"]:checked')?.value;
-            const f3 = document.getElementById('feedback-q3');
-            f3.classList.remove('hidden');
-            if (q3Val === answers.q3) {
-                score++;
-                f3.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-900/40 border border-emerald-700 text-emerald-300";
-                f3.innerText = rationales.q3.text;
-            } else {
-                f3.className = "mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-900/40 border border-rose-700 text-rose-300";
-                f3.innerText = "Incorrect. " + rationales.q3.text;
-            }
+      // Score Calculation
+      let correctAnswers = userAnswersLog.filter(x => x.isCorrect).length;
+      let finalPercentage = Math.round((correctAnswers / QUIZ_QUESTIONS.length) * 100);
 
-            // Display Final Aggregated Tally Score
-            const tally = document.getElementById('quiz-score-tally');
-            tally.classList.remove('hidden');
-            tally.innerText = `Final Score Tally: ${score} / 3 Correct`;
+      // Trigger Celebration Confetti if passing mark is reached
+      if (finalPercentage >= 80) {
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+
+      // Load results values
+      document.getElementById('radial-score').innerText = `${finalPercentage}%`;
+      document.getElementById('radial-fraction').innerText = `${correctAnswers} / ${QUIZ_QUESTIONS.length}`;
+
+      // Progress bar gauge formula: stroke-dasharray="414.69" (2 * PI * r)
+      const circleOffset = 414.69 - (414.69 * finalPercentage / 100);
+      document.getElementById('radial-progress-circle').style.strokeDashoffset = circleOffset;
+
+      // Certificate Badge styling
+      const certBadge = document.getElementById('badge-certificate-status');
+      const feedbackMsg = document.getElementById('feedback-message');
+
+      if (finalPercentage >= 90) {
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800";
+        certBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5 animate-bounce"></i> Excellent Readiness`;
+        feedbackMsg.innerText = "Superb job! You have fully mastered the foundations of Virtualization, deployment models, and AWS Value propositions. You are on track for AWS Cloud Practitioner!";
+      } else if (finalPercentage >= 80) {
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-teal-100 text-teal-800 dark:bg-teal-950/50 dark:text-teal-400 border border-teal-200 dark:border-teal-800";
+        certBadge.innerHTML = `<i class="fa-solid fa-graduation-cap mr-1.5"></i> Passing Score`;
+        feedbackMsg.innerText = "Congratulations! You have surpassed the community college standards passing threshold (80%). Maintain this pace as we advance into Module 2 Cloud Economics.";
+      } else {
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-800";
+        certBadge.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1.5"></i> Review Required`;
+        feedbackMsg.innerText = "You fell below the academic passing limit (80%). Take a break, review the Day 1 companion guides, and repeat this evaluation to secure your knowledge.";
+      }
+
+      // Populate Category Strengths
+      calculateCategoryScores();
+
+      // Render Detailed Evaluation review grids
+      buildResultsReviewGrid();
+    }
+
+    // Map competency indicators
+    function calculateCategoryScores() {
+      const categories = {
+        nist: { total: 0, correct: 0 },
+        value: { total: 0, correct: 0 },
+        deploy: { total: 0, correct: 0 },
+        virt: { total: 0, correct: 0 }
+      };
+
+      QUIZ_QUESTIONS.forEach((q, idx) => {
+        const cat = q.category;
+        const isCorr = userAnswersLog[idx]?.isCorrect;
+        
+        if (categories[cat]) {
+          categories[cat].total++;
+          if (isCorr) categories[cat].correct++;
         }
-    </script>
+      });
+
+      for (let key in categories) {
+        const item = categories[key];
+        const pct = item.total > 0 ? Math.round((item.correct / item.total) * 100) : 0;
+        
+        document.getElementById(`domain-${key}-score`).innerText = `${pct}%`;
+        document.getElementById(`domain-${key}-bar`).style.width = `${pct}%`;
+      }
+    }
+
+    // Build Results Review Accordion Grid
+    function buildResultsReviewGrid() {
+      const list = document.getElementById('results-detail-list');
+      list.innerHTML = '';
+
+      QUIZ_QUESTIONS.forEach((q, idx) => {
+        const userLog = userAnswersLog[idx];
+        const isCorr = userLog?.isCorrect;
+        const cardClass = isCorr 
+          ? "border border-emerald-100 dark:border-emerald-950 bg-emerald-50/10 dark:bg-emerald-950/5 rounded-xl overflow-hidden"
+          : "border border-rose-100 dark:border-rose-950 bg-rose-50/10 dark:bg-rose-950/5 rounded-xl overflow-hidden";
+        
+        const badgeClass = isCorr
+          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 px-2 py-0.5 rounded text-[10px] font-black uppercase"
+          : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-400 px-2 py-0.5 rounded text-[10px] font-black uppercase";
+        
+        const badgeText = isCorr ? "CORRECT" : "INCORRECT";
+
+        const item = document.createElement('div');
+        item.className = cardClass;
+        
+        // Format options summary strings
+        let selectedText = userLog.answers.length > 0 ? userLog.answers.sort().join(", ") : "None";
+        let correctText = q.correct.sort().join(", ");
+
+        item.innerHTML = `
+          <!-- Accordion Header -->
+          <div onclick="toggleAccordion(${idx})" class="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+            <div class="flex items-center space-x-3 pr-2">
+              <span class="w-6 h-6 rounded-lg ${isCorr ? 'bg-emerald-500' : 'bg-rose-500'} text-white text-xs font-bold flex items-center justify-center font-mono shrink-0">${idx + 1}</span>
+              <p class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-1">${q.prompt}</p>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <span class="${badgeClass}">${badgeText}</span>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-400" id="accordion-arrow-${idx}"></i>
+            </div>
+          </div>
+
+          <!-- Accordion Content (Hidden initially) -->
+          <div id="accordion-content-${idx}" class="hidden border-t border-slate-100 dark:border-slate-800 p-4 bg-white dark:bg-slate-900 space-y-4 text-xs sm:text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div>
+                <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Your Selections</span>
+                <p class="text-base font-black ${isCorr ? 'text-emerald-600' : 'text-rose-500'} font-mono mt-0.5">${selectedText}</p>
+              </div>
+              <div>
+                <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Valid Keys</span>
+                <p class="text-base font-black text-brand-500 font-mono mt-0.5">${correctText}</p>
+              </div>
+            </div>
+
+            <!-- Choices lists -->
+            <div class="space-y-2">
+              <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Evaluation Choices Summary</span>
+              <div class="space-y-1">
+                ${q.options.map(o => {
+                  let textClass = "text-xs";
+                  let isSelectedOpt = userLog.answers.includes(o.key);
+                  let isCorrectOpt = q.correct.includes(o.key);
+
+                  if (isCorrectOpt) textClass += " font-bold text-emerald-600 dark:text-emerald-400";
+                  else if (isSelectedOpt) textClass += " font-bold text-rose-500";
+                  else textClass += " text-slate-500";
+
+                  return `
+                    <div class="flex items-center space-x-1.5 ${textClass}">
+                      <i class="fa-solid ${isCorrectOpt ? 'fa-check' : isSelectedOpt ? 'fa-xmark' : 'fa-circle-notch opacity-30'} text-[10px]"></i>
+                      <span><strong>${o.key}:</strong> ${o.text}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- Pedagogical analysis detail -->
+            <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-lg border border-slate-100 dark:border-slate-900 space-y-1.5">
+              <span class="text-brand-500 font-bold uppercase tracking-wider text-[10px] block">${q.explanation.title}</span>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                ${isCorr ? q.explanation.correct : q.explanation.incorrect + ' ' + q.explanation.correct}
+              </p>
+            </div>
+          </div>
+        `;
+
+        list.appendChild(item);
+      });
+    }
+
+    // Toggle Review list accordions
+    function toggleAccordion(idx) {
+      AudioEngine.tap();
+      const content = document.getElementById(`accordion-content-${idx}`);
+      const arrow = document.getElementById(`accordion-arrow-${idx}`);
+
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        arrow.className = "fa-solid fa-chevron-up text-xs text-brand-500";
+      } else {
+        content.classList.add('hidden');
+        arrow.className = "fa-solid fa-chevron-down text-xs text-slate-400";
+      }
+    }
+
+    // Expand / Collapse all reviews
+    function toggleDetailsSummary() {
+      AudioEngine.tap();
+      const btn = document.getElementById('btn-toggle-summary');
+      const expanding = btn.innerText === "Expand All";
+
+      QUIZ_QUESTIONS.forEach((_, idx) => {
+        const content = document.getElementById(`accordion-content-${idx}`);
+        const arrow = document.getElementById(`accordion-arrow-${idx}`);
+        if (expanding) {
+          content.classList.remove('hidden');
+          arrow.className = "fa-solid fa-chevron-up text-xs text-brand-500";
+        } else {
+          content.classList.add('hidden');
+          arrow.className = "fa-solid fa-chevron-down text-xs text-slate-400";
+        }
+      });
+
+      btn.innerText = expanding ? "Collapse All" : "Expand All";
+    }
+
+    // Reset Quiz state and restart
+    function resetAndRestartQuiz() {
+      AudioEngine.tap();
+      
+      // Clear logs
+      selectedAnswers = [];
+      userAnswersLog = Array(QUIZ_QUESTIONS.length).fill(null);
+      quizCompleted = false;
+
+      // Reset HUD Score counts
+      updateScoreDashboard();
+
+      // Show quiz workspace and hide results screen
+      document.getElementById('results-screen').classList.add('hidden');
+      document.getElementById('quiz-card').classList.remove('hidden');
+
+      // Re-render navigator lists
+      renderNavigationMatrix();
+
+      // Load first question
+      loadQuestion(0);
+    }
+  </script>
 </body>
 </html>
