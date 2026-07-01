@@ -301,19 +301,19 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
-          <div class="w-full max-w-xl h-80">
+          <div class="w-full max-w-xl">
             <!-- Dynamic flipping container -->
             <div 
               id="active-card-flipper" 
               onclick="flipCard()"
               tabindex="0"
               role="button"
-              class="w-full h-full text-left rounded-3xl focus:ring-4 focus:ring-indigo-600 relative cursor-pointer block"
+              class="w-full text-left rounded-3xl focus:ring-4 focus:ring-indigo-600 relative cursor-pointer block"
               aria-label="Vocabulary Flashcard. Front side. Term: On-demand self-service. Click or press spacebar to flip."
             >
               
               <!-- FRONT OF CARD -->
-              <div id="card-face-front" class="flip-face-anim absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-slate-800">
+              <div id="card-face-front" class="flip-face-anim w-full min-h-[20rem] bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center">
                   <span class="bg-indigo-800/80 border border-indigo-700 text-[10px] text-indigo-200 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Day 1 Core Concept</span>
                   <span class="text-slate-500 text-xs font-mono" id="card-index-count">Card 1 of 9</span>
@@ -331,8 +331,8 @@
               </div>
 
               <!-- BACK OF CARD -->
-              <div id="card-face-back" class="hidden absolute inset-0 w-full h-full bg-slate-50 border-2 border-slate-300 text-slate-900 rounded-3xl shadow-xl">
-                <div class="w-full h-full p-6 flex flex-col justify-between overflow-y-auto rounded-3xl">
+              <div id="card-face-back" class="hidden w-full min-h-[20rem] bg-slate-50 border-2 border-slate-300 text-slate-900 rounded-3xl shadow-xl">
+                <div class="w-full p-6 flex flex-col justify-between rounded-3xl">
                 <div>
                   <div class="flex justify-between items-start border-b border-slate-200 pb-2 mb-2">
                     <div>
@@ -368,7 +368,7 @@
                     Reveal Answer
                   </button>
                 </div>
-                </div><!-- end scrollable inner wrapper -->
+                </div><!-- end inner wrapper -->
               </div>
 
             </div><!-- end active-card-flipper -->
