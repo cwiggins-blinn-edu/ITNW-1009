@@ -3,61 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITNW 1009: Day 1 Courseware Quiz Portal</title>
-  <!-- Tailwind CSS -->
+  <title>ITNW 1009: Day 1 Quiz Portal</title>
+  <!-- Tailwind CSS CDN (layout/spacing utilities) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Canvas Confetti for Celebration -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <!-- Google Fonts (Inter / Noto Sans) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              200: '#c7d2fe',
-              300: '#a5b4fc',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
-              950: '#1e1b4b',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Shared ITNW 1009 design system (focus ring, scrollbar, flip-card mechanics, tokens) -->
+  <link rel="stylesheet" href="itnw1009-theme.css">
   <style>
-    /* Premium custom scrollbar styles */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #4f46e5;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #4338ca;
-    }
     @keyframes pulse-ring {
       0% { transform: scale(0.95); opacity: 0.5; }
       50% { transform: scale(1.05); opacity: 0.8; }
@@ -66,62 +17,106 @@
     .active-pulse {
       animation: pulse-ring 2s infinite ease-in-out;
     }
+
+    /* Quiz-specific radio / checkbox indicators (CSS-only, no icon font needed) */
+    .qz-indicator {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex-shrink: 0;
+      border: 2px solid var(--color-border-strong);
+      background: var(--color-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: transparent;
+      transition: all 0.15s ease;
+    }
+    .qz-indicator.qz-radio { border-radius: 9999px; }
+    .qz-indicator.qz-checkbox { border-radius: 0.3rem; }
+
+    .qz-indicator.qz-selected {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+    .qz-indicator.qz-correct {
+      background: var(--color-success);
+      border-color: var(--color-success);
+      color: #fff;
+    }
+    .qz-indicator.qz-incorrect {
+      background: var(--color-rose);
+      border-color: var(--color-rose);
+      color: #fff;
+    }
+    .qz-indicator.qz-muted {
+      border-color: var(--color-border);
+      opacity: 0.6;
+    }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-100 text-slate-900 font-sans min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- ACCESSIBILITY SKIP NAVIGATION LINK -->
+  <a href="#main-portal" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-indigo-600 focus:text-white focus:p-4 focus:rounded-lg focus:shadow-xl focus:font-bold">
+    Skip to main content
+  </a>
+
+  <!-- ARIA LIVE ANNOUNCER REGION FOR SCREEN READERS -->
+  <div id="sr-alert-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Courseware Top Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-md shadow-brand-500/20 flex items-center justify-center">
-          <i class="fa-solid fa-graduation-cap text-lg"></i>
+  <header class="bg-indigo-950 text-white shadow-md border-b border-indigo-900 sticky top-0 z-40" role="banner">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-gradient-to-br from-indigo-500 to-indigo-700 p-2.5 rounded-xl shadow-inner flex items-center justify-center text-white" aria-hidden="true">
+          <!-- Inline Graduation Cap Icon -->
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.42A12.083 12.083 0 0118 18.72a12.083 12.083 0 01-12 0 12.083 12.083 0 01.84-8.14L12 14z"></path>
+          </svg>
         </div>
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">AWS Academy Foundations</span>
-          <h1 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white leading-tight">ITNW 1009 • Courseware Interactive Quiz</h1>
+          <span class="text-indigo-400 font-bold uppercase tracking-widest text-xs block">ITNW 1009 • Course Player</span>
+          <h1 class="text-lg md:text-xl font-extrabold tracking-tight">Day 1: Interactive Quiz Portal</h1>
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
-        <!-- Interactive Mode Toggle Info -->
-        <span id="nav-mode-badge" class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+      <div class="flex items-center gap-3">
+        <!-- Interactive Mode Status Badge -->
+        <span id="nav-mode-badge" class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
           <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span>
           Study Mode Enabled
         </span>
 
-        <!-- Dark/Light Mode Toggle Button -->
-        <button id="theme-toggle" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 transition" aria-label="Toggle dark mode">
-          <i class="fa-solid fa-moon text-lg dark:hidden"></i>
-          <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
-        </button>
-
         <!-- Sound Toggle Button -->
-        <button id="sound-toggle" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 transition" aria-label="Toggle Sound Effects">
-          <i class="fa-solid fa-volume-high text-lg" id="sound-icon"></i>
+        <button id="sound-toggle" class="p-2 rounded-lg text-indigo-300 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" aria-label="Toggle Sound Effects">
+          <span id="sound-icon" class="text-lg" aria-hidden="true">&#128266;</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Grid Layout -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8" id="main-portal">
     
     <!-- Sidebar / Lesson Outline Navigator -->
     <aside class="w-full lg:w-80 shrink-0 flex flex-col gap-6">
       
       <!-- Instructor Welcome & Progress Card -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm transition-all duration-300">
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm transition-all duration-300">
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-full bg-brand-100 dark:bg-brand-950 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+          <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
             PF
           </div>
           <div>
-            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Professor's Sandbox</h4>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Day 1 Review Companion</p>
+            <h4 class="text-sm font-bold text-slate-900">Professor's Sandbox</h4>
+            <p class="text-xs text-slate-500">Day 1 Review Companion</p>
           </div>
         </div>
-        <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-400 mb-4 bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-100 dark:border-slate-900">
+        <p class="text-xs leading-relaxed text-slate-600 mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
           "Welcome to your first review! This diagnostic checks standard <strong>AWS CCP (CLF-C02)</strong> core concepts. Toggle between <strong>Study Mode</strong> (with immediate explanations) or <strong>Exam Mode</strong> to lock in your score."
         </p>
 
@@ -129,42 +124,42 @@
         <div class="space-y-3">
           <div>
             <div class="flex justify-between text-xs font-semibold mb-1">
-              <span class="text-slate-500 dark:text-slate-400">Total Completion</span>
-              <span id="progress-percent" class="text-brand-600 dark:text-brand-400">0%</span>
+              <span class="text-slate-500">Total Completion</span>
+              <span id="progress-percent" class="text-indigo-600">0%</span>
             </div>
-            <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-              <div id="progress-bar" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
-            <div class="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-100 dark:border-slate-900 text-center">
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
               <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Correct</div>
-              <div id="score-correct" class="text-lg font-black text-emerald-600 dark:text-emerald-400">0</div>
+              <div id="score-correct" class="text-lg font-black text-emerald-600">0</div>
             </div>
-            <div class="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-100 dark:border-slate-900 text-center">
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
               <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Wrong</div>
-              <div id="score-wrong" class="text-lg font-black text-rose-500 dark:text-rose-400">0</div>
+              <div id="score-wrong" class="text-lg font-black text-rose-500">0</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Mode Selection Widget -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
-          <i class="fa-solid fa-sliders mr-1.5 text-brand-500"></i> Settings & Modes
+          Settings &amp; Modes
         </h3>
         <div class="space-y-3">
           <!-- Toggle button between study and exam modes -->
           <div class="flex flex-col gap-2">
-            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Choose Quiz Environment</label>
-            <div class="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl">
-              <button id="btn-mode-study" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white" onclick="changeMode('study')">
-                <i class="fa-solid fa-book-open mr-1"></i> Study Mode
+            <label class="text-xs font-semibold text-slate-700">Choose Quiz Environment</label>
+            <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+              <button id="btn-mode-study" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white shadow text-indigo-600" onclick="changeMode('study')">
+                Study Mode
               </button>
-              <button id="btn-mode-exam" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300" onclick="changeMode('exam')">
-                <i class="fa-solid fa-stopwatch mr-1"></i> Exam Mode
+              <button id="btn-mode-exam" class="py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800" onclick="changeMode('exam')">
+                Exam Mode
               </button>
             </div>
           </div>
@@ -172,10 +167,10 @@
       </div>
 
       <!-- Question List Matrix -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex-grow">
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex-grow">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
           <span>Question Navigation</span>
-          <span class="text-[10px] text-brand-500 font-mono" id="nav-counter">1/10</span>
+          <span class="text-[10px] text-indigo-500 font-mono" id="nav-counter">1/10</span>
         </h3>
         <div class="grid grid-cols-5 gap-2" id="navigation-matrix">
           <!-- Dynamically populated numbers of question maps -->
@@ -187,26 +182,26 @@
     <section class="flex-grow flex flex-col gap-6" id="workspace-panel">
       
       <!-- Active Question Canvas Card -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex-grow flex flex-col justify-between relative transition-all duration-300" id="quiz-card">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm flex-grow flex flex-col justify-between relative transition-all duration-300" id="quiz-card">
         
         <!-- Welcome Splash / Quiz Intro Screen (Hidden once quiz starts) -->
-        <div id="intro-screen" class="absolute inset-0 bg-white dark:bg-slate-900 z-10 flex flex-col justify-center items-center text-center p-8 rounded-2xl">
-          <div class="w-20 h-20 bg-brand-100 dark:bg-brand-950 text-brand-600 dark:text-brand-400 rounded-full flex items-center justify-center text-3xl mb-4 active-pulse">
-            <i class="fa-solid fa-bolt"></i>
+        <div id="intro-screen" class="absolute inset-0 bg-white z-10 flex flex-col justify-center items-center text-center p-8 rounded-2xl">
+          <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-3xl mb-4 active-pulse">
+            &#9889;
           </div>
-          <h2 class="text-2xl font-black text-slate-900 dark:text-white mb-2">ITNW 1009: Day 1 Exam Readiness</h2>
-          <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mb-6 leading-relaxed">
+          <h2 class="text-2xl font-black text-slate-900 mb-2">ITNW 1009: Day 1 Exam Readiness</h2>
+          <p class="text-sm text-slate-500 max-w-md mb-6 leading-relaxed">
             Test your alignment with <strong>NIST cloud specifications</strong>, virtualization architecture logic, AWS pricing models, and standard business value frameworks.
           </p>
           
           <div class="flex flex-wrap justify-center gap-3 mb-6 max-w-lg">
-            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-check-double text-teal-500 mr-1.5"></i> 10 Real Exam Patterns</span>
-            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-list-check text-indigo-500 mr-1.5"></i> MC / TF / Multiple Select</span>
-            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold"><i class="fa-solid fa-chart-line text-emerald-500 mr-1.5"></i> Real-time Explanations</span>
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-semibold">10 Real Exam Patterns</span>
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-semibold">MC / TF / Multiple Select</span>
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-semibold">Real-time Explanations</span>
           </div>
 
-          <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-extrabold rounded-xl transition duration-200 shadow-lg shadow-brand-500/20 text-sm">
-            Begin Diagnostic Quiz <i class="fa-solid fa-arrow-right ml-1.5"></i>
+          <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl transition duration-200 shadow-lg shadow-indigo-500/20 text-sm">
+            Begin Diagnostic Quiz &rarr;
           </button>
         </div>
 
@@ -214,21 +209,21 @@
         <div class="space-y-6 flex-grow">
           
           <!-- Question Category Tag & Types Header -->
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
             <div class="flex items-center space-x-2">
-              <span id="question-index-badge" class="px-3 py-1 text-xs font-black rounded-lg bg-brand-100 text-brand-800 dark:bg-brand-950/80 dark:text-brand-300 font-mono">QUESTION 01</span>
-              <span id="question-type-badge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono uppercase">Multiple Choice</span>
+              <span id="question-index-badge" class="px-3 py-1 text-xs font-black rounded-lg bg-indigo-100 text-indigo-800 font-mono">QUESTION 01</span>
+              <span id="question-type-badge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-100 text-slate-600 border border-slate-200 font-mono uppercase">Multiple Choice</span>
             </div>
             
-            <div class="flex items-center space-x-1.5 text-xs text-slate-400 dark:text-slate-500">
-              <i class="fa-solid fa-circle-nodes"></i>
+            <div class="flex items-center space-x-1.5 text-xs text-slate-400">
+              
               <span id="course-domain">AWS CLF-C02 Domain 1</span>
             </div>
           </div>
 
           <!-- Question Prompt Title -->
           <div class="space-y-2">
-            <h2 id="question-prompt" class="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white leading-snug">
+            <h2 id="question-prompt" class="text-base sm:text-xl font-extrabold text-slate-900 leading-snug">
               Loading Question prompt...
             </h2>
           </div>
@@ -240,14 +235,14 @@
         </div>
 
         <!-- Interactive Explanation/Feedback Drawer (Hidden initially, animated on check) -->
-        <div id="explanation-drawer" class="hidden mt-6 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300">
+        <div id="explanation-drawer" class="hidden mt-6 bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden transition-all duration-300">
           <div class="p-4 sm:p-5 flex gap-4">
             <div id="explanation-icon-box" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-              <i id="explanation-icon" class="fa-solid"></i>
+              <span id="explanation-icon" aria-hidden="true"></span>
             </div>
             <div class="space-y-2">
               <h4 id="explanation-title" class="text-sm font-black uppercase tracking-wider">CORRECT EXPLANATION</h4>
-              <p id="explanation-text" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p id="explanation-text" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Detail reasoning goes here...
               </p>
             </div>
@@ -255,43 +250,43 @@
         </div>
 
         <!-- Workspace Controls Footer (Next/Check buttons) -->
-        <div class="flex items-center justify-between gap-4 mt-8 border-t border-slate-100 dark:border-slate-800/80 pt-5">
-          <button id="btn-prev" onclick="navigateQuestion(-1)" class="px-4 py-2.5 text-xs font-extrabold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-all duration-150 rounded-lg flex items-center gap-2" disabled>
-            <i class="fa-solid fa-chevron-left"></i> Back
+        <div class="flex items-center justify-between gap-4 mt-8 border-t border-slate-100 pt-5">
+          <button id="btn-prev" onclick="navigateQuestion(-1)" class="px-4 py-2.5 text-xs font-extrabold text-slate-500 hover:text-slate-800 transition-all duration-150 rounded-lg flex items-center gap-2" disabled>
+            &larr; Back
           </button>
 
           <div class="flex items-center gap-3">
-            <button id="btn-check" onclick="checkSelectedAnswers()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-lg transition-all duration-200 shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 flex items-center gap-1.5">
-              Submit Answer <i class="fa-solid fa-square-check"></i>
+            <button id="btn-check" onclick="checkSelectedAnswers()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-lg transition-all duration-200 shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 flex items-center gap-1.5">
+              Submit Answer
             </button>
-            <button id="btn-next" onclick="navigateQuestion(1)" class="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-800 dark:text-white text-xs font-black rounded-lg transition-all duration-200 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 hidden">
-              Next Question <i class="fa-solid fa-chevron-right"></i>
+            <button id="btn-next" onclick="navigateQuestion(1)" class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black rounded-lg transition-all duration-200 border border-slate-200 flex items-center gap-1.5 hidden">
+              Next Question &rarr;
             </button>
           </div>
         </div>
       </div>
 
       <!-- Final Evaluation Report Summary Screen (Initially Hidden) -->
-      <div id="results-screen" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col gap-8 transition-all duration-300">
+      <div id="results-screen" class="hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col gap-8 transition-all duration-300">
         
         <!-- Results Hub Dashboard Hero -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-900">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-slate-50 p-6 rounded-2xl border border-slate-100">
           <div class="text-center md:text-left space-y-1">
-            <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest">Diagnostic Complete</span>
-            <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">Your Score Report</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">ITNW 1009 Fundamentals of Cloud & AI</p>
+            <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Diagnostic Complete</span>
+            <h2 class="text-2xl font-black text-slate-900 leading-tight">Your Score Report</h2>
+            <p class="text-xs text-slate-500">ITNW 1009 Fundamentals of Cloud & AI</p>
           </div>
 
           <!-- Speedometer Gauge Circular Indicator -->
           <div class="flex justify-center my-2">
-            <div class="relative w-36 h-36 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-inner">
+            <div class="relative w-36 h-36 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-inner">
               <div class="text-center">
-                <div id="radial-score" class="text-3xl font-black text-slate-950 dark:text-white">0%</div>
-                <div id="radial-fraction" class="text-xs text-slate-400 dark:text-slate-500 font-mono">0 / 10</div>
+                <div id="radial-score" class="text-3xl font-black text-slate-950">0%</div>
+                <div id="radial-fraction" class="text-xs text-slate-400 font-mono">0 / 10</div>
               </div>
               <svg class="absolute top-0 left-0 w-full h-full -rotate-90">
-                <circle cx="72" cy="72" r="66" stroke="currentColor" class="text-slate-200 dark:text-slate-800" stroke-width="6" fill="transparent"/>
-                <circle cx="72" cy="72" r="66" stroke="currentColor" id="radial-progress-circle" class="text-brand-600 dark:text-brand-400 transition-all duration-1000" stroke-width="6" stroke-dasharray="414.69" stroke-dashoffset="414.69" stroke-linecap="round" fill="transparent"/>
+                <circle cx="72" cy="72" r="66" stroke="currentColor" class="text-slate-200" stroke-width="6" fill="transparent"/>
+                <circle cx="72" cy="72" r="66" stroke="currentColor" id="radial-progress-circle" class="text-indigo-600 transition-all duration-1000" stroke-width="6" stroke-dasharray="414.69" stroke-dashoffset="414.69" stroke-linecap="round" fill="transparent"/>
               </svg>
             </div>
           </div>
@@ -301,7 +296,7 @@
             <div class="inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase" id="badge-certificate-status">
               Review Needed
             </div>
-            <p id="feedback-message" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p id="feedback-message" class="text-xs text-slate-600 leading-relaxed">
               We highly recommend reviewing the Day 1 slide deck and core AWS values list. Try again to push above the 80% passing threshold!
             </p>
           </div>
@@ -309,46 +304,46 @@
 
         <!-- Competency Area Strengths Breakdown -->
         <div class="space-y-4">
-          <h3 class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-brand-500"></i> Competency Map Insights
+          <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
+            Competency Map Insights
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+            <div class="border border-slate-100 p-4 rounded-xl space-y-2">
               <div class="flex justify-between text-xs font-bold">
-                <span class="text-slate-600 dark:text-slate-400">NIST Essential Characteristics</span>
-                <span id="domain-nist-score" class="text-brand-500">0%</span>
+                <span class="text-slate-600">NIST Essential Characteristics</span>
+                <span id="domain-nist-score" class="text-indigo-500">0%</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="domain-nist-bar" class="bg-brand-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div id="domain-nist-bar" class="bg-indigo-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
 
-            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+            <div class="border border-slate-100 p-4 rounded-xl space-y-2">
               <div class="flex justify-between text-xs font-bold">
-                <span class="text-slate-600 dark:text-slate-400">AWS Advantages & Value Prop</span>
+                <span class="text-slate-600">AWS Advantages & Value Prop</span>
                 <span id="domain-value-score" class="text-indigo-500">0%</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                 <div id="domain-value-bar" class="bg-indigo-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
 
-            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+            <div class="border border-slate-100 p-4 rounded-xl space-y-2">
               <div class="flex justify-between text-xs font-bold">
-                <span class="text-slate-600 dark:text-slate-400">Deployment Models (Public, Hybrid, Private)</span>
+                <span class="text-slate-600">Deployment Models (Public, Hybrid, Private)</span>
                 <span id="domain-deploy-score" class="text-teal-500">0%</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                 <div id="domain-deploy-bar" class="bg-teal-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
 
-            <div class="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-2">
+            <div class="border border-slate-100 p-4 rounded-xl space-y-2">
               <div class="flex justify-between text-xs font-bold">
-                <span class="text-slate-600 dark:text-slate-400">Virtualization & Compute Physics</span>
+                <span class="text-slate-600">Virtualization & Compute Physics</span>
                 <span id="domain-virt-score" class="text-amber-500">0%</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                 <div id="domain-virt-bar" class="bg-amber-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
@@ -357,9 +352,9 @@
 
         <!-- Review Detailed Questions Answers Grid list -->
         <div class="space-y-4">
-          <h3 class="text-sm font-black text-slate-900 dark:text-white flex items-center justify-between">
-            <span><i class="fa-solid fa-magnifying-glass-chart text-brand-500 mr-1"></i> Question-by-Question Evaluation Audit</span>
-            <button onclick="toggleDetailsSummary()" id="btn-toggle-summary" class="text-xs text-brand-500 hover:underline">Expand All</button>
+          <h3 class="text-sm font-black text-slate-900 flex items-center justify-between">
+            <span>Question-by-Question Evaluation Audit</span>
+            <button onclick="toggleDetailsSummary()" id="btn-toggle-summary" class="text-xs text-indigo-500 hover:underline">Expand All</button>
           </h3>
           <div class="space-y-3" id="results-detail-list">
             <!-- Dynamic compilation evaluation items populate here -->
@@ -367,19 +362,19 @@
         </div>
 
         <!-- Navigation Action controls -->
-        <div class="border-t border-slate-100 dark:border-slate-800/80 pt-6 flex justify-end gap-3">
-          <button onclick="resetAndRestartQuiz()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-lg transition shadow-md shadow-brand-500/20">
-            <i class="fa-solid fa-arrows-rotate mr-1.5"></i> Try Quiz Again
+        <div class="border-t border-slate-100 pt-6 flex justify-end gap-3">
+          <button onclick="resetAndRestartQuiz()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-lg transition shadow-md shadow-indigo-500/20">
+            &#8635; Try Quiz Again
           </button>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800/80 py-6 mt-12 transition-colors duration-300">
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-      <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ITNW 1009 • Fundamentals of Cloud and AI • Community College Curriculum</p>
-      <div class="flex justify-center space-x-4 text-xs font-medium text-slate-400 dark:text-slate-500">
+      <p class="text-xs text-slate-500 font-semibold">ITNW 1009 • Fundamentals of Cloud and AI • Community College Curriculum</p>
+      <div class="flex justify-center space-x-4 text-xs font-medium text-slate-400">
         <span>WCAG 2.1 AA Compliant</span>
         <span>•</span>
         <span>CLF-C02 Alignment</span>
@@ -643,33 +638,10 @@
 
     // Initialize Quiz Portal
     window.onload = function() {
-      // Setup system color preference
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
       AudioEngine.init();
-      setupThemeToggle();
       setupSoundToggle();
       renderNavigationMatrix();
     };
-
-    // Dark/Light Theme Switching Setup
-    function setupThemeToggle() {
-      const toggle = document.getElementById('theme-toggle');
-      toggle.addEventListener('click', () => {
-        AudioEngine.tap();
-        if (document.documentElement.classList.contains('dark')) {
-          document.documentElement.classList.remove('dark');
-          localStorage.theme = 'light';
-        } else {
-          document.documentElement.classList.add('dark');
-          localStorage.theme = 'dark';
-        }
-      });
-    }
 
     // Sound toggle settings
     function setupSoundToggle() {
@@ -678,13 +650,14 @@
       btn.addEventListener('click', () => {
         AudioEngine.enabled = !AudioEngine.enabled;
         if (AudioEngine.enabled) {
-          icon.className = "fa-solid fa-volume-high text-lg";
+          icon.textContent = "\u{1F50A}"; // speaker high volume
           AudioEngine.tap();
         } else {
-          icon.className = "fa-solid fa-volume-xmark text-lg";
+          icon.textContent = "\u{1F507}"; // muted speaker
         }
       });
     }
+
 
     // Change quiz mode
     function changeMode(mode) {
@@ -700,15 +673,15 @@
       const navBadge = document.getElementById('nav-mode-badge');
 
       if (mode === 'study') {
-        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white";
-        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300";
+        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white shadow text-indigo-600";
+        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800";
         navBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Study Mode Enabled`;
-        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800";
+        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200";
       } else {
-        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 shadow text-brand-600 dark:text-white";
-        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300";
+        examBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-white shadow text-indigo-600";
+        studyBtn.className = "py-2 text-xs font-bold rounded-lg transition-all duration-200 text-slate-500 hover:text-slate-800";
         navBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-1.5 animate-pulse"></span> Exam Simulation Mode`;
-        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800";
+        navBadge.className = "hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 border border-indigo-200";
       }
 
       resetAndRestartQuiz();
@@ -748,20 +721,20 @@
       const log = userAnswersLog[idx];
 
       if (idx === currentQuestionIndex && document.getElementById('intro-screen').classList.contains('hidden')) {
-        return base + "bg-brand-600 border-brand-600 text-white shadow-md ring-2 ring-brand-400/50";
+        return base + "bg-indigo-600 border-indigo-600 text-white shadow-md ring-2 ring-indigo-400/50";
       }
       
       if (log) {
         if (currentQuizMode === 'study') {
           return base + (log.isCorrect 
-            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900" 
-            : "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-200 dark:border-rose-900");
+            ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+            : "bg-rose-50 text-rose-700 border-rose-200");
         } else {
-          return base + "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700";
+          return base + "bg-slate-200 text-slate-800 border-slate-300";
         }
       }
 
-      return base + "bg-slate-50 text-slate-500 hover:bg-slate-100 border-slate-200 dark:bg-slate-950 dark:text-slate-400 dark:border-slate-850 dark:hover:bg-slate-900";
+      return base + "bg-slate-50 text-slate-500 hover:bg-slate-100 border-slate-200";
     }
 
     // Load Specific Question into Viewport Card
@@ -777,13 +750,13 @@
       const typeBadge = document.getElementById('question-type-badge');
       if (question.type === 'mc') {
         typeBadge.innerText = 'Multiple Choice';
-        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900 font-mono uppercase";
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono uppercase";
       } else if (question.type === 'tf') {
         typeBadge.innerText = 'True / False';
-        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900 font-mono uppercase";
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-50 text-amber-700 border border-amber-200 font-mono uppercase";
       } else {
         typeBadge.innerText = 'Multiple Select';
-        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-900 font-mono uppercase";
+        typeBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-teal-50 text-teal-700 border border-teal-200 font-mono uppercase";
       }
 
       document.getElementById('course-domain').innerText = question.domain;
@@ -800,8 +773,10 @@
         const optionCard = document.createElement('div');
         optionCard.id = `option-card-${opt.key}`;
         
-        let checkedIconStyle = "far fa-circle text-slate-400 dark:text-slate-600";
-        let cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
+        const shape = question.type === 'ms' ? 'qz-checkbox' : 'qz-radio';
+        let indicatorState = ''; // '', 'qz-muted', 'qz-selected', 'qz-correct', 'qz-incorrect'
+        let indicatorGlyph = '';
+        let cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-all duration-150 bg-slate-50/50";
 
         if (loggedAnswer) {
           // Locked State (Answer submitted)
@@ -810,29 +785,27 @@
 
           if (currentQuizMode === 'study') {
             if (isCorrectKey) {
-              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-emerald-500 dark:border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-900 dark:text-emerald-100";
-              checkedIconStyle = "fa-solid fa-circle-check text-emerald-500 text-lg";
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/50 text-emerald-900";
+              indicatorState = 'qz-correct';
+              indicatorGlyph = '&#10003;';
             } else if (isSelected) {
-              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-rose-500 dark:border-rose-500 bg-rose-50/50 dark:bg-rose-950/20 text-rose-900 dark:text-rose-100";
-              checkedIconStyle = "fa-solid fa-circle-xmark text-rose-500 text-lg";
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-rose-500 bg-rose-50/50 text-rose-900";
+              indicatorState = 'qz-incorrect';
+              indicatorGlyph = '&#10005;';
             } else {
-              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-50 bg-slate-50/20 dark:bg-slate-950/10";
-              checkedIconStyle = "far fa-circle text-slate-300 dark:text-slate-700";
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 opacity-50 bg-slate-50/20";
+              indicatorState = 'qz-muted';
             }
           } else {
             // Exam mode locked review
             if (isSelected) {
-              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-500 bg-brand-50/30 dark:bg-brand-950/10";
-              checkedIconStyle = question.type === 'ms' ? "fa-solid fa-square-check text-brand-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-indigo-500 bg-indigo-50/30";
+              indicatorState = 'qz-selected';
+              indicatorGlyph = question.type === 'ms' ? '&#10003;' : '';
             } else {
-              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-70 bg-slate-50/20 dark:bg-slate-950/10";
-              checkedIconStyle = question.type === 'ms' ? "far fa-square text-slate-300 dark:text-slate-700" : "far fa-circle text-slate-300 dark:text-slate-700";
+              cardStyle = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 opacity-70 bg-slate-50/20";
+              indicatorState = 'qz-muted';
             }
-          }
-        } else {
-          // Unsubmitted Interactive State
-          if (question.type === 'ms') {
-            checkedIconStyle = "far fa-square text-slate-400 dark:text-slate-600";
           }
         }
 
@@ -841,11 +814,11 @@
 
         optionCard.innerHTML = `
           <div class="pt-0.5" id="icon-container-${opt.key}">
-            <i class="${checkedIconStyle}" id="icon-${opt.key}"></i>
+            <span class="qz-indicator ${shape} ${indicatorState}" id="icon-${opt.key}">${indicatorGlyph}</span>
           </div>
           <div class="flex-grow">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-brand-600 dark:text-brand-400 font-mono">${opt.key}.</span>
+              <span class="text-xs font-bold text-indigo-600 font-mono">${opt.key}.</span>
               <p class="text-sm font-medium leading-relaxed">${opt.text}</p>
             </div>
           </div>
@@ -866,9 +839,9 @@
         checkBtn.classList.add('hidden');
         nextBtn.classList.remove('hidden');
         if (idx === QUIZ_QUESTIONS.length - 1) {
-          nextBtn.innerHTML = `Finish Diagnostic <i class="fa-solid fa-flag-checkered"></i>`;
+          nextBtn.innerHTML = `Finish Diagnostic &rarr;`;
         } else {
-          nextBtn.innerHTML = `Next Question <i class="fa-solid fa-chevron-right"></i>`;
+          nextBtn.innerHTML = `Next Question &rarr;`;
         }
 
         // Render explanation if study mode
@@ -881,15 +854,17 @@
           const text = document.getElementById('explanation-text');
 
           if (isCorrect) {
-            box.className = "w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200 dark:border-emerald-900";
-            icon.className = "fa-solid fa-circle-check text-lg";
-            title.className = "text-sm font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400";
+            box.className = "w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200";
+            icon.className = "text-lg font-black";
+            icon.textContent = "\u2713";
+            title.className = "text-sm font-black uppercase tracking-wider text-emerald-700";
             title.innerText = question.explanation.title + " (Correct)";
             text.innerText = question.explanation.correct;
           } else {
-            box.className = "w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-200 dark:border-rose-900";
-            icon.className = "fa-solid fa-triangle-exclamation text-lg";
-            title.className = "text-sm font-black uppercase tracking-wider text-rose-700 dark:text-rose-400";
+            box.className = "w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 border border-rose-200";
+            icon.className = "text-lg font-black";
+            icon.textContent = "\u26A0";
+            title.className = "text-sm font-black uppercase tracking-wider text-rose-700";
             title.innerText = "Instructor Analysis (Incorrect Option)";
             text.innerText = question.explanation.incorrect + " " + question.explanation.correct;
           }
@@ -924,11 +899,13 @@
           const icon = document.getElementById(`icon-${opt.key}`);
           
           if (opt.key === key) {
-            card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-400 bg-brand-50/50 dark:bg-brand-950/20";
-            icon.className = "fa-solid fa-circle-dot text-brand-600 dark:text-brand-400 text-lg";
+            card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-indigo-500 bg-indigo-50/50";
+            icon.className = "qz-indicator qz-radio qz-selected";
+            icon.innerHTML = '';
           } else {
-            card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
-            icon.className = "far fa-circle text-slate-400 dark:text-slate-600";
+            card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-all duration-150 bg-slate-50/50";
+            icon.className = "qz-indicator qz-radio";
+            icon.innerHTML = '';
           }
         });
       } else {
@@ -939,12 +916,14 @@
 
         if (idx > -1) {
           selectedAnswers.splice(idx, 1);
-          card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 cursor-pointer transition-all duration-150 bg-slate-50/50 dark:bg-slate-950/30";
-          icon.className = "far fa-square text-slate-400 dark:text-slate-600";
+          card.className = "flex items-start gap-3.5 p-4 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition-all duration-150 bg-slate-50/50";
+          icon.className = "qz-indicator qz-checkbox";
+          icon.innerHTML = '';
         } else {
           selectedAnswers.push(key);
-          card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-brand-500 dark:border-brand-400 bg-brand-50/50 dark:bg-brand-950/20";
-          icon.className = "fa-solid fa-square-check text-brand-600 dark:text-brand-400 text-lg";
+          card.className = "flex items-start gap-3.5 p-4 rounded-xl border-2 border-indigo-500 bg-indigo-50/50";
+          icon.className = "qz-indicator qz-checkbox qz-selected";
+          icon.innerHTML = '&#10003;';
         }
       }
     }
@@ -1054,15 +1033,6 @@
       let correctAnswers = userAnswersLog.filter(x => x.isCorrect).length;
       let finalPercentage = Math.round((correctAnswers / QUIZ_QUESTIONS.length) * 100);
 
-      // Trigger Celebration Confetti if passing mark is reached
-      if (finalPercentage >= 80) {
-        confetti({
-          particleCount: 150,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-      }
-
       // Load results values
       document.getElementById('radial-score').innerText = `${finalPercentage}%`;
       document.getElementById('radial-fraction').innerText = `${correctAnswers} / ${QUIZ_QUESTIONS.length}`;
@@ -1076,16 +1046,16 @@
       const feedbackMsg = document.getElementById('feedback-message');
 
       if (finalPercentage >= 90) {
-        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800";
-        certBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5 animate-bounce"></i> Excellent Readiness`;
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800 border border-emerald-200";
+        certBadge.innerHTML = `&#10003; Excellent Readiness`;
         feedbackMsg.innerText = "Superb job! You have fully mastered the foundations of Virtualization, deployment models, and AWS Value propositions. You are on track for AWS Cloud Practitioner!";
       } else if (finalPercentage >= 80) {
-        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-teal-100 text-teal-800 dark:bg-teal-950/50 dark:text-teal-400 border border-teal-200 dark:border-teal-800";
-        certBadge.innerHTML = `<i class="fa-solid fa-graduation-cap mr-1.5"></i> Passing Score`;
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-teal-100 text-teal-800 border border-teal-200";
+        certBadge.innerHTML = `&#127891; Passing Score`;
         feedbackMsg.innerText = "Congratulations! You have surpassed the community college standards passing threshold (80%). Maintain this pace as we advance into Module 2 Cloud Economics.";
       } else {
-        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-800";
-        certBadge.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1.5"></i> Review Required`;
+        certBadge.className = "inline-flex px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-rose-100 text-rose-800 border border-rose-200";
+        certBadge.innerHTML = `&#9888; Review Required`;
         feedbackMsg.innerText = "You fell below the academic passing limit (80%). Take a break, review the Day 1 companion guides, and repeat this evaluation to secure your knowledge.";
       }
 
@@ -1133,12 +1103,12 @@
         const userLog = userAnswersLog[idx];
         const isCorr = userLog?.isCorrect;
         const cardClass = isCorr 
-          ? "border border-emerald-100 dark:border-emerald-950 bg-emerald-50/10 dark:bg-emerald-950/5 rounded-xl overflow-hidden"
-          : "border border-rose-100 dark:border-rose-950 bg-rose-50/10 dark:bg-rose-950/5 rounded-xl overflow-hidden";
+          ? "border border-emerald-100 bg-emerald-50/10 rounded-xl overflow-hidden"
+          : "border border-rose-100 bg-rose-50/10 rounded-xl overflow-hidden";
         
         const badgeClass = isCorr
-          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 px-2 py-0.5 rounded text-[10px] font-black uppercase"
-          : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-400 px-2 py-0.5 rounded text-[10px] font-black uppercase";
+          ? "bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-black uppercase"
+          : "bg-rose-100 text-rose-800 px-2 py-0.5 rounded text-[10px] font-black uppercase";
         
         const badgeText = isCorr ? "CORRECT" : "INCORRECT";
 
@@ -1151,46 +1121,48 @@
 
         item.innerHTML = `
           <!-- Accordion Header -->
-          <div onclick="toggleAccordion(${idx})" class="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+          <div onclick="toggleAccordion(${idx})" class="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
             <div class="flex items-center space-x-3 pr-2">
               <span class="w-6 h-6 rounded-lg ${isCorr ? 'bg-emerald-500' : 'bg-rose-500'} text-white text-xs font-bold flex items-center justify-center font-mono shrink-0">${idx + 1}</span>
-              <p class="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-1">${q.prompt}</p>
+              <p class="text-xs font-bold text-slate-800 line-clamp-1">${q.prompt}</p>
             </div>
             <div class="flex items-center space-x-2 shrink-0">
               <span class="${badgeClass}">${badgeText}</span>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-400" id="accordion-arrow-${idx}"></i>
+              <span class="text-xs text-slate-400" id="accordion-arrow-${idx}">&#9660;</span>
             </div>
           </div>
 
           <!-- Accordion Content (Hidden initially) -->
-          <div id="accordion-content-${idx}" class="hidden border-t border-slate-100 dark:border-slate-800 p-4 bg-white dark:bg-slate-900 space-y-4 text-xs sm:text-sm">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div id="accordion-content-${idx}" class="hidden border-t border-slate-100 p-4 bg-white space-y-4 text-xs sm:text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-3 border-b border-slate-100">
               <div>
-                <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Your Selections</span>
+                <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Your Selections</span>
                 <p class="text-base font-black ${isCorr ? 'text-emerald-600' : 'text-rose-500'} font-mono mt-0.5">${selectedText}</p>
               </div>
               <div>
-                <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Valid Keys</span>
-                <p class="text-base font-black text-brand-500 font-mono mt-0.5">${correctText}</p>
+                <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Valid Keys</span>
+                <p class="text-base font-black text-indigo-500 font-mono mt-0.5">${correctText}</p>
               </div>
             </div>
 
             <!-- Choices lists -->
             <div class="space-y-2">
-              <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-[10px]">Evaluation Choices Summary</span>
+              <span class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Evaluation Choices Summary</span>
               <div class="space-y-1">
                 ${q.options.map(o => {
                   let textClass = "text-xs";
                   let isSelectedOpt = userLog.answers.includes(o.key);
                   let isCorrectOpt = q.correct.includes(o.key);
 
-                  if (isCorrectOpt) textClass += " font-bold text-emerald-600 dark:text-emerald-400";
+                  if (isCorrectOpt) textClass += " font-bold text-emerald-600";
                   else if (isSelectedOpt) textClass += " font-bold text-rose-500";
                   else textClass += " text-slate-500";
 
+                  const glyph = isCorrectOpt ? '&#10003;' : isSelectedOpt ? '&#10005;' : '&#8226;';
+
                   return `
                     <div class="flex items-center space-x-1.5 ${textClass}">
-                      <i class="fa-solid ${isCorrectOpt ? 'fa-check' : isSelectedOpt ? 'fa-xmark' : 'fa-circle-notch opacity-30'} text-[10px]"></i>
+                      <span class="text-[10px]">${glyph}</span>
                       <span><strong>${o.key}:</strong> ${o.text}</span>
                     </div>
                   `;
@@ -1199,9 +1171,9 @@
             </div>
 
             <!-- Pedagogical analysis detail -->
-            <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-lg border border-slate-100 dark:border-slate-900 space-y-1.5">
-              <span class="text-brand-500 font-bold uppercase tracking-wider text-[10px] block">${q.explanation.title}</span>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-100 space-y-1.5">
+              <span class="text-indigo-500 font-bold uppercase tracking-wider text-[10px] block">${q.explanation.title}</span>
+              <p class="text-xs text-slate-600 leading-relaxed">
                 ${isCorr ? q.explanation.correct : q.explanation.incorrect + ' ' + q.explanation.correct}
               </p>
             </div>
@@ -1220,10 +1192,12 @@
 
       if (content.classList.contains('hidden')) {
         content.classList.remove('hidden');
-        arrow.className = "fa-solid fa-chevron-up text-xs text-brand-500";
+        arrow.className = "text-xs text-indigo-500";
+        arrow.innerHTML = "&#9650;";
       } else {
         content.classList.add('hidden');
-        arrow.className = "fa-solid fa-chevron-down text-xs text-slate-400";
+        arrow.className = "text-xs text-slate-400";
+        arrow.innerHTML = "&#9660;";
       }
     }
 
@@ -1238,10 +1212,12 @@
         const arrow = document.getElementById(`accordion-arrow-${idx}`);
         if (expanding) {
           content.classList.remove('hidden');
-          arrow.className = "fa-solid fa-chevron-up text-xs text-brand-500";
+          arrow.className = "text-xs text-indigo-500";
+          arrow.innerHTML = "&#9650;";
         } else {
           content.classList.add('hidden');
-          arrow.className = "fa-solid fa-chevron-down text-xs text-slate-400";
+          arrow.className = "text-xs text-slate-400";
+          arrow.innerHTML = "&#9660;";
         }
       });
 
