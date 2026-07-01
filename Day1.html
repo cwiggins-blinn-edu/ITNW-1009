@@ -301,19 +301,19 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
-          <div class="w-full max-w-xl h-80 perspective-1000">
+          <div class="w-full max-w-xl h-80">
             <!-- Dynamic flipping container -->
             <div 
               id="active-card-flipper" 
               onclick="flipCard()"
               tabindex="0"
               role="button"
-              class="w-full h-full text-left rounded-3xl preserve-3d transition-transform duration-500 ease-out focus:ring-4 focus:ring-indigo-600 relative cursor-pointer block"
+              class="w-full h-full text-left rounded-3xl focus:ring-4 focus:ring-indigo-600 relative cursor-pointer block"
               aria-label="Vocabulary Flashcard. Front side. Term: On-demand self-service. Click or press spacebar to flip."
             >
               
               <!-- FRONT OF CARD -->
-              <div class="absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-slate-800">
+              <div id="card-face-front" class="flip-face-anim absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center">
                   <span class="bg-indigo-800/80 border border-indigo-700 text-[10px] text-indigo-200 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Day 1 Core Concept</span>
                   <span class="text-slate-500 text-xs font-mono" id="card-index-count">Card 1 of 9</span>
@@ -331,7 +331,8 @@
               </div>
 
               <!-- BACK OF CARD -->
-              <div class="absolute inset-0 w-full h-full backface-hidden bg-slate-50 border-2 border-slate-300 text-slate-900 rounded-3xl p-6 flex flex-col justify-between shadow-xl rotate-y-180 overflow-y-auto">
+              <div id="card-face-back" class="hidden absolute inset-0 w-full h-full bg-slate-50 border-2 border-slate-300 text-slate-900 rounded-3xl shadow-xl">
+                <div class="w-full h-full p-6 flex flex-col justify-between overflow-y-auto rounded-3xl">
                 <div>
                   <div class="flex justify-between items-start border-b border-slate-200 pb-2 mb-2">
                     <div>
@@ -367,10 +368,11 @@
                     Reveal Answer
                   </button>
                 </div>
+                </div><!-- end scrollable inner wrapper -->
               </div>
 
             </div><!-- end active-card-flipper -->
-          </div><!-- end perspective-1000 -->
+          </div><!-- end flashcard arena -->
         </div>
       </section>
 
@@ -393,7 +395,7 @@
             <span class="font-bold text-emerald-700 block mb-1">Ready to View</span>
             <span class="text-emerald-600">The Day 1 hands-on lab guide is live, covering AWS Academy access, Skill Builder activation, and Console navigation.</span>
           </div>
-          <a href="Day1lab.html" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
+          <a href="Day1Lab.html" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm shadow-md">
             <span>Launch Day 1 Hands-On Lab Guide</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
           </a>
@@ -677,6 +679,8 @@
     function renderFlashcardUI() {
       const card = cardData[currentCardIndex];
       const flipper = document.getElementById('active-card-flipper');
+      const front = document.getElementById('card-face-front');
+      const back = document.getElementById('card-face-back');
       
       // Update front-facing elements
       document.getElementById('flash-card-term').textContent = card.term;
@@ -689,12 +693,21 @@
       document.getElementById('flash-card-scenario').textContent = card.scenario;
       document.getElementById('flash-card-quiz').innerHTML = `<span class="font-extrabold text-slate-700">Quiz Checkpoint:</span> <span class="block text-slate-600 italic">${card.quiz}</span>`;
 
-      // Handle card flip class states
+      // Show exactly one face at a time (avoids fragile cross-browser 3D
+      // backface-visibility behavior) with a quick rotate-in reveal animation.
+      const revealFace = (showEl, hideEl) => {
+        hideEl.classList.add('hidden');
+        showEl.classList.remove('hidden');
+        showEl.classList.remove('flip-face-anim');
+        void showEl.offsetWidth; // restart animation
+        showEl.classList.add('flip-face-anim');
+      };
+
       if (cardIsFlipped) {
-        flipper.classList.add('rotate-y-180');
+        revealFace(back, front);
         flipper.setAttribute('aria-label', `Vocabulary Flashcard. Back side showing definition for: ${card.term}. Definition: ${card.definition}. Click or press space to flip back.`);
       } else {
-        flipper.classList.remove('rotate-y-180');
+        revealFace(front, back);
         flipper.setAttribute('aria-label', `Vocabulary Flashcard. Front side. Term: ${card.term}. Click or press space to flip and see details.`);
       }
     }
